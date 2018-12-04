@@ -64,15 +64,15 @@ public class MainFrame extends JFrame {
 		scrollPane.setBounds(0, 88, 954, 576);
 		contentPane.add(scrollPane);
 		
-		JButton btnNewButton = new JButton("Log in");
-		btnNewButton.addActionListener(new ActionListener() {
+		JButton btnLogIn = new JButton("Log in");
+		btnLogIn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				LogInFrame lf = new LogInFrame();
 				lf.setVisible(true);
 			}
 		});
-		btnNewButton.setBounds(834, 13, 108, 35);
-		contentPane.add(btnNewButton);
+		btnLogIn.setBounds(834, 13, 108, 35);
+		contentPane.add(btnLogIn);
 	}
 	
 	
