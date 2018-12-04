@@ -19,7 +19,6 @@ public class LogInFrame extends JFrame {
 	private JTextField textField;
 	private JTextField textField_1;
 
-
 	/**
 	 * Create the frame.
 	 */
@@ -31,33 +30,35 @@ public class LogInFrame extends JFrame {
 		contentPane.setBackground(SystemColor.activeCaption);
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-		
+
 		JLabel lblUsername = new JLabel("Username:");
 		lblUsername.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		lblUsername.setBounds(82, 92, 86, 29);
 		contentPane.add(lblUsername);
-		
+
 		JLabel lblPassword = new JLabel("Password:");
 		lblPassword.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		lblPassword.setBounds(82, 127, 86, 29);
 		contentPane.add(lblPassword);
-		
+
 		textField = new JTextField();
 		textField.setBounds(180, 97, 116, 22);
 		contentPane.add(textField);
 		textField.setColumns(10);
-		
+
 		textField_1 = new JTextField();
 		textField_1.setBounds(180, 132, 116, 22);
 		contentPane.add(textField_1);
 		textField_1.setColumns(10);
-		
+
 		JButton btnLogIn = new JButton("Log in");
 		btnLogIn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				dispose();
-				ManagerFrame mf = new ManagerFrame();
-				mf.setVisible(true);
+				if (Data.logIn(textField.getText(), textField_1.getText())) {
+					dispose();
+					ManagerFrame mf = new ManagerFrame();
+					mf.setVisible(true);
+				}
 			}
 		});
 		btnLogIn.setBounds(130, 210, 116, 38);

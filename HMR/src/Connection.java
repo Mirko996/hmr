@@ -34,4 +34,26 @@ public class Connection {
 		}
 	}
 	
+	public boolean validateLogIn(String pass, String username) {
+		String sql="SELECT * FROM branches";
+		
+		if(open()) {
+			try {
+				Statement s = conn.createStatement();
+				ResultSet set = s.executeQuery(sql);
+				
+				while(set.next()) {
+					if(pass.equalsIgnoreCase(set.getString("password")) && username.equalsIgnoreCase(set.getString("name"))) {
+						return true;
+					}
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+				return false;
+			}
+			
+		}
+		return false;
+	}
+	
 }

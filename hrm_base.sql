@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 04, 2018 at 12:40 PM
+-- Generation Time: Dec 04, 2018 at 01:33 PM
 -- Server version: 10.1.36-MariaDB
 -- PHP Version: 7.2.11
 
@@ -34,16 +34,17 @@ CREATE TABLE `branches` (
   `city` varchar(20) NOT NULL,
   `email` varchar(40) NOT NULL,
   `name` varchar(30) NOT NULL,
-  `password` varchar(20) NOT NULL
+  `password` varchar(20) NOT NULL,
+  `active` int(11) NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `branches`
 --
 
-INSERT INTO `branches` (`id`, `address`, `city`, `email`, `name`, `password`) VALUES
-(1, 'Bulevar Dzordza Vasingtona 92', 'Podgorica', 'synergysuite@synergysuite.com', 'SynergySuiteP1', 'synergysuite'),
-(2, 'Belvederska 22', 'Podgorica', 'exampleemail@gmail.com', 'SynergySuiteP2', 'belvederska123');
+INSERT INTO `branches` (`id`, `address`, `city`, `email`, `name`, `password`, `active`) VALUES
+(1, 'Bulevar Dzordza Vasingtona 92', 'Podgorica', 'synergysuite@synergysuite.com', 'SynergySuiteP1', 'synergysuite', 1),
+(2, 'Belvederska 22', 'Podgorica', 'exampleemail@gmail.com', 'SynergySuiteP2', 'belvederska123', 1);
 
 -- --------------------------------------------------------
 
@@ -70,20 +71,21 @@ CREATE TABLE `workers` (
   `name` varchar(25) NOT NULL,
   `last_name` varchar(25) NOT NULL,
   `email` varchar(30) NOT NULL,
-  `password` varchar(30) NOT NULL
+  `password` varchar(30) NOT NULL,
+  `active` int(11) NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `workers`
 --
 
-INSERT INTO `workers` (`id`, `fk_branc_id`, `name`, `last_name`, `email`, `password`) VALUES
-(1, 1, 'Anton', 'Djokaj', 'anton.djokaj@synergysuite.com', 'anton'),
-(2, 1, 'Mirko', 'Tomovic', 'mirko.tomovic@synergysuite.com', 'mirko'),
-(3, 1, 'Milan', 'Maric', 'milan.maric@gmail.com', 'milan123'),
-(4, 1, 'Andjela', 'Milic', 'aldjela.milic@gmail.com', 'andjela123'),
-(5, 1, 'Sava', 'Softic', 'sava123@gmail.com', 'sava123'),
-(6, 1, 'Milica', 'Milacic', 'milicam@gmail.com', 'milica123');
+INSERT INTO `workers` (`id`, `fk_branc_id`, `name`, `last_name`, `email`, `password`, `active`) VALUES
+(1, 1, 'Anton', 'Djokaj', 'anton.djokaj@synergysuite.com', 'anton', 1),
+(2, 1, 'Mirko', 'Tomovic', 'mirko.tomovic@synergysuite.com', 'mirko', 1),
+(3, 1, 'Milan', 'Maric', 'milan.maric@gmail.com', 'milan123', 1),
+(4, 1, 'Andjela', 'Milic', 'aldjela.milic@gmail.com', 'andjela123', 1),
+(5, 1, 'Sava', 'Softic', 'sava123@gmail.com', 'sava123', 1),
+(6, 1, 'Milica', 'Milacic', 'milicam@gmail.com', 'milica123', 1);
 
 --
 -- Indexes for dumped tables
