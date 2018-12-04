@@ -10,6 +10,8 @@ import java.awt.SystemColor;
 
 import javax.swing.JTextField;
 import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class LogInFrame extends JFrame {
 
@@ -66,6 +68,13 @@ public class LogInFrame extends JFrame {
 		textField_1.setColumns(10);
 		
 		JButton btnLogIn = new JButton("Log in");
+		btnLogIn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+				ManagerFrame mf = new ManagerFrame();
+				mf.setVisible(true);
+			}
+		});
 		btnLogIn.setBounds(130, 210, 116, 38);
 		contentPane.add(btnLogIn);
 	}
