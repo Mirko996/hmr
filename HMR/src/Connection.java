@@ -7,13 +7,12 @@ public class Connection {
 	
 	private java.sql.Connection conn = null;
 	
-	public Connection(String path, String password, String user) {
+	public Connection(String path, String user, String password) {
 		super();
 		
 		this.path = path;
-		this.password = password;
 		this.user = user;
-		
+		this.password = password;
 	}
 	
 	public boolean open() {

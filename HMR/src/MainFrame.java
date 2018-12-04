@@ -6,6 +6,8 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JTextField;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import javax.swing.JScrollPane;
 import javax.swing.JComboBox;
@@ -18,6 +20,7 @@ public class MainFrame extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField textField;
+	private Connection connection = new Connection("jdbc:mysql://localhost:3306/hrm_base", "root", "");
 
 	/**
 	 * Launch the application.
