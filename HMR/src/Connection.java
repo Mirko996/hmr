@@ -34,6 +34,11 @@ public class Connection {
 		}
 	}
 	
+//	public boolean addShifts() {
+//		
+//	}
+	
+	
 	public boolean validateLogIn(String pass, String username) {
 		String sql="SELECT * FROM branches";
 		
@@ -55,5 +60,4 @@ public class Connection {
 		}
 		return false;
 	}
-	
 }

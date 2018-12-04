@@ -1,10 +1,4 @@
-<<<<<<< HEAD
-/Data.class
-/Worker.class
-/Branch.class
-/LogInFrame$1.class
-=======
-/Workers.class
-/Workers$1.class
-/Worker.class
->>>>>>> 078d46d171654f688fbeda6ed923bd3cff4cb35d
+/AddShiftFrame$1.class
+/AddShiftFrame$2.class
+/AddShiftFrame$3.class
+/Shift.class

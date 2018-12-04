@@ -54,7 +54,8 @@ public class LogInFrame extends JFrame {
 		JButton btnLogIn = new JButton("Log in");
 		btnLogIn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (Data.logIn(textField.getText(), textField_1.getText())) {
+				System.out.println(textField.getText().toString() + textField_1.getText());
+				if (Data.logIn(textField_1.getText().toString(), textField.getText().toString())) {
 					dispose();
 					ManagerFrame mf = new ManagerFrame();
 					mf.setVisible(true);

@@ -11,6 +11,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class ManagerFrame extends JFrame {
 
@@ -49,6 +51,12 @@ public class ManagerFrame extends JFrame {
 	private JButton getBtnAddShifts() {
 		if (btnAddShifts == null) {
 			btnAddShifts = new JButton("Add shifts");
+			btnAddShifts.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					AddShiftFrame a = new AddShiftFrame();
+					a.setVisible(true);
+				}
+			});
 			btnAddShifts.setBounds(440, 14, 111, 38);
 		}
 		return btnAddShifts;
