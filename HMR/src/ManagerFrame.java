@@ -11,6 +11,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class ManagerFrame extends JFrame {
 
@@ -63,7 +65,13 @@ public class ManagerFrame extends JFrame {
 	private JButton getBtnWorkers() {
 		if (btnWorkers == null) {
 			btnWorkers = new JButton("Workers");
-			btnWorkers.setBounds(691, 13, 111, 38);
+			btnWorkers.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					Workers wr = new Workers();
+					wr.setVisible(true);
+				}
+			});
+			btnWorkers.setBounds(693, 14, 111, 38);
 		}
 		return btnWorkers;
 	}
