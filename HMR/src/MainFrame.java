@@ -11,6 +11,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JComboBox;
 import javax.swing.JButton;
 import java.awt.SystemColor;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class MainFrame extends JFrame {
 
@@ -60,7 +62,15 @@ public class MainFrame extends JFrame {
 		contentPane.add(scrollPane);
 		
 		JButton btnNewButton = new JButton("Log in");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				LogInFrame lf = new LogInFrame();
+				lf.setVisible(true);
+			}
+		});
 		btnNewButton.setBounds(834, 13, 108, 35);
 		contentPane.add(btnNewButton);
 	}
+	
+	
 }
