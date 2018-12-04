@@ -16,13 +16,17 @@ public class Data {
 	}
 
 	
-//	public static boolean addShifts() {
-//		return 
-//	}
+	public static List<Shift> shifts(){
+		return c.getShifts();
+	}
 
 
 	public static List<Worker> workers() {
 		return c.getWorkers();
+	}
+	
+	public static List<Branch> branches(){
+		return c.getBranches();
 	}
 
 

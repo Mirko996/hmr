@@ -68,7 +68,8 @@ public class Connection {
 				Statement s = conn.createStatement();
 				ResultSet rs = s.executeQuery(sql);
 				while (rs.next()) {
-					Worker w =  new Worker(rs.getString("name"), rs.getString("last_name"), rs.getString("email"), rs.getString("password"));
+					Worker w = new Worker(rs.getString("name"), rs.getString("last_name"), rs.getString("email"),
+							rs.getString("password"));
 					workers.add(w);
 				}
 				close();
@@ -79,5 +80,37 @@ public class Connection {
 			}
 		}
 		return null;
+	}
+
+	public List<Shift> getShifts() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public List<Branch> getBranches() {
+		List<Branch> branches = new ArrayList<>();
+		if (open()) {
+			String sql = "SELECT * FROM branches";
+			try {
+				Statement s = conn.createStatement();
+				ResultSet rs = s.executeQuery(sql);
+				boolean boo;
+				while (rs.next()) {
+					if (rs.getInt("active") == 1) {
+						boo = true;
+					} else {
+						boo = false;
+					}
+					Branch b = new Branch(rs.getInt("id"), rs.getString("address"), rs.getString("email"),
+							rs.getString("name"), rs.getString("password"), boo);
+					branches.add(b);
+				}
+
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+
+		return branches;
 	}
 }

@@ -21,6 +21,7 @@ public class ManagerFrame extends JFrame {
 	private JButton btnAddShifts;
 	private JButton btnChangeShft;
 	private JButton btnWorkers;
+	private JButton btnBranches;
 	public ManagerFrame() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 972, 711);
@@ -43,6 +44,7 @@ public class ManagerFrame extends JFrame {
 		contentPane.add(getBtnAddShifts());
 		contentPane.add(getBtnChangeShft());
 		contentPane.add(getBtnWorkers());
+		contentPane.add(getBtnBranches());
 	}
 	
 	public void dataImport() {
@@ -57,14 +59,14 @@ public class ManagerFrame extends JFrame {
 					a.setVisible(true);
 				}
 			});
-			btnAddShifts.setBounds(440, 14, 111, 38);
+			btnAddShifts.setBounds(410, 13, 111, 38);
 		}
 		return btnAddShifts;
 	}
 	private JButton getBtnChangeShft() {
 		if (btnChangeShft == null) {
 			btnChangeShft = new JButton("Change Shift");
-			btnChangeShft.setBounds(561, 13, 111, 38);
+			btnChangeShft.setBounds(533, 13, 111, 38);
 		}
 		return btnChangeShft;
 	}
@@ -77,8 +79,21 @@ public class ManagerFrame extends JFrame {
 					wr.setVisible(true);
 				}
 			});
-			btnWorkers.setBounds(693, 14, 111, 38);
+			btnWorkers.setBounds(656, 13, 111, 38);
 		}
 		return btnWorkers;
+	}
+	private JButton getBtnBranches() {
+		if (btnBranches == null) {
+			btnBranches = new JButton("Branches");
+			btnBranches.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					
+					
+				}
+			});
+			btnBranches.setBounds(779, 13, 111, 38);
+		}
+		return btnBranches;
 	}
 }
