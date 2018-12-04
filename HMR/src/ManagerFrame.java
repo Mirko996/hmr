@@ -71,7 +71,13 @@ public class ManagerFrame extends JFrame {
 	private JButton getBtnWorkers() {
 		if (btnWorkers == null) {
 			btnWorkers = new JButton("Workers");
-			btnWorkers.setBounds(691, 13, 111, 38);
+			btnWorkers.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					Workers wr = new Workers();
+					wr.setVisible(true);
+				}
+			});
+			btnWorkers.setBounds(693, 14, 111, 38);
 		}
 		return btnWorkers;
 	}

@@ -17,6 +17,8 @@ import com.toedter.calendar.JCalendar;
 import javax.swing.JLabel;
 import java.awt.Font;
 import java.awt.Label;
+import java.util.List;
+
 import javax.swing.JComboBox;
 import javax.swing.JButton;
 import java.awt.SystemColor;
@@ -32,7 +34,6 @@ public class AddShiftFrame extends JFrame {
 	private Label label_1;
 	private JComboBox comboBox_1;
 	private JButton btnInsert;
-
 	/**
 	 * Launch the application.
 	 */
@@ -109,6 +110,11 @@ public class AddShiftFrame extends JFrame {
 		if (comboBox == null) {
 			comboBox = new JComboBox();
 			comboBox.setBounds(181, 350, 181, 22);
+			List<Worker> workers = Data.workers();
+			for (Worker w : workers) {
+				comboBox.addItem(w.getName() + " " + w.getLast_name());
+			}
+			
 		}
 		return comboBox;
 	}
@@ -133,7 +139,7 @@ public class AddShiftFrame extends JFrame {
 			btnInsert.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					
-					Shift s = new Shift();
+					
 				}
 			});
 			btnInsert.setBounds(181, 488, 138, 53);
