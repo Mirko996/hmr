@@ -22,19 +22,19 @@ import java.awt.event.ActionEvent;
 public class Branches extends JFrame {
 
 	private JPanel contentPane;
-	private JTable table;
-	public void setTable(JTable table) {
-		this.table = table;
-	}
+	static JTable table;
+	private String username;
+
 	Object[][] objects = null;
-	private String[] columnName = { "ID", "Address", "City", "Name", "Email", "Password", "Active" };
+	private String[] columnName = { "ID", "Address", "City", "Email", "Name", "Password", "Active" };
 	private JScrollPane scrollPane;
 	private JButton btnAddBranch;
 	private JButton btnRemoveBranch;
 	private JButton btnUpdateBranch;
+	private JButton btnRestoreBranch;
 
-
-	public Branches() {
+	public Branches(String username) {
+		this.username = username;
 		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		setBounds(100, 100, 900, 550);
 		contentPane = new JPanel();
@@ -44,47 +44,51 @@ public class Branches extends JFrame {
 		contentPane.setLayout(null);
 		contentPane.add(getScrollPane());
 
-		fillWithBranches();
-		
+		updateTable();
+
 		contentPane.add(getBtnAddBranch());
 		contentPane.add(getBtnRemoveBranch());
 		contentPane.add(getBtnUpdateBranch());
+		contentPane.add(getBtnRestoreBranch());
 	}
-	
-	public void fillWithBranches() {
+
+	public void updateTable() {
 		Object[][] objects = new Object[Data.branches().size()][7];
 
 		List<Branch> branches = Data.branches();
 		int num = 0;
 		if (branches != null) {
 			for (Branch b : branches) {
-				Object[] branch = {b.getId(), b.getAddres(), b.getCity(), b.getEmail(), b.getName(), b.getPassword(),
-						b.isActive()};
+				Object[] branch = { b.getId(), b.getAddres(), b.getCity(), b.getEmail(), b.getName(), b.getPassword(),
+						b.isActive() };
 				objects[num] = branch;
 				num++;
 			}
 		}
-		DefaultTableModel dtm = new DefaultTableModel(objects,columnName);
+		DefaultTableModel dtm = new DefaultTableModel(objects, columnName);
 		table.setModel(dtm);
 	}
 
-
-	private  Branch tableBranch() {
+	private Branch tableBranch() {
 		int row = table.getSelectedRow();
 		if (row == -1) {
-			JOptionPane.showMessageDialog(contentPane, "You have to choose worker first!");
+			JOptionPane.showMessageDialog(contentPane, "You have to choose branch first!");
 			return null;
 		}
+		boolean active = false;
+		int id = Integer.parseInt(table.getModel().getValueAt(row, 0).toString());
 		String address = table.getModel().getValueAt(row, 1).toString();
 		String city = table.getModel().getValueAt(row, 2).toString();
 		String email = table.getModel().getValueAt(row, 4).toString();
-		String last_name = table.getModel().getValueAt(row, 3).toString();
+		String name = table.getModel().getValueAt(row, 3).toString();
 		String password = table.getModel().getValueAt(row, 5).toString();
-		
-		Branch b = new Branch(address, city, email, last_name, password);		
+		if(table.getModel().getValueAt(row, 6).toString().equalsIgnoreCase("true")) {
+			active = false;
+		}
+
+		Branch b = new Branch(id,address, city, email, name, password,active);
 		return b;
 	}
-
 
 	public JTable getTable() {
 		if (table == null) {
@@ -94,6 +98,7 @@ public class Branches extends JFrame {
 		}
 		return table;
 	}
+
 	private JScrollPane getScrollPane() {
 		if (scrollPane == null) {
 			scrollPane = new JScrollPane();
@@ -102,6 +107,7 @@ public class Branches extends JFrame {
 		}
 		return scrollPane;
 	}
+
 	private JButton getBtnAddBranch() {
 		if (btnAddBranch == null) {
 			btnAddBranch = new JButton("ADD BRANCH");
@@ -115,31 +121,64 @@ public class Branches extends JFrame {
 		}
 		return btnAddBranch;
 	}
+	
+
 	private JButton getBtnRemoveBranch() {
 		if (btnRemoveBranch == null) {
 			btnRemoveBranch = new JButton("REMOVE BRANCH");
 			btnRemoveBranch.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
+					
+					int row = table.getSelectedRow();
+					if(row != -1) {
+					Data.removeBranch((int) table.getModel().getValueAt(row, 0));
+					updateTable();
+					JOptionPane.showMessageDialog(contentPane, "Success!");
+					}else {
+						JOptionPane.showMessageDialog(contentPane, "Success!");
+
+					}
 				}
 			});
 			btnRemoveBranch.setBounds(594, 72, 132, 42);
 		}
 		return btnRemoveBranch;
 	}
+
 	private JButton getBtnUpdateBranch() {
 		if (btnUpdateBranch == null) {
 			btnUpdateBranch = new JButton("UPDATE BRANCH");
 			btnUpdateBranch.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
 					Branch b = tableBranch();
-					
+					if (b != null) {
 						EditBranch e = new EditBranch(b);
 						e.setVisible(true);
-					
+					}
 				}
 			});
 			btnUpdateBranch.setBounds(738, 72, 132, 42);
 		}
 		return btnUpdateBranch;
+	}
+	private JButton getBtnRestoreBranch() {
+		if (btnRestoreBranch == null) {
+			btnRestoreBranch = new JButton("RESTORE BRANCH");
+			btnRestoreBranch.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					int row = table.getSelectedRow();
+					if (row == -1) {
+						JOptionPane.showMessageDialog(contentPane, "You have to choose worker first!");
+						return;
+					}
+					Data.restoreBranch((int) table.getModel().getValueAt(row, 0));
+					updateTable();
+					JOptionPane.showMessageDialog(contentPane, "Success!");	
+				
+				}
+			});
+			btnRestoreBranch.setBounds(300, 72, 139, 42);
+		}
+		return btnRestoreBranch;
 	}
 }

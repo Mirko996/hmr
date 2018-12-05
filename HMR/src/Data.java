@@ -28,7 +28,7 @@ public static List<Worker> workersByBranch(int id) {
 		return c.getBranches();
 	}
 
-	public static boolean insertEmloyeeData(Worker w, String branchId) {
+	public static boolean insertEmloyeeData(Worker w, int branchId) {
 		return c.insertEmployee(w, branchId);
 	}
 
@@ -37,27 +37,38 @@ public static List<Worker> workersByBranch(int id) {
 
 	}
 
-	public static String getIdBranchData(String username) {
+	public static int getIdBranchData(String username) {
 		if (c.open()) {
 			return c.getBranchId(username);
 		} else {
-			System.out.println("Konekcija je zatvorena");
-			return null;
+			return -1;
 		}
 	}
-
 
 	public static boolean removeWorker(int id) {
-		if(c.removeWorker(id)) {
-			return true;
+		return c.removeWorker(id);
 		}
-		return false;
-		
-	}
 
 
 	public static boolean editWorker(Worker w) {
 		return c.editWorker(w);
+	}
+
+	public static boolean restoreWorker(int id) {
+		return c.restoreWorker(id);	
+	}
+
+	public static boolean editBranch(Branch b) {
+		return c.editBranch(b);
+	}
+
+	public static boolean removeBranch(int id) {
+		return c.removeBranch(id);
+		
+	}
+
+	public static boolean restoreBranch(int id) {
+		return c.restoreBranch(id);
 		
 	}
 

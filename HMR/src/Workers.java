@@ -18,7 +18,7 @@ import java.awt.event.ActionEvent;
 public class Workers extends JFrame {
 
 	private JPanel contentPane;
-	private JTable table;
+	static JTable table;
 	Object[][] objects = null;
 
 	private String[] columnName = { "ID", "Name", "Last name", "Email", "Password", "Active" };
@@ -26,7 +26,8 @@ public class Workers extends JFrame {
 	private JButton btnAddEmployee;
 	private JButton btnRemoveEmployee;
 	private JButton btnUpdateEmployee;
-	public String username;
+	private String username;
+	private JButton btnReturnEmployee;
 
 	public Workers(String username) {
 		this.username = username;
@@ -38,24 +39,29 @@ public class Workers extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		contentPane.add(getScrollPane());
-		Object[][] objcts = new Object[Data.workersByBranch(Integer.parseInt(Data.getIdBranchData(username))).size()][6];
+		contentPane.add(getBtnAddEmployee());
+		contentPane.add(getBtnRemoveEmployee());
+		contentPane.add(getBtnUpdateEmployee());
+		contentPane.add(getBtnReturnEmployee());
+		updateTable();
+	}
+
+	public void updateTable() {
+		Object[][] objcts = new Object[Data.workersByBranch(Data.getIdBranchData(username))
+				.size()][6];
 		int c = 0;
-		int id = Integer.parseInt(Data.getIdBranchData(username));
+		int id = Data.getIdBranchData(username);
 		List<Worker> wrk = Data.workersByBranch(id);
 		if (wrk != null) {
 			for (Worker w : wrk) {
 				Object[] oo = { w.getId(), w.getName(), w.getLast_name(), w.getEmail(), w.getPassword(),
-						w.getActive() };
+						w.isActive() };
 				objcts[c] = oo;
 				c++;
 			}
 		}
-
 		DefaultTableModel dtm = new DefaultTableModel(objcts, columnName);
 		table.setModel(dtm);
-		contentPane.add(getBtnAddEmployee());
-		contentPane.add(getBtnRemoveEmployee());
-		contentPane.add(getBtnUpdateEmployee());
 	}
 
 	private JTable getTable() {
@@ -86,7 +92,7 @@ public class Workers extends JFrame {
 					ae.setVisible(true);
 				}
 			});
-			btnAddEmployee.setBounds(418, 108, 132, 42);
+			btnAddEmployee.setBounds(386, 108, 132, 42);
 		}
 		return btnAddEmployee;
 	}
@@ -97,12 +103,15 @@ public class Workers extends JFrame {
 			JOptionPane.showMessageDialog(contentPane, "You have to choose worker first!");
 			return null;
 		}
+		boolean active = false;
 		int id = (int) table.getModel().getValueAt(row, 0);
 		String name = table.getModel().getValueAt(row, 1).toString();
 		String last_name = table.getModel().getValueAt(row, 2).toString();
 		String email = table.getModel().getValueAt(row, 3).toString();
 		String password = table.getModel().getValueAt(row, 4).toString();
-		String active = table.getModel().getValueAt(row, 5).toString();
+		if(table.getModel().getValueAt(row, 5).toString().equalsIgnoreCase("true")) {
+			active = false;
+		}
 
 		Worker w = new Worker(id, name, last_name, email, password, active);
 		return w;
@@ -114,10 +123,17 @@ public class Workers extends JFrame {
 			btnRemoveEmployee.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					int row = table.getSelectedRow();
+					if(row != -1) {
 					Data.removeWorker((int) table.getModel().getValueAt(row, 0));
+					updateTable();
+					JOptionPane.showMessageDialog(contentPane, "Success!");
+					}else {
+						JOptionPane.showMessageDialog(contentPane, "Success!");
+
+					}
 				}
 			});
-			btnRemoveEmployee.setBounds(567, 108, 135, 42);
+			btnRemoveEmployee.setBounds(530, 108, 155, 42);
 		}
 		return btnRemoveEmployee;
 	}
@@ -128,14 +144,33 @@ public class Workers extends JFrame {
 			btnUpdateEmployee.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					Worker w = tableWorker();
-					if(w != null) {
-						EditWorker ew = new EditWorker(w);
+					if (w != null) {
+						EditWorker ew = new EditWorker(w, username);
 						ew.setVisible(true);
 					}
 				}
 			});
-			btnUpdateEmployee.setBounds(722, 108, 135, 42);
+			btnUpdateEmployee.setBounds(697, 108, 155, 42);
 		}
 		return btnUpdateEmployee;
+	}
+	private JButton getBtnReturnEmployee() {
+		if (btnReturnEmployee == null) {
+			btnReturnEmployee = new JButton("RESTORE EMPLOYEE");
+			btnReturnEmployee.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					int row = table.getSelectedRow();
+					if (row == -1) {
+						JOptionPane.showMessageDialog(contentPane, "You have to choose worker first!");
+						return;
+					}
+					Data.restoreWorker((int) table.getModel().getValueAt(row, 0));
+					updateTable();
+					JOptionPane.showMessageDialog(contentPane, "Success!");	
+				}
+			});
+			btnReturnEmployee.setBounds(219, 108, 155, 42);
+		}
+		return btnReturnEmployee;
 	}
 }
