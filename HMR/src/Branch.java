@@ -5,9 +5,10 @@ public class Branch {
 	private String email;
 	private String name;
 	private String password;
+	private String city;
 	private boolean active;
 	
-	public Branch(int id, String addres, String email, String name, String password, boolean active) {
+	public Branch(int id, String addres, String city, String email, String name, String password, boolean active) {
 		super();
 		this.id = id;
 		this.addres = addres;
@@ -15,6 +16,15 @@ public class Branch {
 		this.name = name;
 		this.password = password;
 		this.active = active;
+		this.city = city;
+	}
+	public Branch(String addres, String city, String email, String name, String password) {
+		super();
+		this.addres = addres;
+		this.email = email;
+		this.name = name;
+		this.password = password;
+		this.city = city;
 	}
 
 	public int getId() {
@@ -64,7 +74,13 @@ public class Branch {
 	public void setActive(boolean active) {
 		this.active = active;
 	}
-
 	
+	public String getCity() {
+		return city;
+	}
+
+	public void setCity(String city) {
+		this.city = city;
+	}
 	
 }

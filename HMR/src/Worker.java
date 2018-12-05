@@ -4,12 +4,15 @@ public class Worker {
 	private String last_name;
 	private String email;
 	private String password;
-	public Worker(String name, String last_name, String email, String password) {
+	private String active;
+	
+	public Worker(String name, String last_name, String email, String password, String active) {
 		super();
 		this.name = name;
 		this.last_name = last_name;
 		this.email = email;
 		this.password = password;
+		this.active = active;
 	}
 	public String getName() {
 		return name;
@@ -35,10 +38,15 @@ public class Worker {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	
+	public String getActive() {
+		return active;
+	}
+	public void setActive(String active) {
+		this.active = active;
+	}
 	
 	@Override
 	public String toString() {
-		return name + " " + last_name  + ", email: " + email + ", " + ", password: " + password; 
+		return name + " " + last_name  + ", email: " + email + ", " + ", password: " + password + ", active: " + active; 
 	}
 }

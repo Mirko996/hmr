@@ -28,6 +28,10 @@ public class Data {
 	public static List<Branch> branches(){
 		return c.getBranches();
 	}
+	
+	public static boolean InsertBranch(Branch b) {
+		return c.insertBranch(b);
+	}
 
 
 }

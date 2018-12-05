@@ -7,7 +7,7 @@
 	</classpathentry>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="lib" path="lib/mysql-connector-java-5.1.38-bin.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Mirko/Desktop/Projekti/hmr/HMR/lib/jdatepicker-1.3.4.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Mirko/Desktop/Projekti/hmr/HMR/lib/jcalendar-1.4.jar"/>
+	<classpathentry kind="lib" path="lib/jcalendar-1.4.jar"/>
+	<classpathentry kind="lib" path="lib/jdatepicker-1.3.4.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
