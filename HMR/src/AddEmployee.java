@@ -185,7 +185,7 @@ public class AddEmployee extends JFrame {
 					if(validateAdding()) {
 						Worker w  = new Worker(txtEmployeeName.getText().trim(), txtEmployeeSurname.getText().trim(),txtEmployeeEmail.getText().trim(),txtEmployeePassword.getText().trim());
 						String branchId = Data.getIdBranchData(username);
-						System.out.println(branchId);
+						
 						if(Data.insertEmloyeeData(w, branchId)) {
 							JOptionPane.showMessageDialog(frame, "Successfully added", "Success", JOptionPane.OK_OPTION);
 							clearForm();
