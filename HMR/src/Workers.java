@@ -38,7 +38,7 @@ public class Workers extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		contentPane.add(getScrollPane());
-		Object[][] objcts = new Object[Data.workersByBranch(Integer.parseInt(Data.getIdBranchData(username)).size()][6];
+		Object[][] objcts = new Object[Data.workersByBranch(Integer.parseInt(Data.getIdBranchData(username))).size()][6];
 		int c = 0;
 		int id = Integer.parseInt(Data.getIdBranchData(username));
 		List<Worker> wrk = Data.workersByBranch(id);

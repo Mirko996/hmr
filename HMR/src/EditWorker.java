@@ -195,9 +195,9 @@ public class EditWorker extends JFrame {
 			btnUpdate.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					if (validateAdding()) {
-						Worker w = new Worker(getTextField().getText().trim(), getTextField_1().getText().trim(),
+						Worker w1 = new Worker(getTextField().getText().trim(), getTextField_1().getText().trim(),
 								getTextField_2().getText().trim(), getPasswordField().getText().trim());
-						Data.editWorker(w);
+						Data.editWorker(w1);
 					}
 				}
 			});

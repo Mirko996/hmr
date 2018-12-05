@@ -6,8 +6,9 @@ public class Worker {
 	private String password;
 	private String active;
 	private int id;
-	// with active
-	public Worker( int id, String name, String last_name, String email, String password, String active) {
+	private int frBranch;
+	
+	public Worker( int id,int frBranch, String name, String last_name, String email, String password, String active) {
 		super();
 		this.name = name;
 		this.last_name = last_name;
@@ -15,6 +16,7 @@ public class Worker {
 		this.password = password;
 		this.active = active;
 		this.id = id;
+		this.frBranch = frBranch;
 	}
 
 	// without active
@@ -25,8 +27,25 @@ public class Worker {
 		this.email = email;
 		this.password = password;
 	}
-
 	
+	public Worker(int id, String name, String last_name, String email, String password, String active) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.last_name = last_name;
+		this.email = email;
+		this.password = password;
+		this.active = active;
+	}
+	
+	public int getFrBranch() {
+		return frBranch;
+	}
+
+	public void setFrBranch(int frBranch) {
+		this.frBranch = frBranch;
+	}
+
 	public String getName() {
 		return name;
 	}

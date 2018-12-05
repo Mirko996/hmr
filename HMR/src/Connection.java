@@ -51,7 +51,6 @@ public class Connection {
 			try {
 				Statement s = conn.createStatement();
 				ResultSet set = s.executeQuery(sql);
-
 				while (set.next()) {
 					if (pass.equalsIgnoreCase(set.getString("password"))
 							&& username.equalsIgnoreCase(set.getString("name"))) {
@@ -62,7 +61,6 @@ public class Connection {
 				e.printStackTrace();
 				return false;
 			}
-
 		}
 		return false;
 	}
@@ -75,8 +73,9 @@ public class Connection {
 				Statement s = conn.createStatement();
 				ResultSet rs = s.executeQuery(sql);
 				while (rs.next()) {
-					Worker w = new Worker(rs.getInt("id"), rs.getString("name"), rs.getString("last_name"), rs.getString("email"),
-							rs.getString("password"), rs.getString("active"));
+					Worker w = new Worker(rs.getInt("id"), rs.getInt("fk_branc_id"), rs.getString("name"),
+							rs.getString("last_name"), rs.getString("email"), rs.getString("password"),
+							rs.getString("active"));
 					workers.add(w);
 				}
 				close();
@@ -178,12 +177,12 @@ public class Connection {
 				while (rs.next()) {
 					ss = rs.getString("id");
 				}
+				close();
 				return ss;
 			} catch (SQLException e) {
 				System.out.println(e.getMessage());
 				return null;
 			}
-
 		}
 		return null;
 	}
@@ -196,6 +195,7 @@ public class Connection {
 
 				Statement s = conn.createStatement();
 				s.executeUpdate(sql);
+				close();
 				return true;
 			} catch (SQLException e) {
 				e.printStackTrace();
@@ -213,8 +213,9 @@ public class Connection {
 				Statement s = conn.createStatement();
 				ResultSet rs = s.executeQuery(sql);
 				while (rs.next()) {
-					Worker w = new Worker(rs.getInt("id"), rs.getString("name"), rs.getString("last_name"), rs.getString("email"),
-							rs.getString("password"), rs.getString("active"));
+					Worker w = new Worker(rs.getInt("id"), rs.getInt("fk_branc_id"), rs.getString("name"),
+							rs.getString("last_name"), rs.getString("email"), rs.getString("password"),
+							rs.getString("active"));
 					workers.add(w);
 				}
 				close();
@@ -228,7 +229,22 @@ public class Connection {
 	}
 
 	public boolean editWorker(Worker w) {
-		//String sql = "UPDATE workers SET fk_branc_id = 1,name = 2,last_name = 3,email = 4,password = 5,active = 1 WHERE id = '0'";
-		return true;
+		System.out.println(w.getName());
+		if (open()) {
+			String sql = "UPDATE workers SET name = '" + w.getName()
+					+ "',last_name = '" + w.getLast_name() + "',email = '" + w.getEmail() + "',password = '"
+					+ w.getPassword() + "',active = 1 WHERE id = '" + w.getId() + "'";
+			try {
+				System.out.println(sql);
+				Statement s = conn.createStatement();
+				s.executeUpdate(sql);
+				close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+				return false;
+			}
+			return true;
+		}
+		return false;
 	}
 }
