@@ -51,22 +51,7 @@ public class AddShiftFrame extends JFrame {
 	private JLabel lblChooseNumberOf_1;
 	private JComboBox comboBox_4;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					AddShiftFrame frame = new AddShiftFrame();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
+	
 	/**
 	 * Create the frame.
 	 */

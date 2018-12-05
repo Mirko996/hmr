@@ -22,6 +22,9 @@ public class Branches extends JFrame {
 
 	private JPanel contentPane;
 	private JTable table;
+	public void setTable(JTable table) {
+		this.table = table;
+	}
 	Object[][] objects = null;
 	private String[] columnName = { "ID", "Address", "City", "Name", "Email", "Password", "Active" };
 	private JScrollPane scrollPane;
@@ -42,6 +45,14 @@ public class Branches extends JFrame {
 		contentPane.setLayout(null);
 		contentPane.add(getScrollPane());
 
+		fillWithBranches();
+		
+		contentPane.add(getBtnAddBranch());
+		contentPane.add(getBtnRemoveBranch());
+		contentPane.add(getBtnUpdateBranch());
+	}
+	
+	public void fillWithBranches() {
 		Object[][] objects = new Object[Data.branches().size()][7];
 
 		List<Branch> branches = Data.branches();
@@ -56,12 +67,10 @@ public class Branches extends JFrame {
 		}
 		DefaultTableModel dtm = new DefaultTableModel(objects,columnName);
 		table.setModel(dtm);
-		contentPane.add(getBtnAddBranch());
-		contentPane.add(getBtnRemoveBranch());
-		contentPane.add(getBtnUpdateBranch());
 	}
 
-	private JTable getTable() {
+
+	public JTable getTable() {
 		if (table == null) {
 			table = new JTable();
 			table.setRowHeight(50);
