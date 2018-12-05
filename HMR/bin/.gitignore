@@ -1,4 +1,10 @@
 <<<<<<< HEAD
+/AddShiftFrame$1.class
+/AddShiftFrame$2.class
+/AddShiftFrame$3.class
+/Shift.class
+=======
+<<<<<<< HEAD
 /Data.class
 /Worker.class
 /Branch.class
@@ -9,3 +15,8 @@
 /Worker.class
 >>>>>>> 078d46d171654f688fbeda6ed923bd3cff4cb35d
 /ManagerFrame$1.class
+>>>>>>> f7e4d57d1ae093ca4dc8727b78251dca5384cb62
+/ManagerFrame$2.class
+/ManagerFrame$3.class
+/Branches$1.class
+/Branches.class

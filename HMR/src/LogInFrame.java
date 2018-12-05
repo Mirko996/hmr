@@ -23,7 +23,7 @@ public class LogInFrame extends JFrame {
 	 * Create the frame.
 	 */
 	public LogInFrame() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		setBounds(100, 100, 380, 322);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -54,7 +54,7 @@ public class LogInFrame extends JFrame {
 		JButton btnLogIn = new JButton("Log in");
 		btnLogIn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (Data.logIn(textField.getText(), textField_1.getText())) {
+				if (Data.logIn(textField_1.getText().toString(), textField.getText().toString())) {
 					dispose();
 					ManagerFrame mf = new ManagerFrame();
 					mf.setVisible(true);

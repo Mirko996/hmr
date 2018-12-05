@@ -7,7 +7,11 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.JTable;
+<<<<<<< HEAD
 import javax.swing.JScrollPane;
+=======
+import java.awt.SystemColor;
+>>>>>>> ac111e989c6d644e253ebb6a303d1160bdc2562f
 
 public class Workers extends JFrame {
 
@@ -19,9 +23,10 @@ public class Workers extends JFrame {
 	private JScrollPane scrollPane;
 
 	public Workers() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		setBounds(100, 100, 900, 550);
 		contentPane = new JPanel();
+		contentPane.setBackground(SystemColor.activeCaption);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
@@ -30,13 +35,15 @@ public class Workers extends JFrame {
 		Object[][] objcts = new Object[Data.workers().size()][4];
 		int c = 0;
 		List<Worker> wrk = Data.workers();
-		for (Worker w : wrk) {
-			Object[] oo = {w.getName(), w.getLast_name(), w.getEmail(), w.getPassword()};
-			objcts[c] = oo;
-			c++;
+		if (wrk != null) {
+			for (Worker w : wrk) {
+				Object[] oo = { w.getName(), w.getLast_name(), w.getEmail(), w.getPassword() };
+				objcts[c] = oo;
+				c++;
+			}
 		}
-		
-		DefaultTableModel dtm = new DefaultTableModel(objcts, columnName) ;
+
+		DefaultTableModel dtm = new DefaultTableModel(objcts, columnName);
 		table.setModel(dtm);
 		
 		}
