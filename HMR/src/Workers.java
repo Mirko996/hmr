@@ -7,11 +7,12 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.JTable;
-<<<<<<< HEAD
 import javax.swing.JScrollPane;
-=======
+
 import java.awt.SystemColor;
->>>>>>> ac111e989c6d644e253ebb6a303d1160bdc2562f
+import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class Workers extends JFrame {
 
@@ -19,8 +20,11 @@ public class Workers extends JFrame {
 	private JTable table;
 	Object[][] objects = null;
 
-	private String[] columnName = { "Name", "Last name", "Email", "Password" };
+	private String[] columnName = { "Name", "Last name", "Email", "Password", "Active" };
 	private JScrollPane scrollPane;
+	private JButton btnAddEmployee;
+	private JButton btnRemoveEmployee;
+	private JButton btnUpdateEmployee;
 
 	public Workers() {
 		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
@@ -32,12 +36,12 @@ public class Workers extends JFrame {
 		contentPane.setLayout(null);
 		//contentPane.add(getTable());
 		contentPane.add(getScrollPane());
-		Object[][] objcts = new Object[Data.workers().size()][4];
+		Object[][] objcts = new Object[Data.workers().size()][5];
 		int c = 0;
 		List<Worker> wrk = Data.workers();
 		if (wrk != null) {
 			for (Worker w : wrk) {
-				Object[] oo = { w.getName(), w.getLast_name(), w.getEmail(), w.getPassword() };
+				Object[] oo = { w.getName(), w.getLast_name(), w.getEmail(), w.getPassword() ,w.getActive()};
 				objcts[c] = oo;
 				c++;
 			}
@@ -45,6 +49,9 @@ public class Workers extends JFrame {
 
 		DefaultTableModel dtm = new DefaultTableModel(objcts, columnName);
 		table.setModel(dtm);
+		contentPane.add(getBtnAddEmployee());
+		contentPane.add(getBtnRemoveEmployee());
+		contentPane.add(getBtnUpdateEmployee());
 		
 		}
 
@@ -63,5 +70,30 @@ public class Workers extends JFrame {
 			scrollPane.setViewportView(getTable());
 			}
 		return scrollPane;
+	}
+	private JButton getBtnAddEmployee() {
+		if (btnAddEmployee == null) {
+			btnAddEmployee = new JButton("ADD EMPLOYEE");
+			btnAddEmployee.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+				}
+			});
+			btnAddEmployee.setBounds(418, 108, 132, 42);
+		}
+		return btnAddEmployee;
+	}
+	private JButton getBtnRemoveEmployee() {
+		if (btnRemoveEmployee == null) {
+			btnRemoveEmployee = new JButton("REMOVE EMPOLOYEE");
+			btnRemoveEmployee.setBounds(567, 108, 135, 42);
+		}
+		return btnRemoveEmployee;
+	}
+	private JButton getBtnUpdateEmployee() {
+		if (btnUpdateEmployee == null) {
+			btnUpdateEmployee = new JButton("UPDATE EMPLOYEE");
+			btnUpdateEmployee.setBounds(722, 108, 135, 42);
+		}
+		return btnUpdateEmployee;
 	}
 }

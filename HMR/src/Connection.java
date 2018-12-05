@@ -69,7 +69,7 @@ public class Connection {
 				ResultSet rs = s.executeQuery(sql);
 				while (rs.next()) {
 					Worker w = new Worker(rs.getString("name"), rs.getString("last_name"), rs.getString("email"),
-							rs.getString("password"));
+							rs.getString("password"), rs.getString("active"));
 					workers.add(w);
 				}
 				close();
