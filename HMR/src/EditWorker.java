@@ -4,6 +4,8 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableModel;
+
 import java.awt.SystemColor;
 import java.awt.TextField;
 
@@ -14,6 +16,7 @@ import javax.swing.JPasswordField;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.security.KeyStore.PasswordProtection;
+import java.util.List;
 import java.awt.event.ActionEvent;
 
 public class EditWorker extends JFrame {
@@ -32,11 +35,14 @@ public class EditWorker extends JFrame {
 	private JPasswordField passwordField_1;
 	private JButton btnUpdate;
 	private Worker w;
+	private String username;
+	private String[] columnName = { "ID", "Name", "Last name", "Email", "Password", "Active" };
 
 	/**
 	 * Launch the application.
 	 */
-	public EditWorker(Worker w) {
+	public EditWorker(Worker w, String username) {
+		this.username = username;
 		this.w = w;
 		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		setBounds(100, 100, 495, 351);
@@ -195,14 +201,41 @@ public class EditWorker extends JFrame {
 			btnUpdate.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					if (validateAdding()) {
-						Worker w = new Worker(getTextField().getText().trim(), getTextField_1().getText().trim(),
-								getTextField_2().getText().trim(), getPasswordField().getText().trim());
-						Data.editWorker(w);
+						Worker w1 = new Worker(w.getId(), getTextField().getText().trim(),
+								getTextField_1().getText().trim(), getTextField_2().getText().trim(),
+								getPasswordField().getText().trim(), w.isActive());
+						if (Data.editWorker(w1)) {
+							updateTable();
+							dispose();
+							JOptionPane.showMessageDialog(contentPane, "Success!", "WARNIRG",
+									JOptionPane.INFORMATION_MESSAGE);
+						} else {
+							JOptionPane.showMessageDialog(contentPane, "Something went wrong!", "WARNIRG",
+									JOptionPane.WARNING_MESSAGE);
+						}
 					}
 				}
 			});
 			btnUpdate.setBounds(179, 251, 147, 49);
 		}
 		return btnUpdate;
+	}
+
+	public void updateTable() {
+		Object[][] objcts = new Object[Data.workersByBranch(Data.getIdBranchData(username))
+				.size()][6];
+		int c = 0;
+		int id =Data.getIdBranchData(username);
+		List<Worker> wrk = Data.workersByBranch(id);
+		if (wrk != null) {
+			for (Worker w : wrk) {
+				Object[] oo = { w.getId(), w.getName(), w.getLast_name(), w.getEmail(), w.getPassword(),
+						w.isActive() };
+				objcts[c] = oo;
+				c++;
+			}
+		}
+		DefaultTableModel dtm = new DefaultTableModel(objcts, columnName);
+		Workers.table.setModel(dtm);
 	}
 }

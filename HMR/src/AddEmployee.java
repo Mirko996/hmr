@@ -4,12 +4,14 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.JTextField;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.awt.event.ActionEvent;
@@ -31,6 +33,7 @@ public class AddEmployee extends JFrame {
 	private JButton btnEmployeeAdd;
 	private JFrame frame;
 	public String username;
+	private String[] columnName = { "ID", "Name", "Last name", "Email", "Password", "Active" };
 
 	/**
 	 * Create the frame.
@@ -57,7 +60,6 @@ public class AddEmployee extends JFrame {
 		contentPane.add(getTxtEmployeeConfirmPassword());
 		contentPane.add(getBtnEmployeeAdd());
 	}
-	
 
 	private JTextField getTxtEmployeeName() {
 		if (txtEmployeeName == null) {
@@ -121,7 +123,7 @@ public class AddEmployee extends JFrame {
 	private JPasswordField getTxtEmployeePassword() {
 		if (txtEmployeePassword == null) {
 			txtEmployeePassword = new JPasswordField();
-		
+
 			txtEmployeePassword.setBounds(158, 156, 203, 20);
 		}
 		return txtEmployeePassword;
@@ -142,34 +144,32 @@ public class AddEmployee extends JFrame {
 		}
 		return txtEmployeeConfirmPassword;
 	}
-	
+
 	public boolean validateAdding() {
-		if (getTxtEmployeeName().getText().trim().equals("")){
-			JOptionPane.showMessageDialog(frame, "Field Name can't be empty!", "WARNIRG",
-					JOptionPane.WARNING_MESSAGE);
+		if (getTxtEmployeeName().getText().trim().equals("")) {
+			JOptionPane.showMessageDialog(frame, "Field Name can't be empty!", "WARNIRG", JOptionPane.WARNING_MESSAGE);
 			return false;
 		} else if (getTxtEmployeeSurname().getText().trim().equals("")) {
 			JOptionPane.showMessageDialog(frame, "Field Last name can't be empty!", "WARNIRG",
 					JOptionPane.WARNING_MESSAGE);
 			return false;
 		} else if (getTxtEmployeeEmail().getText().trim().equals("")) {
-			
-			JOptionPane.showMessageDialog(frame, "Field Email can't be empty!", "WARNIRG",
-					JOptionPane.WARNING_MESSAGE);
+
+			JOptionPane.showMessageDialog(frame, "Field Email can't be empty!", "WARNIRG", JOptionPane.WARNING_MESSAGE);
 			return false;
 		} else if (getTxtEmployeePassword().getText().trim().equals("")) {
 			JOptionPane.showMessageDialog(frame, "Field Password can't be empty!", "WARNIRG",
 					JOptionPane.WARNING_MESSAGE);
 			return false;
-		} else if (!(getTxtEmployeeConfirmPassword().getText().trim().equals(getTxtEmployeePassword().getText().trim()))) {
-			JOptionPane.showMessageDialog(frame, "Password doesn't match!", "WARNIRG",
-					JOptionPane.WARNING_MESSAGE);
+		} else if (!(getTxtEmployeeConfirmPassword().getText().trim()
+				.equals(getTxtEmployeePassword().getText().trim()))) {
+			JOptionPane.showMessageDialog(frame, "Password doesn't match!", "WARNIRG", JOptionPane.WARNING_MESSAGE);
 			return false;
-		}else {
+		} else {
 			return true;
 		}
 	}
-	
+
 	public void clearForm() {
 		getTxtEmployeeName().setText("");
 		getTxtEmployeeSurname().setText("");
@@ -177,25 +177,47 @@ public class AddEmployee extends JFrame {
 		getTxtEmployeePassword().setText("");
 		getTxtEmployeeConfirmPassword().setText("");
 	}
+	
+	public void updateTable() {
+		Object[][] objcts = new Object[Data.workersByBranch(Data.getIdBranchData(username))
+				.size()][6];
+		int c = 0;
+		int id =Data.getIdBranchData(username);
+		List<Worker> wrk = Data.workersByBranch(id);
+		if (wrk != null) {
+			for (Worker w : wrk) {
+				Object[] oo = { w.getId(), w.getName(), w.getLast_name(), w.getEmail(), w.getPassword(),
+						w.isActive() };
+				objcts[c] = oo;
+				c++;
+			}
+		}
+		DefaultTableModel dtm = new DefaultTableModel(objcts, columnName);
+		Workers.table.setModel(dtm);
+	}
+
 	private JButton getBtnEmployeeAdd() {
 		if (btnEmployeeAdd == null) {
 			btnEmployeeAdd = new JButton("ADD");
 			btnEmployeeAdd.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
-					
-					if(validateAdding()) {
-						Worker w  = new Worker(txtEmployeeName.getText().trim(), txtEmployeeSurname.getText().trim(),txtEmployeeEmail.getText().trim(),txtEmployeePassword.getText().trim());
-						String branchId = Data.getIdBranchData(username);
-						if(Data.insertEmloyeeData(w, branchId)) {
-							JOptionPane.showMessageDialog(frame, "Successfully added", "Success", JOptionPane.OK_OPTION);
+
+					if (validateAdding()) {
+						Worker w = new Worker(txtEmployeeName.getText().trim(), txtEmployeeSurname.getText().trim(),
+								txtEmployeeEmail.getText().trim(), txtEmployeePassword.getText().trim());
+						int branchId = Data.getIdBranchData(username);
+						if (Data.insertEmloyeeData(w, branchId)) {
+							JOptionPane.showMessageDialog(frame, "Success!", "DONE",
+									JOptionPane.INFORMATION_MESSAGE);
+							updateTable();
 							clearForm();
 							dispose();
-							
-						}else {
-							JOptionPane.showMessageDialog(frame, "Didn't insert", "WARNING", JOptionPane.WARNING_MESSAGE);
+
+						} else {
+							JOptionPane.showMessageDialog(frame, "Didn't insert", "WARNING",
+									JOptionPane.WARNING_MESSAGE);
 							return;
 						}
-//						JOptionPane.showMessageDialog(frame, "Sucessfully added", "Success", JOptionPane.YES_OPTION);
 					}
 				}
 

@@ -12,6 +12,7 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 import java.awt.event.ActionListener;
+import java.util.concurrent.BrokenBarrierException;
 import java.awt.event.ActionEvent;
 
 public class ManagerFrame extends JFrame {
@@ -26,23 +27,6 @@ public class ManagerFrame extends JFrame {
 	private JLabel lblSearch;
 	public String username;
 
-	public ManagerFrame() {
-		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-		setBounds(100, 100, 972, 711);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		contentPane.setBackground(SystemColor.activeCaption);
-		setContentPane(contentPane);
-		contentPane.setLayout(null);
-
-		contentPane.add(getLblSearch());
-
-		contentPane.add(getTextField());
-		contentPane.add(getBtnAddShifts());
-		contentPane.add(getBtnChangeShft());
-		contentPane.add(getBtnWorkers());
-		contentPane.add(getBtnBranches());
-	}
 	public ManagerFrame(String username) {
 		this.username = username;
 		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
@@ -52,14 +36,15 @@ public class ManagerFrame extends JFrame {
 		contentPane.setBackground(SystemColor.activeCaption);
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-
 		contentPane.add(getLblSearch());
-
 		contentPane.add(getTextField());
 		contentPane.add(getBtnAddShifts());
 		contentPane.add(getBtnChangeShft());
 		contentPane.add(getBtnWorkers());
 		contentPane.add(getBtnBranches());
+		if (!username.equals("admin")) {
+			btnBranches.setVisible(false);
+		}
 	}
 
 	private JLabel getLblSearch() {
@@ -102,6 +87,10 @@ public class ManagerFrame extends JFrame {
 	private JButton getBtnChangeShft() {
 		if (btnChangeShft == null) {
 			btnChangeShft = new JButton("Change Shift");
+			btnChangeShft.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+				}
+			});
 			btnChangeShft.setBounds(533, 13, 111, 38);
 		}
 		return btnChangeShft;
@@ -126,7 +115,7 @@ public class ManagerFrame extends JFrame {
 			btnBranches = new JButton("Branches");
 			btnBranches.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					Branches b = new Branches();
+					Branches b = new Branches(username);
 					b.setVisible(true);
 				}
 			});

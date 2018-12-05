@@ -51,7 +51,6 @@ public class Connection {
 			try {
 				Statement s = conn.createStatement();
 				ResultSet set = s.executeQuery(sql);
-
 				while (set.next()) {
 					if (pass.equalsIgnoreCase(set.getString("password"))
 							&& username.equalsIgnoreCase(set.getString("name"))) {
@@ -62,7 +61,6 @@ public class Connection {
 				e.printStackTrace();
 				return false;
 			}
-
 		}
 		return false;
 	}
@@ -75,8 +73,17 @@ public class Connection {
 				Statement s = conn.createStatement();
 				ResultSet rs = s.executeQuery(sql);
 				while (rs.next()) {
+<<<<<<< HEAD
 					Worker w = new Worker(rs.getInt("id"), rs.getString("name"), rs.getString("last_name"),
 							rs.getString("email"), rs.getString("password"), rs.getString("active"));
+=======
+					boolean active = false;
+					if(rs.getString("active").equalsIgnoreCase("1")) {
+						active = true;
+					}
+					Worker w = new Worker(rs.getInt("id"), rs.getInt("fk_branc_id"), rs.getString("name"),
+							rs.getString("last_name"), rs.getString("email"), rs.getString("password"), active);
+>>>>>>> 386982dc1570703ebb657696f0e7a237e84f8c25
 					workers.add(w);
 				}
 				close();
@@ -141,25 +148,16 @@ public class Connection {
 
 	}
 
-	public boolean insertEmployee(Worker w, String branchId) {
-		System.out.println(branchId);
-
+	public boolean insertEmployee(Worker w, int branchId) {
 		String sql = "INSERT INTO workers(fk_branc_id, name, last_name, email, password) VALUES ('" + branchId + "','"
 				+ w.getName() + "','" + w.getLast_name() + "', '" + w.getEmail() + "','" + w.getPassword() + "')";
-//		String sqlCheck = "select * from workers where email like '" + w.getEmail() + "'";
 		Statement s;
 		try {
 			if (open()) {
-////				s = conn.createStatement();
-//				ResultSet rs = s.executeQuery(sqlCheck);
-//				if (!rs.next()) {
 				s = conn.createStatement();
 				s.executeUpdate(sql);
 				close();
 				return true;
-//				}else {
-//					return false;
-//				}	
 			}
 		} catch (SQLException e1) {
 			System.out.println(e1.getMessage());
@@ -168,24 +166,24 @@ public class Connection {
 		return false;
 	}
 
-	public String getBranchId(String username) {
+	public int getBranchId(String username) {
 		if (open()) {
 			String sql = "select id from `branches` WHERE name = '" + username + "'";
 			try {
-				String ss = "";
+				int ss = -1;
 				Statement s = conn.createStatement();
 				ResultSet rs = s.executeQuery(sql);
 				while (rs.next()) {
-					ss = rs.getString("id");
+					ss = rs.getInt("id");
 				}
+				close();
 				return ss;
 			} catch (SQLException e) {
 				System.out.println(e.getMessage());
-				return null;
+				return -1;
 			}
-
 		}
-		return null;
+		return -1;
 	}
 
 	public boolean removeWorker(int id) {
@@ -196,6 +194,7 @@ public class Connection {
 
 				Statement s = conn.createStatement();
 				s.executeUpdate(sql);
+				close();
 				return true;
 			} catch (SQLException e) {
 				e.printStackTrace();
@@ -213,8 +212,18 @@ public class Connection {
 				Statement s = conn.createStatement();
 				ResultSet rs = s.executeQuery(sql);
 				while (rs.next()) {
+<<<<<<< HEAD
 					Worker w = new Worker(rs.getInt("id"), rs.getString("name"), rs.getString("last_name"),
 							rs.getString("email"), rs.getString("password"), rs.getString("active"));
+=======
+					boolean active = false;
+					if(rs.getString("active").equalsIgnoreCase("1")) {
+						active = true;
+					}
+					Worker w = new Worker(rs.getInt("id"), rs.getInt("fk_branc_id"), rs.getString("name"),
+							rs.getString("last_name"), rs.getString("email"), rs.getString("password"),
+							active);
+>>>>>>> 386982dc1570703ebb657696f0e7a237e84f8c25
 					workers.add(w);
 				}
 				close();
@@ -228,9 +237,98 @@ public class Connection {
 	}
 
 	public boolean editWorker(Worker w) {
+<<<<<<< HEAD
 		// String sql = "UPDATE workers SET fk_branc_id = 1,name = 2,last_name = 3,email
 		// = 4,password = 5,active = 1 WHERE id = '0'";
 		return true;
+=======
+		if (open()) {
+			String sql = "UPDATE workers SET name = '" + w.getName()
+					+ "',last_name = '" + w.getLast_name() + "',email = '" + w.getEmail() + "',password = '"
+					+ w.getPassword() + "',active = 1 WHERE id = '" + w.getId() + "'";
+			try {
+				Statement s = conn.createStatement();
+				s.executeUpdate(sql);
+				close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+				return false;
+			}
+			return true;
+		}
+		return false;
+	}
+
+	public boolean restoreWorker(int id) {
+		if (open()) {
+			String sql = "UPDATE workers SET active = " + "'1'" + " where id = " + "'" + id + "'";
+			try {
+
+				Statement s = conn.createStatement();
+				s.executeUpdate(sql);
+				close();
+				return true;
+			} catch (SQLException e) {
+				e.printStackTrace();
+				return false;
+			}
+		}
+		return false;
+	}
+
+	public boolean editBranch(Branch b) {
+
+		if (open()) {
+			String sql = "UPDATE branches SET address = '" + b.getAddres() + "',name = '" + b.getName()
+					+ "',city = '" + b.getCity() + "',email = '" + b.getEmail() + "',password = '"
+					+ b.getPassword() + "',active = 1 WHERE id = '" + b.getId() + "'";
+			try {
+				Statement s = conn.createStatement();
+				s.executeUpdate(sql);
+				close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+				return false;
+			}
+			return true;
+		}
+		return false;
+	}
+
+	public boolean removeBranch(int id) {
+		if (open()) {
+			String sql = "UPDATE branches SET active = " + "'0'" + " where id = " + "'" + id + "'";
+			try {
+
+				Statement s = conn.createStatement();
+				s.executeUpdate(sql);
+				close();
+				return true;
+			} catch (SQLException e) {
+				e.printStackTrace();
+				return false;
+			}
+		}
+		return false;
+		
+	}
+
+	public boolean restoreBranch(int id) {
+		if (open()) {
+			String sql = "UPDATE branches SET active = " + "'1'" + " where id = " + "'" + id + "'";
+			try {
+
+				Statement s = conn.createStatement();
+				s.executeUpdate(sql);
+				close();
+				return true;
+			} catch (SQLException e) {
+				e.printStackTrace();
+				return false;
+			}
+		}
+		return false;
+>>>>>>> 386982dc1570703ebb657696f0e7a237e84f8c25
 	}
 
 	public boolean editBranch(Branch b) {

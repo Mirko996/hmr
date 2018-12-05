@@ -13,6 +13,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.util.List;
 import java.awt.event.ActionEvent;
 
 public class AddBranch extends JFrame {
@@ -33,9 +34,8 @@ public class AddBranch extends JFrame {
 	private JTextField textAdress;
 	private JLabel lblAddress;
 	private JFrame frame;
-	private Branches bb = new Branches();
+	private String[] columnName = { "ID", "Address", "City", "Name", "Email", "Password", "Active" };
 
-	
 	/**
 	 * Create the frame.
 	 */
@@ -48,13 +48,14 @@ public class AddBranch extends JFrame {
 		contentPane.setLayout(null);
 		contentPane.add(getPanel());
 	}
+
 	private JPanel getPanel() {
 		if (panel == null) {
 			panel = new JPanel();
-			panel.setLayout(null);
 			panel.setBorder(new EmptyBorder(5, 5, 5, 5));
 			panel.setBackground(SystemColor.activeCaption);
 			panel.setBounds(0, 0, 478, 303);
+			panel.setLayout(null);
 			panel.add(getTextName());
 			panel.add(getLabel());
 			panel.add(getLblCity());
@@ -71,14 +72,16 @@ public class AddBranch extends JFrame {
 		}
 		return panel;
 	}
+
 	private JTextField getTextName() {
 		if (textName == null) {
 			textName = new JTextField();
-			textName.setColumns(10);
 			textName.setBounds(158, 11, 203, 20);
+			textName.setColumns(10);
 		}
 		return textName;
 	}
+
 	private JLabel getLabel() {
 		if (label == null) {
 			label = new JLabel("Name:");
@@ -86,6 +89,7 @@ public class AddBranch extends JFrame {
 		}
 		return label;
 	}
+
 	private JLabel getLblCity() {
 		if (lblCity == null) {
 			lblCity = new JLabel("City:");
@@ -93,14 +97,16 @@ public class AddBranch extends JFrame {
 		}
 		return lblCity;
 	}
+
 	private JTextField getTextCity() {
 		if (textCity == null) {
 			textCity = new JTextField();
-			textCity.setColumns(10);
 			textCity.setBounds(158, 44, 203, 20);
+			textCity.setColumns(10);
 		}
 		return textCity;
 	}
+
 	private JLabel getLabel_2() {
 		if (label_2 == null) {
 			label_2 = new JLabel("Email:");
@@ -108,14 +114,16 @@ public class AddBranch extends JFrame {
 		}
 		return label_2;
 	}
+
 	private JTextField getTextEmail() {
 		if (textEmail == null) {
 			textEmail = new JTextField();
-			textEmail.setColumns(10);
 			textEmail.setBounds(158, 77, 203, 20);
+			textEmail.setColumns(10);
 		}
 		return textEmail;
 	}
+
 	private JLabel getLabel_3() {
 		if (label_3 == null) {
 			label_3 = new JLabel("Password:");
@@ -123,6 +131,7 @@ public class AddBranch extends JFrame {
 		}
 		return label_3;
 	}
+
 	private JPasswordField getPasswordField() {
 		if (passwordField == null) {
 			passwordField = new JPasswordField();
@@ -130,6 +139,7 @@ public class AddBranch extends JFrame {
 		}
 		return passwordField;
 	}
+
 	private JLabel getLabel_4() {
 		if (label_4 == null) {
 			label_4 = new JLabel("Password:");
@@ -137,6 +147,7 @@ public class AddBranch extends JFrame {
 		}
 		return label_4;
 	}
+
 	private JPasswordField getPasswordField_1() {
 		if (passwordField_1 == null) {
 			passwordField_1 = new JPasswordField();
@@ -144,79 +155,93 @@ public class AddBranch extends JFrame {
 		}
 		return passwordField_1;
 	}
-	
+
 	private boolean validation() {
-	
-			if (textName.getText().trim().equals("")){
-				JOptionPane.showMessageDialog(frame, "Field Name can't be empty!", "WARNIRG",
-						JOptionPane.WARNING_MESSAGE);
-				return false;
-			} else if (getTextCity().getText().trim().equals("")) {
-				JOptionPane.showMessageDialog(frame, "Field City name can't be empty!", "WARNIRG",
-						JOptionPane.WARNING_MESSAGE);
-				return false;
-			} else if (getTextEmail().getText().trim().equals("")) {
-				
-				JOptionPane.showMessageDialog(frame, "Field Email can't be empty!", "WARNIRG",
-						JOptionPane.WARNING_MESSAGE);
-				return false;
-			} else if (getTextAdress().getText().trim().equals("")) {
-				
-				JOptionPane.showMessageDialog(frame, "Field Addres can't be empty!", "WARNIRG",
-						JOptionPane.WARNING_MESSAGE);
-				return false;
-			} else if (getPasswordField().getText().trim().equals("")) {
-				JOptionPane.showMessageDialog(frame, "Field Password can't be empty!", "WARNIRG",
-						JOptionPane.WARNING_MESSAGE);
-				return false;
-			} else if (!(getPasswordField().getText().trim().equals(getPasswordField_1().getText().trim()))) {
-				JOptionPane.showMessageDialog(frame, "Password doesn't match!", "WARNIRG",
-						JOptionPane.WARNING_MESSAGE);
-				return false;
-			}else {
-				return true;
-			
+
+		if (textName.getText().trim().equals("")) {
+			JOptionPane.showMessageDialog(frame, "Field Name can't be empty!", "WARNIRG", JOptionPane.WARNING_MESSAGE);
+			return false;
+		} else if (getTextCity().getText().trim().equals("")) {
+			JOptionPane.showMessageDialog(frame, "Field City name can't be empty!", "WARNIRG",
+					JOptionPane.WARNING_MESSAGE);
+			return false;
+		} else if (getTextEmail().getText().trim().equals("")) {
+
+			JOptionPane.showMessageDialog(frame, "Field Email can't be empty!", "WARNIRG", JOptionPane.WARNING_MESSAGE);
+			return false;
+		} else if (getTextAdress().getText().trim().equals("")) {
+
+			JOptionPane.showMessageDialog(frame, "Field Addres can't be empty!", "WARNIRG",
+					JOptionPane.WARNING_MESSAGE);
+			return false;
+		} else if (getPasswordField().getText().trim().equals("")) {
+			JOptionPane.showMessageDialog(frame, "Field Password can't be empty!", "WARNIRG",
+					JOptionPane.WARNING_MESSAGE);
+			return false;
+		} else if (!(getPasswordField().getText().trim().equals(getPasswordField_1().getText().trim()))) {
+			JOptionPane.showMessageDialog(frame, "Password doesn't match!", "WARNIRG", JOptionPane.WARNING_MESSAGE);
+			return false;
+		} else {
+			return true;
 		}
-		
-	
 	}
-	
+
 	private JButton getButton() {
 		if (button == null) {
 			button = new JButton("ADD");
+			button.setBounds(145, 241, 147, 49);
 			button.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					if(validation()) {
-						Branch b = new Branch(getTextAdress().getText(), getTextCity().getText(),getTextEmail().getText(), getTextName().getText(), getPasswordField().getText());
-						if(Data.InsertBranch(b)) {
-							
-							JOptionPane.showMessageDialog(frame, "Success!", "DONE",
-									JOptionPane.INFORMATION_MESSAGE);
-							bb.getTable().repaint();
-						}else{
+					if (validation()) {
+						Branch b = new Branch(getTextAdress().getText(), getTextCity().getText(),getTextName().getText(),getTextEmail().getText(),
+								  getPasswordField().getText());
+						if (Data.InsertBranch(b)) {
+
+							JOptionPane.showMessageDialog(frame, "Success!", "DONE", JOptionPane.INFORMATION_MESSAGE);
+							updateTable();
+							dispose();
+						} else {
 							JOptionPane.showMessageDialog(frame, "Something went wrong!", "WARNIRG",
 									JOptionPane.WARNING_MESSAGE);
 						}
 					}
 				}
 			});
-			button.setBounds(145, 241, 147, 49);
 		}
 		return button;
 	}
+
 	private JTextField getTextAdress() {
 		if (textAdress == null) {
 			textAdress = new JTextField();
-			textAdress.setColumns(10);
 			textAdress.setBounds(158, 108, 203, 20);
+			textAdress.setColumns(10);
 		}
 		return textAdress;
 	}
+
 	private JLabel getLblAddress() {
 		if (lblAddress == null) {
 			lblAddress = new JLabel("Address:");
 			lblAddress.setBounds(34, 105, 112, 14);
 		}
 		return lblAddress;
+	}
+
+	public void updateTable() {
+		Object[][] objects = new Object[Data.branches().size()][7];
+
+		List<Branch> branches = Data.branches();
+		int num = 0;
+		if (branches != null) {
+			for (Branch b : branches) {
+				Object[] branch = { b.getId(), b.getAddres(), b.getCity(), b.getEmail(), b.getName(), b.getPassword(),
+						b.isActive() };
+				objects[num] = branch;
+				num++;
+			}
+		}
+		DefaultTableModel dtm = new DefaultTableModel(objects, columnName);
+		Branches.table.setModel(dtm);
 	}
 }

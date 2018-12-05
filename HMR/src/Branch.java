@@ -91,9 +91,12 @@ public class Branch {
 	public void setCity(String city) {
 		this.city = city;
 	}
+<<<<<<< HEAD
 	@Override
 	public String toString() {
 		return id + ": " + name + ", " + email + ", " + addres + ", " + city + ", password: " + password;
  	}
 	
+=======
+>>>>>>> 386982dc1570703ebb657696f0e7a237e84f8c25
 }
