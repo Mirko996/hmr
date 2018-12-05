@@ -61,4 +61,9 @@ public static List<Worker> workersByBranch(int id) {
 		
 	}
 
+	///not working
+	public static boolean editBranch(Branch b) {
+		return c.editBranch(b);
+	}
+
 }

@@ -75,8 +75,8 @@ public class Connection {
 				Statement s = conn.createStatement();
 				ResultSet rs = s.executeQuery(sql);
 				while (rs.next()) {
-					Worker w = new Worker(rs.getInt("id"), rs.getString("name"), rs.getString("last_name"), rs.getString("email"),
-							rs.getString("password"), rs.getString("active"));
+					Worker w = new Worker(rs.getInt("id"), rs.getString("name"), rs.getString("last_name"),
+							rs.getString("email"), rs.getString("password"), rs.getString("active"));
 					workers.add(w);
 				}
 				close();
@@ -213,8 +213,8 @@ public class Connection {
 				Statement s = conn.createStatement();
 				ResultSet rs = s.executeQuery(sql);
 				while (rs.next()) {
-					Worker w = new Worker(rs.getInt("id"), rs.getString("name"), rs.getString("last_name"), rs.getString("email"),
-							rs.getString("password"), rs.getString("active"));
+					Worker w = new Worker(rs.getInt("id"), rs.getString("name"), rs.getString("last_name"),
+							rs.getString("email"), rs.getString("password"), rs.getString("active"));
 					workers.add(w);
 				}
 				close();
@@ -228,7 +228,25 @@ public class Connection {
 	}
 
 	public boolean editWorker(Worker w) {
-		//String sql = "UPDATE workers SET fk_branc_id = 1,name = 2,last_name = 3,email = 4,password = 5,active = 1 WHERE id = '0'";
+		// String sql = "UPDATE workers SET fk_branc_id = 1,name = 2,last_name = 3,email
+		// = 4,password = 5,active = 1 WHERE id = '0'";
 		return true;
+	}
+
+	public boolean editBranch(Branch b) {
+		String sql = "UPDATE branches SET name = '" + b.getName() + "', email = '" + b.getEmail() + "', address = '"
+				+ b.getAddres() + "', city='" + b.getCity() + "', password ='" + b.getPassword() + "' WHERE id = '"
+				+ b.getId() + "'";
+		if (open()) {
+			try {
+				Statement s = conn.createStatement();
+				s.executeUpdate(sql);
+				return true;
+			} catch (SQLException e) {
+				System.out.println(e.getMessage());
+				return false;
+			}
+		}
+		return false;
 	}
 }

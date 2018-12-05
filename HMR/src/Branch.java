@@ -18,7 +18,16 @@ public class Branch {
 		this.active = active;
 		this.city = city;
 	}
-	public Branch(String addres, String city, String email, String name, String password) {
+	public Branch(int id, String addres, String city, String email, String name, String password) {
+		super();
+		this.id = id;
+		this.addres = addres;
+		this.email = email;
+		this.name = name;
+		this.password = password;
+		this.city = city;
+	}
+	public Branch( String addres, String city, String email, String name, String password) {
 		super();
 		this.addres = addres;
 		this.email = email;
@@ -82,5 +91,9 @@ public class Branch {
 	public void setCity(String city) {
 		this.city = city;
 	}
+	@Override
+	public String toString() {
+		return id + ": " + name + ", " + email + ", " + addres + ", " + city + ", password: " + password;
+ 	}
 	
 }

@@ -75,13 +75,15 @@ public class Branches extends JFrame {
 			JOptionPane.showMessageDialog(contentPane, "You have to choose worker first!");
 			return null;
 		}
+		String id = table.getModel().getValueAt(row, 0).toString();
 		String address = table.getModel().getValueAt(row, 1).toString();
 		String city = table.getModel().getValueAt(row, 2).toString();
 		String email = table.getModel().getValueAt(row, 4).toString();
 		String last_name = table.getModel().getValueAt(row, 3).toString();
 		String password = table.getModel().getValueAt(row, 5).toString();
+	
 		
-		Branch b = new Branch(address, city, email, last_name, password);		
+		Branch b = new Branch(Integer.parseInt(id) ,address, city, email, last_name, password);		
 		return b;
 	}
 

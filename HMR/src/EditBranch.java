@@ -1,13 +1,17 @@
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
+import java.awt.JobAttributes;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JPasswordField;
 import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class EditBranch extends JFrame {
 
@@ -26,12 +30,15 @@ public class EditBranch extends JFrame {
 	private JPasswordField txtPasswordConfirm;
 	private JButton btEdit;
 	private Branch b;
+	private JTextField txtIdNotVisible;
+	private JFrame frame;
 
 	/**
 	 * Create the frame.
 	 */
 	public EditBranch(Branch b) {
 		this.b = b;
+		frame = this;
 		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		setBounds(100, 100, 495, 351);
 		txt = new JPanel();
@@ -51,16 +58,18 @@ public class EditBranch extends JFrame {
 		txt.add(getLabel());
 		txt.add(getTxtPasswordConfirm());
 		txt.add(getBtEdit());
+		txt.add(getTxtIdNotVisible());
 		fill();
 	}
 
 	private void fill() {
+		txtIdNotVisible.setText(b.getId() + "");
 		txtName.setText(b.getName());
 		txtEmail.setText(b.getEmail());
 		txtAddress.setText(b.getAddres());
 		txtCity.setText(b.getCity());
 		txtPassword.setText(b.getPassword());
-		txtPasswordConfirm .setText(b.getPassword());
+		txtPasswordConfirm.setText(b.getPassword());
 	}
 
 	private JLabel getLblName() {
@@ -166,8 +175,32 @@ public class EditBranch extends JFrame {
 	private JButton getBtEdit() {
 		if (btEdit == null) {
 			btEdit = new JButton("EDIT");
+			btEdit.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					if (Data.editBranch(b)) {
+						JOptionPane.showMessageDialog(frame, "Successfully edited", "Success",
+								JOptionPane.INFORMATION_MESSAGE);
+						dispose();
+						return;
+					} else {
+						JOptionPane.showMessageDialog(frame, "Something went wrong!", "Warning",
+								JOptionPane.WARNING_MESSAGE);
+						return;
+					}
+				}
+			});
 			btEdit.setBounds(199, 255, 89, 46);
 		}
 		return btEdit;
+	}
+
+	private JTextField getTxtIdNotVisible() {
+		if (txtIdNotVisible == null) {
+			txtIdNotVisible = new JTextField();
+			txtIdNotVisible.setVisible(false);
+			txtIdNotVisible.setBounds(362, 29, 86, 20);
+			txtIdNotVisible.setColumns(10);
+		}
+		return txtIdNotVisible;
 	}
 }
