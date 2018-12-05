@@ -204,4 +204,31 @@ public class Connection {
 		}
 		return false;
 	}
+
+	public List<Worker> getWorkersByBranch(int id) {
+		String sql = "SELECT * FROM workers WHERE fk_branc_id = '" + id + "'";
+		if (open()) {
+			try {
+				List<Worker> workers = new ArrayList<Worker>();
+				Statement s = conn.createStatement();
+				ResultSet rs = s.executeQuery(sql);
+				while (rs.next()) {
+					Worker w = new Worker(rs.getInt("id"), rs.getString("name"), rs.getString("last_name"), rs.getString("email"),
+							rs.getString("password"), rs.getString("active"));
+					workers.add(w);
+				}
+				close();
+				return workers;
+			} catch (SQLException e) {
+				System.out.println(e.getMessage());
+				return null;
+			}
+		}
+		return null;
+	}
+
+	public boolean editWorker(Worker w) {
+		//String sql = "UPDATE workers SET fk_branc_id = 1,name = 2,last_name = 3,email = 4,password = 5,active = 1 WHERE id = '0'";
+		return true;
+	}
 }

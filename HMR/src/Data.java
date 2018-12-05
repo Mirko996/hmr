@@ -19,8 +19,16 @@ public class Data {
 	public static List<Worker> workers() {
 		return c.getWorkers();
 	}
+<<<<<<< HEAD
 
 	public static List<Branch> branches() {
+=======
+	public static List<Worker> workersByBranch(int id) {
+		return c.getWorkersByBranch(id);
+	}
+	
+	public static List<Branch> branches(){
+>>>>>>> a05f7a123f5c2ed6bdab0478d59392861b4d3ece
 		return c.getBranches();
 	}
 
@@ -48,6 +56,12 @@ public class Data {
 			return true;
 		}
 		return false;
+		
+	}
+
+
+	public static boolean editWorker(Worker w) {
+		return c.editWorker(w);
 		
 	}
 

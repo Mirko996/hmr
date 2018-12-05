@@ -37,11 +37,11 @@ public class Workers extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-		// contentPane.add(getTable());
 		contentPane.add(getScrollPane());
-		Object[][] objcts = new Object[Data.workers().size()][6];
+		Object[][] objcts = new Object[Data.workersByBranch(Integer.parseInt(Data.getIdBranchData(username))).size()][6];
 		int c = 0;
-		List<Worker> wrk = Data.workers();
+		int id = Integer.parseInt(Data.getIdBranchData(username));
+		List<Worker> wrk = Data.workersByBranch(id);
 		if (wrk != null) {
 			for (Worker w : wrk) {
 				Object[] oo = { w.getId(), w.getName(), w.getLast_name(), w.getEmail(), w.getPassword(),
