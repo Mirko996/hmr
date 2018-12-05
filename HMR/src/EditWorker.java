@@ -37,7 +37,7 @@ public class EditWorker extends JFrame {
 	 */
 	public EditWorker(Worker w) {
 		this.w = w;
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		setBounds(100, 100, 495, 351);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));

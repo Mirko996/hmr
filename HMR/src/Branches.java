@@ -3,6 +3,7 @@ import java.awt.EventQueue;
 
 import javax.swing.DefaultBoundedRangeModel;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.border.EmptyBorder;
@@ -68,6 +69,23 @@ public class Branches extends JFrame {
 	}
 
 
+	private  Branch tableBranch() {
+		int row = table.getSelectedRow();
+		if (row == -1) {
+			JOptionPane.showMessageDialog(contentPane, "You have to choose worker first!");
+			return null;
+		}
+		String address = table.getModel().getValueAt(row, 1).toString();
+		String city = table.getModel().getValueAt(row, 2).toString();
+		String email = table.getModel().getValueAt(row, 4).toString();
+		String last_name = table.getModel().getValueAt(row, 3).toString();
+		String password = table.getModel().getValueAt(row, 5).toString();
+		
+		Branch b = new Branch(address, city, email, last_name, password);		
+		return b;
+	}
+
+
 	public JTable getTable() {
 		if (table == null) {
 			table = new JTable();
@@ -111,6 +129,15 @@ public class Branches extends JFrame {
 	private JButton getBtnUpdateBranch() {
 		if (btnUpdateBranch == null) {
 			btnUpdateBranch = new JButton("UPDATE BRANCH");
+			btnUpdateBranch.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					Branch b = tableBranch();
+					
+						EditBranch e = new EditBranch(b);
+						e.setVisible(true);
+					
+				}
+			});
 			btnUpdateBranch.setBounds(738, 72, 132, 42);
 		}
 		return btnUpdateBranch;
