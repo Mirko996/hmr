@@ -47,14 +47,14 @@ public class LogInFrame extends JFrame {
 		textField = new JTextField();
 		textField.setBounds(180, 97, 116, 22);
 		contentPane.add(textField);
-		textField.setColumns(10);
+		textField.setColumns(10); 
 
 		JButton btnLogIn = new JButton("Log in");
 		btnLogIn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (Data.logIn(passwordField.getText().toString(), textField.getText().toString())) {
 					dispose();
-					ManagerFrame mf = new ManagerFrame();
+					ManagerFrame mf = new ManagerFrame(textField.getText().toString());
 					mf.setVisible(true);
 				}else {
 					JOptionPane.showMessageDialog(contentPane, "Username or password are invalid:");

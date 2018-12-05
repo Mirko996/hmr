@@ -30,27 +30,14 @@ public class AddEmployee extends JFrame {
 	private JPasswordField txtEmployeeConfirmPassword;
 	private JButton btnEmployeeAdd;
 	private JFrame frame;
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					AddEmployee frame = new AddEmployee();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+	public String username;
 
 	/**
 	 * Create the frame.
 	 */
-	public AddEmployee() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	public AddEmployee(String username) {
+		this.username = username;
+//		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		setBounds(100, 100, 496, 350);
 		contentPane = new JPanel();
 		contentPane.setBackground(SystemColor.activeCaption);
@@ -182,14 +169,33 @@ public class AddEmployee extends JFrame {
 		}
 	}
 	
+	public void clearForm() {
+		getTxtEmployeeName().setText("");
+		getTxtEmployeeSurname().setText("");
+		getTxtEmployeeEmail().setText("");
+		getTxtEmployeePassword().setText("");
+		getTxtEmployeeConfirmPassword().setText("");
+	}
 	private JButton getBtnEmployeeAdd() {
 		if (btnEmployeeAdd == null) {
 			btnEmployeeAdd = new JButton("ADD");
 			btnEmployeeAdd.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
+					
 					if(validateAdding()) {
-						JOptionPane.showMessageDialog(frame, "Sucessfully added", "Success", JOptionPane.YES_OPTION);
-
+						Worker w  = new Worker(txtEmployeeName.getText().trim(), txtEmployeeSurname.getText().trim(),txtEmployeeEmail.getText().trim(),txtEmployeePassword.getText().trim());
+						String branchId = Data.getIdBranchData(username);
+						
+						if(Data.insertEmloyeeData(w, branchId)) {
+							JOptionPane.showMessageDialog(frame, "Successfully added", "Success", JOptionPane.OK_OPTION);
+							clearForm();
+							dispose();
+							
+						}else {
+							JOptionPane.showMessageDialog(frame, "Didn't insert", "WARNING", JOptionPane.WARNING_MESSAGE);
+							return;
+						}
+//						JOptionPane.showMessageDialog(frame, "Sucessfully added", "Success", JOptionPane.YES_OPTION);
 					}
 				}
 
