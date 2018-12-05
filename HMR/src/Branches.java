@@ -3,6 +3,7 @@ import java.awt.EventQueue;
 
 import javax.swing.DefaultBoundedRangeModel;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.border.EmptyBorder;
@@ -22,6 +23,9 @@ public class Branches extends JFrame {
 
 	private JPanel contentPane;
 	private JTable table;
+	public void setTable(JTable table) {
+		this.table = table;
+	}
 	Object[][] objects = null;
 	private String[] columnName = { "ID", "Address", "City", "Name", "Email", "Password", "Active" };
 	private JScrollPane scrollPane;
@@ -40,6 +44,14 @@ public class Branches extends JFrame {
 		contentPane.setLayout(null);
 		contentPane.add(getScrollPane());
 
+		fillWithBranches();
+		
+		contentPane.add(getBtnAddBranch());
+		contentPane.add(getBtnRemoveBranch());
+		contentPane.add(getBtnUpdateBranch());
+	}
+	
+	public void fillWithBranches() {
 		Object[][] objects = new Object[Data.branches().size()][7];
 
 		List<Branch> branches = Data.branches();
@@ -54,12 +66,27 @@ public class Branches extends JFrame {
 		}
 		DefaultTableModel dtm = new DefaultTableModel(objects,columnName);
 		table.setModel(dtm);
-		contentPane.add(getBtnAddBranch());
-		contentPane.add(getBtnRemoveBranch());
-		contentPane.add(getBtnUpdateBranch());
 	}
 
-	private JTable getTable() {
+
+	private  Branch tableBranch() {
+		int row = table.getSelectedRow();
+		if (row == -1) {
+			JOptionPane.showMessageDialog(contentPane, "You have to choose worker first!");
+			return null;
+		}
+		String address = table.getModel().getValueAt(row, 1).toString();
+		String city = table.getModel().getValueAt(row, 2).toString();
+		String email = table.getModel().getValueAt(row, 4).toString();
+		String last_name = table.getModel().getValueAt(row, 3).toString();
+		String password = table.getModel().getValueAt(row, 5).toString();
+		
+		Branch b = new Branch(address, city, email, last_name, password);		
+		return b;
+	}
+
+
+	public JTable getTable() {
 		if (table == null) {
 			table = new JTable();
 			table.setRowHeight(50);
@@ -102,6 +129,15 @@ public class Branches extends JFrame {
 	private JButton getBtnUpdateBranch() {
 		if (btnUpdateBranch == null) {
 			btnUpdateBranch = new JButton("UPDATE BRANCH");
+			btnUpdateBranch.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					Branch b = tableBranch();
+					
+						EditBranch e = new EditBranch(b);
+						e.setVisible(true);
+					
+				}
+			});
 			btnUpdateBranch.setBounds(738, 72, 132, 42);
 		}
 		return btnUpdateBranch;
