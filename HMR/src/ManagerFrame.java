@@ -22,6 +22,7 @@ public class ManagerFrame extends JFrame {
 	private JButton btnChangeShft;
 	private JButton btnWorkers;
 	private JButton btnBranches;
+	
 	public ManagerFrame() {
 		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		setBounds(100, 100, 972, 711);

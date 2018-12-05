@@ -5,6 +5,8 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import java.awt.SystemColor;
 
@@ -58,6 +60,9 @@ public class LogInFrame extends JFrame {
 					dispose();
 					ManagerFrame mf = new ManagerFrame();
 					mf.setVisible(true);
+				}else {
+					JOptionPane.showMessageDialog(contentPane, "Username or password are invalid:");
+					textField_1.setText("");
 				}
 			}
 		});
