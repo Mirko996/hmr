@@ -29,9 +29,7 @@ public class Branches extends JFrame {
 	private JButton btnRemoveBranch;
 	private JButton btnUpdateBranch;
 
-	/**
-	 * Create the frame.
-	 */
+
 	public Branches() {
 		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		setBounds(100, 100, 900, 550);
