@@ -25,8 +25,10 @@ public class Workers extends JFrame {
 	private JButton btnAddEmployee;
 	private JButton btnRemoveEmployee;
 	private JButton btnUpdateEmployee;
+	public String username;
 
-	public Workers() {
+	public Workers(String username) {
+		this.username = username;
 		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		setBounds(100, 100, 900, 550);
 		contentPane = new JPanel();
@@ -76,6 +78,9 @@ public class Workers extends JFrame {
 			btnAddEmployee = new JButton("ADD EMPLOYEE");
 			btnAddEmployee.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
+
+					AddEmployee ae = new AddEmployee(username);
+					ae.setVisible(true);
 				}
 			});
 			btnAddEmployee.setBounds(418, 108, 132, 42);

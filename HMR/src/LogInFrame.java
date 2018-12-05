@@ -44,7 +44,7 @@ public class LogInFrame extends JFrame {
 		textField = new JTextField();
 		textField.setBounds(180, 97, 116, 22);
 		contentPane.add(textField);
-		textField.setColumns(10);
+		textField.setColumns(10); 
 
 		textField_1 = new JTextField();
 		textField_1.setBounds(180, 132, 116, 22);
@@ -56,7 +56,7 @@ public class LogInFrame extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				if (Data.logIn(textField_1.getText().toString(), textField.getText().toString())) {
 					dispose();
-					ManagerFrame mf = new ManagerFrame();
+					ManagerFrame mf = new ManagerFrame(textField.getText().toString());
 					mf.setVisible(true);
 				}
 			}

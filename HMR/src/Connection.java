@@ -1,12 +1,15 @@
+import java.awt.Frame;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.JOptionPane;
+
 public class Connection {
 
-	String path;
-	String password;
-	String user;
+	private String path;
+	private String password;
+	private String user;
 
 	private java.sql.Connection conn = null;
 
@@ -16,6 +19,10 @@ public class Connection {
 		this.path = path;
 		this.user = user;
 		this.password = password;
+	}
+
+	// empty constructor
+	public Connection() {
 	}
 
 	public boolean open() {
@@ -112,5 +119,50 @@ public class Connection {
 		}
 
 		return branches;
+	}
+
+	public boolean insertEmployee(Worker w, String branchId) {
+		System.out.println(branchId);
+
+		String sql = "INSERT INTO workers(fk_branc_id, name, last_name, email, password) VALUES ('"+branchId+"','" + w.getName() + "','"
+				+ w.getLast_name() + "', '" + w.getEmail() + "','" + w.getPassword() + "')";
+//		String sqlCheck = "select * from workers where email like '" + w.getEmail() + "'";
+		Statement s;
+		try {
+			if (open()) {
+////				s = conn.createStatement();
+//				ResultSet rs = s.executeQuery(sqlCheck);
+//				if (!rs.next()) {
+				s = conn.createStatement();
+				s.executeUpdate(sql);
+				close();
+				return true;
+//				}else {
+//					return false;
+//				}	
+			}
+		} catch (SQLException e1) {
+			System.out.println(e1.getMessage());
+			return false;
+		}
+		return false;
+	}
+
+	public String getBranchId(String username) {
+		
+		String sql = "select id from `branches` WHERE name = '"+username+"'";
+		try {
+			String ss = "";
+			Statement s = conn.createStatement();
+			ResultSet rs = s.executeQuery(sql);
+			while (rs.next()) {
+				ss =rs.getString("id");
+			}
+			return ss;
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+			return null;
+		}
+		
 	}
 }

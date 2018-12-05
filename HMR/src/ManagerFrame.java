@@ -22,6 +22,9 @@ public class ManagerFrame extends JFrame {
 	private JButton btnChangeShft;
 	private JButton btnWorkers;
 	private JButton btnBranches;
+	private JLabel lblSearch;
+	public String username;
+
 	public ManagerFrame() {
 		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		setBounds(100, 100, 972, 711);
@@ -30,26 +33,57 @@ public class ManagerFrame extends JFrame {
 		contentPane.setBackground(SystemColor.activeCaption);
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-		
-		JLabel lblSearch = new JLabel("Search:");
-		lblSearch.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		lblSearch.setBounds(37, 23, 56, 16);
-		contentPane.add(lblSearch);
-		
-		
-		textField = new JTextField();
-		textField.setBounds(105, 21, 156, 22);
-		contentPane.add(textField);
-		textField.setColumns(10);
+
+		contentPane.add(getLblSearch());
+
+		contentPane.add(getTextField());
 		contentPane.add(getBtnAddShifts());
 		contentPane.add(getBtnChangeShft());
 		contentPane.add(getBtnWorkers());
 		contentPane.add(getBtnBranches());
 	}
-	
-	public void dataImport() {
-		
+	public ManagerFrame(String username) {
+		this.username = username;
+		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+		setBounds(100, 100, 972, 711);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		contentPane.setBackground(SystemColor.activeCaption);
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+
+		contentPane.add(getLblSearch());
+
+		contentPane.add(getTextField());
+		contentPane.add(getBtnAddShifts());
+		contentPane.add(getBtnChangeShft());
+		contentPane.add(getBtnWorkers());
+		contentPane.add(getBtnBranches());
 	}
+
+	private JLabel getLblSearch() {
+		if (lblSearch == null) {
+			lblSearch = new JLabel("Search:");
+			lblSearch.setFont(new Font("Tahoma", Font.PLAIN, 16));
+			lblSearch.setBounds(37, 23, 56, 16);
+		}
+		return lblSearch;
+	}
+
+	private JTextField getTextField() {
+		if (textField == null) {
+			textField = new JTextField();
+			textField.setColumns(10);
+			textField.setBounds(105, 21, 156, 22);
+		}
+
+		return textField;
+	}
+
+	public void dataImport() {
+
+	}
+
 	private JButton getBtnAddShifts() {
 		if (btnAddShifts == null) {
 			btnAddShifts = new JButton("Add shifts");
@@ -63,6 +97,7 @@ public class ManagerFrame extends JFrame {
 		}
 		return btnAddShifts;
 	}
+
 	private JButton getBtnChangeShft() {
 		if (btnChangeShft == null) {
 			btnChangeShft = new JButton("Change Shift");
@@ -70,12 +105,13 @@ public class ManagerFrame extends JFrame {
 		}
 		return btnChangeShft;
 	}
+
 	private JButton getBtnWorkers() {
 		if (btnWorkers == null) {
 			btnWorkers = new JButton("Workers");
 			btnWorkers.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
-					Workers wr = new Workers();
+					Workers wr = new Workers(username);
 					wr.setVisible(true);
 				}
 			});
@@ -83,6 +119,7 @@ public class ManagerFrame extends JFrame {
 		}
 		return btnWorkers;
 	}
+
 	private JButton getBtnBranches() {
 		if (btnBranches == null) {
 			btnBranches = new JButton("Branches");

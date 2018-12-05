@@ -7,7 +7,7 @@ import java.sql.*;
 public class Data {
 
 
-	static Connection c = new Connection(
+	public static Connection c = new Connection(
 			"jdbc:mysql://localhost:3306/hrm_base", "root", "");
 
 
@@ -28,6 +28,12 @@ public class Data {
 	public static List<Branch> branches(){
 		return c.getBranches();
 	}
+	public static boolean insertEmloyeeData(Worker w, String branchId) {
+		return c.insertEmployee(w, branchId);
+	}
 
+	public static String getIdBranchData(String username) {
+		return c.getBranchId(username);
+	}
 
 }
