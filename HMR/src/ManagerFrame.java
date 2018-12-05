@@ -22,9 +22,13 @@ public class ManagerFrame extends JFrame {
 	private JButton btnChangeShft;
 	private JButton btnWorkers;
 	private JButton btnBranches;
+<<<<<<< HEAD
 	private JLabel lblSearch;
 	public String username;
 
+=======
+	
+>>>>>>> a3dce5b044f7f41ccb3f98e7195b8f8b1612c850
 	public ManagerFrame() {
 		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		setBounds(100, 100, 972, 711);

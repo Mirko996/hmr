@@ -108,17 +108,37 @@ public class Connection {
 					} else {
 						boo = false;
 					}
-					Branch b = new Branch(rs.getInt("id"), rs.getString("address"), rs.getString("email"),
-							rs.getString("name"), rs.getString("password"), boo);
+					Branch b = new Branch(rs.getInt("id"), rs.getString("address"), rs.getString("city"),
+							rs.getString("email"), rs.getString("name"), rs.getString("password"), boo);
 					branches.add(b);
 				}
-
+				close();
 			} catch (SQLException e) {
 				e.printStackTrace();
+				return null;
 			}
 		}
-
 		return branches;
+	}
+
+	public boolean insertBranch(Branch b) {
+		if (open()) {
+
+			String sql = "INSERT INTO branches(address,city,email,name,password) VALUES ('" + b.getAddres() + "','"
+					+ b.getCity() + "','" + b.getEmail() + "','" + b.getName() + "', '" + b.getPassword() + "' )";
+			try {
+
+				Statement s = conn.createStatement();
+				s.executeUpdate(sql);
+				close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+				return false;
+			}
+			return true;
+		}
+		return false;
+
 	}
 
 	public boolean insertEmployee(Worker w, String branchId) {

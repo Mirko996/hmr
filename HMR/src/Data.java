@@ -28,8 +28,14 @@ public class Data {
 	public static List<Branch> branches(){
 		return c.getBranches();
 	}
+<<<<<<< HEAD
 	public static boolean insertEmloyeeData(Worker w, String branchId) {
 		return c.insertEmployee(w, branchId);
+=======
+	
+	public static boolean InsertBranch(Branch b) {
+		return c.insertBranch(b);
+>>>>>>> a3dce5b044f7f41ccb3f98e7195b8f8b1612c850
 	}
 
 	public static String getIdBranchData(String username) {

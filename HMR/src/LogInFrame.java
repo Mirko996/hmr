@@ -5,6 +5,8 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import java.awt.SystemColor;
 
@@ -12,12 +14,13 @@ import javax.swing.JTextField;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.JPasswordField;
 
 public class LogInFrame extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField textField;
-	private JTextField textField_1;
+	private JPasswordField passwordField;
 
 	/**
 	 * Create the frame.
@@ -46,23 +49,24 @@ public class LogInFrame extends JFrame {
 		contentPane.add(textField);
 		textField.setColumns(10); 
 
-		textField_1 = new JTextField();
-		textField_1.setBounds(180, 132, 116, 22);
-		contentPane.add(textField_1);
-		textField_1.setColumns(10);
-
 		JButton btnLogIn = new JButton("Log in");
 		btnLogIn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (Data.logIn(textField_1.getText().toString(), textField.getText().toString())) {
+				if (Data.logIn(passwordField.getText().toString(), textField.getText().toString())) {
 					dispose();
 					ManagerFrame mf = new ManagerFrame(textField.getText().toString());
 					mf.setVisible(true);
+				}else {
+					JOptionPane.showMessageDialog(contentPane, "Username or password are invalid:");
+					passwordField.setText("");
 				}
 			}
 		});
 		btnLogIn.setBounds(130, 210, 116, 38);
 		contentPane.add(btnLogIn);
+		
+		passwordField = new JPasswordField();
+		passwordField.setBounds(180, 132, 116, 22);
+		contentPane.add(passwordField);
 	}
-
 }

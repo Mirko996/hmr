@@ -54,7 +54,6 @@ public class Workers extends JFrame {
 		contentPane.add(getBtnAddEmployee());
 		contentPane.add(getBtnRemoveEmployee());
 		contentPane.add(getBtnUpdateEmployee());
-		
 		}
 
 	private JTable getTable() {
