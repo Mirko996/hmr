@@ -37,7 +37,7 @@ public class AddEmployee extends JFrame {
 	 */
 	public AddEmployee(String username) {
 		this.username = username;
-//		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		setBounds(100, 100, 496, 350);
 		contentPane = new JPanel();
 		contentPane.setBackground(SystemColor.activeCaption);

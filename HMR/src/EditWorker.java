@@ -9,6 +9,7 @@ import java.awt.TextField;
 
 import javax.swing.JTextField;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
@@ -29,7 +30,7 @@ public class EditWorker extends JFrame {
 	private JPasswordField passwordField;
 	private JLabel label_4;
 	private JPasswordField passwordField_1;
-	private JButton button;
+	private JButton btnUpdate;
 	private Worker w;
 
 	/**
@@ -37,13 +38,40 @@ public class EditWorker extends JFrame {
 	 */
 	public EditWorker(Worker w) {
 		this.w = w;
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		setBounds(100, 100, 495, 351);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		contentPane.add(getPanel());
+	}
+
+	public boolean validateAdding() {
+		if (getTextField().getText().trim().equals("")) {
+			JOptionPane.showMessageDialog(contentPane, "Field Name can't be empty!", "WARNIRG",
+					JOptionPane.WARNING_MESSAGE);
+			return false;
+		} else if (getTextField_1().getText().trim().equals("")) {
+			JOptionPane.showMessageDialog(contentPane, "Field Last name can't be empty!", "WARNIRG",
+					JOptionPane.WARNING_MESSAGE);
+			return false;
+		} else if (getTextField_2().getText().trim().equals("")) {
+
+			JOptionPane.showMessageDialog(contentPane, "Field Email can't be empty!", "WARNIRG",
+					JOptionPane.WARNING_MESSAGE);
+			return false;
+		} else if (getPasswordField().getText().trim().equals("")) {
+			JOptionPane.showMessageDialog(contentPane, "Field Password can't be empty!", "WARNIRG",
+					JOptionPane.WARNING_MESSAGE);
+			return false;
+		} else if (!(getPasswordField().getText().trim().equals(getPasswordField_1().getText().trim()))) {
+			JOptionPane.showMessageDialog(contentPane, "Password doesn't match!", "WARNIRG",
+					JOptionPane.WARNING_MESSAGE);
+			return false;
+		} else {
+			return true;
+		}
 	}
 
 	private JPanel getPanel() {
@@ -63,11 +91,12 @@ public class EditWorker extends JFrame {
 			panel.add(getPasswordField());
 			panel.add(getLabel_4());
 			panel.add(getPasswordField_1());
-			panel.add(getButton());
+			panel.add(getBtnUpdate());
 			fill();
 		}
 		return panel;
 	}
+
 	private void fill() {
 		textField.setText(w.getName());
 		textField_1.setText(w.getLast_name());
@@ -75,6 +104,7 @@ public class EditWorker extends JFrame {
 		passwordField.setText(w.getPassword());
 		passwordField_1.setText(w.getPassword());
 	}
+
 	private JTextField getTextField() {
 		if (textField == null) {
 			textField = new JTextField();
@@ -84,6 +114,7 @@ public class EditWorker extends JFrame {
 		}
 		return textField;
 	}
+
 	private JLabel getLabel() {
 		if (label == null) {
 			label = new JLabel("Name:");
@@ -91,6 +122,7 @@ public class EditWorker extends JFrame {
 		}
 		return label;
 	}
+
 	private JLabel getLabel_1() {
 		if (label_1 == null) {
 			label_1 = new JLabel("Last name");
@@ -98,6 +130,7 @@ public class EditWorker extends JFrame {
 		}
 		return label_1;
 	}
+
 	private JTextField getTextField_1() {
 		if (textField_1 == null) {
 			textField_1 = new JTextField();
@@ -106,6 +139,7 @@ public class EditWorker extends JFrame {
 		}
 		return textField_1;
 	}
+
 	private JLabel getLabel_2() {
 		if (label_2 == null) {
 			label_2 = new JLabel("Email:");
@@ -113,6 +147,7 @@ public class EditWorker extends JFrame {
 		}
 		return label_2;
 	}
+
 	private JTextField getTextField_2() {
 		if (textField_2 == null) {
 			textField_2 = new JTextField();
@@ -121,6 +156,7 @@ public class EditWorker extends JFrame {
 		}
 		return textField_2;
 	}
+
 	private JLabel getLabel_3() {
 		if (label_3 == null) {
 			label_3 = new JLabel("Password:");
@@ -128,6 +164,7 @@ public class EditWorker extends JFrame {
 		}
 		return label_3;
 	}
+
 	private JPasswordField getPasswordField() {
 		if (passwordField == null) {
 			passwordField = new JPasswordField();
@@ -135,6 +172,7 @@ public class EditWorker extends JFrame {
 		}
 		return passwordField;
 	}
+
 	private JLabel getLabel_4() {
 		if (label_4 == null) {
 			label_4 = new JLabel("Password:");
@@ -142,6 +180,7 @@ public class EditWorker extends JFrame {
 		}
 		return label_4;
 	}
+
 	private JPasswordField getPasswordField_1() {
 		if (passwordField_1 == null) {
 			passwordField_1 = new JPasswordField();
@@ -149,17 +188,21 @@ public class EditWorker extends JFrame {
 		}
 		return passwordField_1;
 	}
-	private JButton getButton() {
-		if (button == null) {
-			button = new JButton("ADD");
-			button.addActionListener(new ActionListener() {
+
+	private JButton getBtnUpdate() {
+		if (btnUpdate == null) {
+			btnUpdate = new JButton("UPDATE");
+			btnUpdate.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					
-					
+					if (validateAdding()) {
+						Worker w = new Worker(getTextField().getText().trim(), getTextField_1().getText().trim(),
+								getTextField_2().getText().trim(), getPasswordField().getText().trim());
+						Data.editWorker(w);
+					}
 				}
 			});
-			button.setBounds(179, 251, 147, 49);
+			btnUpdate.setBounds(179, 251, 147, 49);
 		}
-		return button;
+		return btnUpdate;
 	}
 }

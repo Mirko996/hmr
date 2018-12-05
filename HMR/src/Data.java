@@ -24,6 +24,9 @@ public class Data {
 	public static List<Worker> workers() {
 		return c.getWorkers();
 	}
+	public static List<Worker> workersByBranch(int id) {
+		return c.getWorkersByBranch(id);
+	}
 	
 	public static List<Branch> branches(){
 		return c.getBranches();
@@ -47,6 +50,12 @@ public class Data {
 			return true;
 		}
 		return false;
+		
+	}
+
+
+	public static boolean editWorker(Worker w) {
+		return c.editWorker(w);
 		
 	}
 
