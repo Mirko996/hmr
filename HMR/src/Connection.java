@@ -75,7 +75,7 @@ public class Connection {
 				Statement s = conn.createStatement();
 				ResultSet rs = s.executeQuery(sql);
 				while (rs.next()) {
-					Worker w = new Worker(rs.getString("name"), rs.getString("last_name"), rs.getString("email"),
+					Worker w = new Worker(rs.getInt("id"), rs.getString("name"), rs.getString("last_name"), rs.getString("email"),
 							rs.getString("password"), rs.getString("active"));
 					workers.add(w);
 				}
@@ -144,8 +144,8 @@ public class Connection {
 	public boolean insertEmployee(Worker w, String branchId) {
 		System.out.println(branchId);
 
-		String sql = "INSERT INTO workers(fk_branc_id, name, last_name, email, password) VALUES ('"+branchId+"','" + w.getName() + "','"
-				+ w.getLast_name() + "', '" + w.getEmail() + "','" + w.getPassword() + "')";
+		String sql = "INSERT INTO workers(fk_branc_id, name, last_name, email, password) VALUES ('" + branchId + "','"
+				+ w.getName() + "','" + w.getLast_name() + "', '" + w.getEmail() + "','" + w.getPassword() + "')";
 //		String sqlCheck = "select * from workers where email like '" + w.getEmail() + "'";
 		Statement s;
 		try {
@@ -169,20 +169,39 @@ public class Connection {
 	}
 
 	public String getBranchId(String username) {
-		
-		String sql = "select id from `branches` WHERE name = '"+username+"'";
-		try {
-			String ss = "";
-			Statement s = conn.createStatement();
-			ResultSet rs = s.executeQuery(sql);
-			while (rs.next()) {
-				ss =rs.getString("id");
+		if (open()) {
+			String sql = "select id from `branches` WHERE name = '" + username + "'";
+			try {
+				String ss = "";
+				Statement s = conn.createStatement();
+				ResultSet rs = s.executeQuery(sql);
+				while (rs.next()) {
+					ss = rs.getString("id");
+				}
+				return ss;
+			} catch (SQLException e) {
+				System.out.println(e.getMessage());
+				return null;
 			}
-			return ss;
-		} catch (SQLException e) {
-			System.out.println(e.getMessage());
-			return null;
+
 		}
-		
+		return null;
+	}
+
+	public boolean removeWorker(int id) {
+
+		if (open()) {
+			String sql = "UPDATE workers SET active = " + "'0'" + " where id = " + "'" + id + "'";
+			try {
+
+				Statement s = conn.createStatement();
+				s.executeUpdate(sql);
+				return true;
+			} catch (SQLException e) {
+				e.printStackTrace();
+				return false;
+			}
+		}
+		return false;
 	}
 }

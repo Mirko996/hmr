@@ -5,16 +5,16 @@ public class Worker {
 	private String email;
 	private String password;
 	private String active;
-	private String username;
-
+	private int id;
 	// with active
-	public Worker(String name, String last_name, String email, String password, String active) {
+	public Worker( int id, String name, String last_name, String email, String password, String active) {
 		super();
 		this.name = name;
 		this.last_name = last_name;
 		this.email = email;
 		this.password = password;
 		this.active = active;
+		this.id = id;
 	}
 
 	// without active
@@ -33,6 +33,14 @@ public class Worker {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+	
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	public String getLast_name() {

@@ -91,6 +91,10 @@ public class Branches extends JFrame {
 	private JButton getBtnRemoveBranch() {
 		if (btnRemoveBranch == null) {
 			btnRemoveBranch = new JButton("REMOVE BRANCH");
+			btnRemoveBranch.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+				}
+			});
 			btnRemoveBranch.setBounds(594, 72, 132, 42);
 		}
 		return btnRemoveBranch;
