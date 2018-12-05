@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 04, 2018 at 01:33 PM
+-- Generation Time: Dec 05, 2018 at 11:33 PM
 -- Server version: 10.1.36-MariaDB
 -- PHP Version: 7.2.11
 
@@ -43,8 +43,20 @@ CREATE TABLE `branches` (
 --
 
 INSERT INTO `branches` (`id`, `address`, `city`, `email`, `name`, `password`, `active`) VALUES
-(1, 'Bulevar Dzordza Vasingtona 92', 'Podgorica', 'synergysuite@synergysuite.com', 'SynergySuiteP1', 'synergysuite', 1),
-(2, 'Belvederska 22', 'Podgorica', 'exampleemail@gmail.com', 'SynergySuiteP2', 'belvederska123', 1);
+(1, 'Bulevar Dzordza Vasingtona 92', 'PodgoricaAAAA', 'synergysuite@synergysuite.com', 'SynergySuiteP1', 'synergysuite', 1),
+(2, 'Belvederska 22', 'Podgorica', 'exampleemail@gmail.com', 'SynergySuiteP2', 'belvederska123', 1),
+(3, '3', '4', '1', '2', '5', 1),
+(4, 'a1', 'c1', '1', '44', '1', 1),
+(5, 'Belvederska 22', 'Podgorica', 'Name', 'Mail', 'belvederska123', 1),
+(6, '22', '22', '22', '22', '22', 1),
+(7, '6', '4', '5', '3', '7', 1),
+(8, '4', '2', '3', '1', '5', 1),
+(9, '3', '4', '1', '2', '5', 0),
+(10, '4', '2', '1', '3', '5', 1),
+(11, '4', '2', '1', '3', '5', 1),
+(12, '4', '2', '5', '3', '1', 1),
+(13, 'admin', 'admin', 'admin', 'admin', 'admin', 1),
+(14, 'admin', 'admin', 'admin', 'admin', 'admin', 1);
 
 -- --------------------------------------------------------
 
@@ -80,12 +92,15 @@ CREATE TABLE `workers` (
 --
 
 INSERT INTO `workers` (`id`, `fk_branc_id`, `name`, `last_name`, `email`, `password`, `active`) VALUES
-(1, 1, 'Anton', 'Djokaj', 'anton.djokaj@synergysuite.com', 'anton', 1),
-(2, 1, 'Mirko', 'Tomovic', 'mirko.tomovic@synergysuite.com', 'mirko', 1),
-(3, 1, 'Milan', 'Maric', 'milan.maric@gmail.com', 'milan123', 1),
-(4, 1, 'Andjela', 'Milic', 'aldjela.milic@gmail.com', 'andjela123', 1),
+(1, 1, 'Anton', 'Djokaj', 'anton.dj@synergysuite.com', 'anton', 0),
+(2, 1, 'Mirko', 'Tomovic', 'mirko.tomovic@synergysuite.com', 'mirko', 0),
+(3, 1, '123', '132', '1232', '1', 1),
+(4, 1, 'Andjela', 'Milic', 'aldjela.milic@gmail.com', 'andjela123', 0),
 (5, 1, 'Sava', 'Softic', 'sava123@gmail.com', 'sava123', 1),
-(6, 1, 'Milica', 'Milacic', 'milicam@gmail.com', 'milica123', 1);
+(6, 1, 'Milica', 'Milacic', 'milicam@gmail.com', 'milica123', 1),
+(7, 3, '1', '12', '1', '1', 0),
+(8, 3, '1', '1', '1', '1', 1),
+(9, 3, '23', '23', '23', '2', 1);
 
 --
 -- Indexes for dumped tables
@@ -120,7 +135,7 @@ ALTER TABLE `workers`
 -- AUTO_INCREMENT for table `branches`
 --
 ALTER TABLE `branches`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `shifts`
@@ -132,7 +147,7 @@ ALTER TABLE `shifts`
 -- AUTO_INCREMENT for table `workers`
 --
 ALTER TABLE `workers`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- Constraints for dumped tables
