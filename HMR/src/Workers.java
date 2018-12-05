@@ -18,7 +18,7 @@ public class Workers extends JFrame {
 	private String[] columnName = { "Name", "Last name", "Email", "Password" };
 
 	public Workers() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		setBounds(100, 100, 900, 550);
 		contentPane = new JPanel();
 		contentPane.setBackground(SystemColor.activeCaption);

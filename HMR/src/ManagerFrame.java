@@ -23,7 +23,7 @@ public class ManagerFrame extends JFrame {
 	private JButton btnWorkers;
 	private JButton btnBranches;
 	public ManagerFrame() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		setBounds(100, 100, 972, 711);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -88,8 +88,8 @@ public class ManagerFrame extends JFrame {
 			btnBranches = new JButton("Branches");
 			btnBranches.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					
-					
+					Branches b = new Branches();
+					b.setVisible(true);
 				}
 			});
 			btnBranches.setBounds(779, 13, 111, 38);
