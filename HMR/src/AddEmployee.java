@@ -121,6 +121,7 @@ public class AddEmployee extends JFrame {
 	private JPasswordField getTxtEmployeePassword() {
 		if (txtEmployeePassword == null) {
 			txtEmployeePassword = new JPasswordField();
+		
 			txtEmployeePassword.setBounds(158, 156, 203, 20);
 		}
 		return txtEmployeePassword;
