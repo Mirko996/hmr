@@ -7,6 +7,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.JTable;
+import javax.swing.JScrollPane;
 
 public class Workers extends JFrame {
 
@@ -15,6 +16,7 @@ public class Workers extends JFrame {
 	Object[][] objects = null;
 
 	private String[] columnName = { "Name", "Last name", "Email", "Password" };
+	private JScrollPane scrollPane;
 
 	public Workers() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -23,7 +25,8 @@ public class Workers extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-		contentPane.add(getTable());
+		//contentPane.add(getTable());
+		contentPane.add(getScrollPane());
 		Object[][] objcts = new Object[Data.workers().size()][4];
 		int c = 0;
 		List<Worker> wrk = Data.workers();
@@ -35,13 +38,23 @@ public class Workers extends JFrame {
 		
 		DefaultTableModel dtm = new DefaultTableModel(objcts, columnName) ;
 		table.setModel(dtm);
-	}
+		
+		}
 
 	private JTable getTable() {
 		if (table == null) {
 			table = new JTable();
-			table.setBounds(0, 134, 884, 377);
+			table.setBounds(0, 338, 884, 173);
+			table.setRowHeight(50);
 		}
 		return table;
+	}
+	private JScrollPane getScrollPane() {
+		if (scrollPane == null) {
+			scrollPane = new JScrollPane();
+			scrollPane.setBounds(10, 181, 884, 319);
+			scrollPane.setViewportView(getTable());
+			}
+		return scrollPane;
 	}
 }
