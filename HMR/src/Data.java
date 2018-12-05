@@ -42,4 +42,13 @@ public class Data {
 		}
 	}
 
+
+	public static boolean removeWorker(int id) {
+		if(c.removeWorker(id)) {
+			return true;
+		}
+		return false;
+		
+	}
+
 }

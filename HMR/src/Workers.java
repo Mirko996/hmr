@@ -3,6 +3,7 @@ import java.awt.EventQueue;
 import java.util.List;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
@@ -20,7 +21,7 @@ public class Workers extends JFrame {
 	private JTable table;
 	Object[][] objects = null;
 
-	private String[] columnName = { "Name", "Last name", "Email", "Password", "Active" };
+	private String[] columnName = { "ID", "Name", "Last name", "Email", "Password", "Active" };
 	private JScrollPane scrollPane;
 	private JButton btnAddEmployee;
 	private JButton btnRemoveEmployee;
@@ -36,14 +37,15 @@ public class Workers extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-		//contentPane.add(getTable());
+		// contentPane.add(getTable());
 		contentPane.add(getScrollPane());
-		Object[][] objcts = new Object[Data.workers().size()][5];
+		Object[][] objcts = new Object[Data.workers().size()][6];
 		int c = 0;
 		List<Worker> wrk = Data.workers();
 		if (wrk != null) {
 			for (Worker w : wrk) {
-				Object[] oo = { w.getName(), w.getLast_name(), w.getEmail(), w.getPassword() ,w.getActive()};
+				Object[] oo = { w.getId(), w.getName(), w.getLast_name(), w.getEmail(), w.getPassword(),
+						w.getActive() };
 				objcts[c] = oo;
 				c++;
 			}
@@ -54,7 +56,7 @@ public class Workers extends JFrame {
 		contentPane.add(getBtnAddEmployee());
 		contentPane.add(getBtnRemoveEmployee());
 		contentPane.add(getBtnUpdateEmployee());
-		}
+	}
 
 	private JTable getTable() {
 		if (table == null) {
@@ -64,14 +66,16 @@ public class Workers extends JFrame {
 		}
 		return table;
 	}
+
 	private JScrollPane getScrollPane() {
 		if (scrollPane == null) {
 			scrollPane = new JScrollPane();
 			scrollPane.setBounds(10, 181, 884, 319);
 			scrollPane.setViewportView(getTable());
-			}
+		}
 		return scrollPane;
 	}
+
 	private JButton getBtnAddEmployee() {
 		if (btnAddEmployee == null) {
 			btnAddEmployee = new JButton("ADD EMPLOYEE");
@@ -86,16 +90,50 @@ public class Workers extends JFrame {
 		}
 		return btnAddEmployee;
 	}
+
+	private Worker tableWorker() {
+		int row = table.getSelectedRow();
+		if (row == -1) {
+			JOptionPane.showMessageDialog(contentPane, "You have to choose worker first!");
+			return null;
+		}
+		int id = (int) table.getModel().getValueAt(row, 0);
+		String name = table.getModel().getValueAt(row, 1).toString();
+		String last_name = table.getModel().getValueAt(row, 2).toString();
+		String email = table.getModel().getValueAt(row, 3).toString();
+		String password = table.getModel().getValueAt(row, 4).toString();
+		String active = table.getModel().getValueAt(row, 5).toString();
+
+		Worker w = new Worker(id, name, last_name, email, password, active);
+		return w;
+	}
+
 	private JButton getBtnRemoveEmployee() {
 		if (btnRemoveEmployee == null) {
 			btnRemoveEmployee = new JButton("REMOVE EMPOLOYEE");
+			btnRemoveEmployee.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					int row = table.getSelectedRow();
+					Data.removeWorker((int) table.getModel().getValueAt(row, 0));
+				}
+			});
 			btnRemoveEmployee.setBounds(567, 108, 135, 42);
 		}
 		return btnRemoveEmployee;
 	}
+
 	private JButton getBtnUpdateEmployee() {
 		if (btnUpdateEmployee == null) {
 			btnUpdateEmployee = new JButton("UPDATE EMPLOYEE");
+			btnUpdateEmployee.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					Worker w = tableWorker();
+					if(w != null) {
+						EditWorker ew = new EditWorker(w);
+						ew.setVisible(true);
+					}
+				}
+			});
 			btnUpdateEmployee.setBounds(722, 108, 135, 42);
 		}
 		return btnUpdateEmployee;
