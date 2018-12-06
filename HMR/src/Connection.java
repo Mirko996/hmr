@@ -66,24 +66,20 @@ public class Connection {
 	}
 
 	public List<Worker> getWorkers() {
-		String sql = "SELECT * FROM workers";
+		String sql = "SELECT w.id, w.fk_branc_id, b.name, w.name, w.last_name, w.email, w.password, w.active FROM workers w, branches b where w.fk_branc_id = b.id";
 		if (open()) {
 			try {
 				List<Worker> workers = new ArrayList<Worker>();
 				Statement s = conn.createStatement();
 				ResultSet rs = s.executeQuery(sql);
 				while (rs.next()) {
-<<<<<<< HEAD
-					Worker w = new Worker(rs.getInt("id"), rs.getString("name"), rs.getString("last_name"),
-							rs.getString("email"), rs.getString("password"), rs.getString("active"));
-=======
 					boolean active = false;
-					if(rs.getString("active").equalsIgnoreCase("1")) {
+					if(rs.getString("w.active").equalsIgnoreCase("1")) {
 						active = true;
 					}
-					Worker w = new Worker(rs.getInt("id"), rs.getInt("fk_branc_id"), rs.getString("name"),
-							rs.getString("last_name"), rs.getString("email"), rs.getString("password"), active);
->>>>>>> 386982dc1570703ebb657696f0e7a237e84f8c25
+					Worker w = new Worker(rs.getInt("w.id") ,rs.getString("b.name"), rs.getString("w.name"),
+							rs.getString("w.last_name"), rs.getString("w.email"), rs.getString("w.password"), active);
+
 					workers.add(w);
 				}
 				close();
@@ -212,10 +208,6 @@ public class Connection {
 				Statement s = conn.createStatement();
 				ResultSet rs = s.executeQuery(sql);
 				while (rs.next()) {
-<<<<<<< HEAD
-					Worker w = new Worker(rs.getInt("id"), rs.getString("name"), rs.getString("last_name"),
-							rs.getString("email"), rs.getString("password"), rs.getString("active"));
-=======
 					boolean active = false;
 					if(rs.getString("active").equalsIgnoreCase("1")) {
 						active = true;
@@ -223,7 +215,6 @@ public class Connection {
 					Worker w = new Worker(rs.getInt("id"), rs.getInt("fk_branc_id"), rs.getString("name"),
 							rs.getString("last_name"), rs.getString("email"), rs.getString("password"),
 							active);
->>>>>>> 386982dc1570703ebb657696f0e7a237e84f8c25
 					workers.add(w);
 				}
 				close();
@@ -237,11 +228,9 @@ public class Connection {
 	}
 
 	public boolean editWorker(Worker w) {
-<<<<<<< HEAD
+
 		// String sql = "UPDATE workers SET fk_branc_id = 1,name = 2,last_name = 3,email
 		// = 4,password = 5,active = 1 WHERE id = '0'";
-		return true;
-=======
 		if (open()) {
 			String sql = "UPDATE workers SET name = '" + w.getName()
 					+ "',last_name = '" + w.getLast_name() + "',email = '" + w.getEmail() + "',password = '"
@@ -328,23 +317,7 @@ public class Connection {
 			}
 		}
 		return false;
->>>>>>> 386982dc1570703ebb657696f0e7a237e84f8c25
 	}
 
-	public boolean editBranch(Branch b) {
-		String sql = "UPDATE branches SET name = '" + b.getName() + "', email = '" + b.getEmail() + "', address = '"
-				+ b.getAddres() + "', city='" + b.getCity() + "', password ='" + b.getPassword() + "' WHERE id = '"
-				+ b.getId() + "'";
-		if (open()) {
-			try {
-				Statement s = conn.createStatement();
-				s.executeUpdate(sql);
-				return true;
-			} catch (SQLException e) {
-				System.out.println(e.getMessage());
-				return false;
-			}
-		}
-		return false;
-	}
+	
 }

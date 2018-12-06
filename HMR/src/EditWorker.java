@@ -205,7 +205,11 @@ public class EditWorker extends JFrame {
 								getTextField_1().getText().trim(), getTextField_2().getText().trim(),
 								getPasswordField().getText().trim(), w.isActive());
 						if (Data.editWorker(w1)) {
-							updateTable();
+							if (Workers.isAdmin(username)) {
+								Workers.updateTableAadmin();
+							} else {
+								Workers.updateTable();
+							}
 							dispose();
 							JOptionPane.showMessageDialog(contentPane, "Success!", "WARNIRG",
 									JOptionPane.INFORMATION_MESSAGE);
@@ -216,26 +220,25 @@ public class EditWorker extends JFrame {
 					}
 				}
 			});
-			btnUpdate.setBounds(179, 251, 147, 49);
+			btnUpdate.setBounds(179, 243, 147, 49);
 		}
 		return btnUpdate;
 	}
 
-	public void updateTable() {
-		Object[][] objcts = new Object[Data.workersByBranch(Data.getIdBranchData(username))
-				.size()][6];
-		int c = 0;
-		int id =Data.getIdBranchData(username);
-		List<Worker> wrk = Data.workersByBranch(id);
-		if (wrk != null) {
-			for (Worker w : wrk) {
-				Object[] oo = { w.getId(), w.getName(), w.getLast_name(), w.getEmail(), w.getPassword(),
-						w.isActive() };
-				objcts[c] = oo;
-				c++;
-			}
-		}
-		DefaultTableModel dtm = new DefaultTableModel(objcts, columnName);
-		Workers.table.setModel(dtm);
-	}
+
+//	public void updateTable() {
+//		Object[][] objcts = new Object[Data.workersByBranch(Data.getIdBranchData(username)).size()][6];
+//		int c = 0;
+//		int id = Data.getIdBranchData(username);
+//		List<Worker> wrk = Data.workersByBranch(id);
+//		if (wrk != null) {
+//			for (Worker w : wrk) {
+//				Object[] oo = { w.getId(), w.getName(), w.getLast_name(), w.getEmail(), w.getPassword(), w.isActive() };
+//				objcts[c] = oo;
+//				c++;
+//			}
+//		}
+//		DefaultTableModel dtm = new DefaultTableModel(objcts, columnName);
+//		Workers.table.setModel(dtm);
+//	}
 }

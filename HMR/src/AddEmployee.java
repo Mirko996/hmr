@@ -177,24 +177,22 @@ public class AddEmployee extends JFrame {
 		getTxtEmployeePassword().setText("");
 		getTxtEmployeeConfirmPassword().setText("");
 	}
-	
-	public void updateTable() {
-		Object[][] objcts = new Object[Data.workersByBranch(Data.getIdBranchData(username))
-				.size()][6];
-		int c = 0;
-		int id =Data.getIdBranchData(username);
-		List<Worker> wrk = Data.workersByBranch(id);
-		if (wrk != null) {
-			for (Worker w : wrk) {
-				Object[] oo = { w.getId(), w.getName(), w.getLast_name(), w.getEmail(), w.getPassword(),
-						w.isActive() };
-				objcts[c] = oo;
-				c++;
-			}
-		}
-		DefaultTableModel dtm = new DefaultTableModel(objcts, columnName);
-		Workers.table.setModel(dtm);
-	}
+//
+//	public void updateTable() {
+//		Object[][] objcts = new Object[Data.workersByBranch(Data.getIdBranchData(username)).size()][6];
+//		int c = 0;
+//		int id = Data.getIdBranchData(username);
+//		List<Worker> wrk = Data.workersByBranch(id);
+//		if (wrk != null) {
+//			for (Worker w : wrk) {
+//				Object[] oo = { w.getId(), w.getName(), w.getLast_name(), w.getEmail(), w.getPassword(), w.isActive() };
+//				objcts[c] = oo;
+//				c++;
+//			}
+//		}
+//		DefaultTableModel dtm = new DefaultTableModel(objcts, columnName);
+//		Workers.table.setModel(dtm);
+//	}
 
 	private JButton getBtnEmployeeAdd() {
 		if (btnEmployeeAdd == null) {
@@ -207,9 +205,12 @@ public class AddEmployee extends JFrame {
 								txtEmployeeEmail.getText().trim(), txtEmployeePassword.getText().trim());
 						int branchId = Data.getIdBranchData(username);
 						if (Data.insertEmloyeeData(w, branchId)) {
-							JOptionPane.showMessageDialog(frame, "Success!", "DONE",
-									JOptionPane.INFORMATION_MESSAGE);
-							updateTable();
+							JOptionPane.showMessageDialog(frame, "Success!", "DONE", JOptionPane.INFORMATION_MESSAGE);
+							if (Workers.isAdmin(username)) {
+								Workers.updateTableAadmin();
+							} else {
+								Workers.updateTable();
+							}
 							clearForm();
 							dispose();
 

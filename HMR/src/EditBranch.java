@@ -1,10 +1,9 @@
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
-<<<<<<< HEAD
+
 import java.awt.JobAttributes;
-=======
+
 import java.util.List;
->>>>>>> 386982dc1570703ebb657696f0e7a237e84f8c25
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -17,10 +16,9 @@ import javax.swing.JPasswordField;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-<<<<<<< HEAD
-=======
+
 import java.awt.SystemColor;
->>>>>>> 386982dc1570703ebb657696f0e7a237e84f8c25
+
 
 public class EditBranch extends JFrame {
 
@@ -39,14 +37,9 @@ public class EditBranch extends JFrame {
 	private JPasswordField txtPasswordConfirm;
 	private JButton btEdit;
 	private Branch b;
-<<<<<<< HEAD
 	private JTextField txtIdNotVisible;
-	private JFrame frame;
-
-=======
 	private String[] columnName = { "ID", "Address", "City", "Name", "Email", "Password", "Active" };
 	private JFrame frame;
->>>>>>> 386982dc1570703ebb657696f0e7a237e84f8c25
 	/**
 	 * Create the frame.
 	 */
@@ -112,8 +105,7 @@ public class EditBranch extends JFrame {
 		txtCity.setText(b.getCity());
 		txtPassword.setText(b.getPassword());
 		txtPasswordConfirm.setText(b.getPassword());
-<<<<<<< HEAD
-=======
+
 	}
 
 	public void updateTable() {
@@ -131,7 +123,6 @@ public class EditBranch extends JFrame {
 		}
 		DefaultTableModel dtm = new DefaultTableModel(objects, columnName);
 		Branches.table.setModel(dtm);
->>>>>>> 386982dc1570703ebb657696f0e7a237e84f8c25
 	}
 
 	private JLabel getLblName() {
@@ -238,22 +229,6 @@ public class EditBranch extends JFrame {
 		if (btEdit == null) {
 			btEdit = new JButton("EDIT");
 			btEdit.addActionListener(new ActionListener() {
-<<<<<<< HEAD
-				public void actionPerformed(ActionEvent arg0) {
-					if (Data.editBranch(b)) {
-						JOptionPane.showMessageDialog(frame, "Successfully edited", "Success",
-								JOptionPane.INFORMATION_MESSAGE);
-						dispose();
-						return;
-					} else {
-						JOptionPane.showMessageDialog(frame, "Something went wrong!", "Warning",
-								JOptionPane.WARNING_MESSAGE);
-						return;
-					}
-				}
-			});
-			btEdit.setBounds(199, 255, 89, 46);
-=======
 				public void actionPerformed(ActionEvent e) {
 					if (validateAdding()) {				
 							Branch b1 = new Branch(b.getId(), getTxtAddress().getText(), getTxtCity().getText(), getTxtName().getText(),getTxtEmail().getText(), getTxtPassword().getText(),true);
@@ -272,8 +247,7 @@ public class EditBranch extends JFrame {
 				}
 			});
 			btEdit.setBounds(155, 242, 89, 46);
->>>>>>> 386982dc1570703ebb657696f0e7a237e84f8c25
-		}
+			}
 		return btEdit;
 	}
 

@@ -2,13 +2,25 @@
 public class Worker {
 	private String name;
 	private String last_name;
+	private String branchName;
 	private String email;
 	private String password;
 	private boolean active;
 	private int id;
 	private int frBranch;
 	
-	public Worker( int id,int frBranch, String name, String last_name, String email, String password, boolean active) {
+	public Worker( int id, String branchName, String name, String last_name, String email, String password, boolean active) {
+		super();
+		this.name = name;
+		this.last_name = last_name;
+		this.email = email;
+		this.branchName = branchName;
+		this.password = password;
+		this.active = active;
+		this.id = id;
+		this.frBranch = frBranch;
+	}
+	public Worker( int id,int frBranch,  String name, String last_name, String email, String password, boolean active) {
 		super();
 		this.name = name;
 		this.last_name = last_name;
@@ -18,7 +30,6 @@ public class Worker {
 		this.id = id;
 		this.frBranch = frBranch;
 	}
-
 	// without active
 	public Worker(String name, String last_name, String email, String password) {
 		super();
@@ -38,6 +49,13 @@ public class Worker {
 		this.active = active;
 	}
 	
+	
+	public String getBranchName() {
+		return branchName;
+	}
+	public void setBranchName(String branchName) {
+		this.branchName = branchName;
+	}
 	public int getFrBranch() {
 		return frBranch;
 	}

@@ -75,28 +75,22 @@ public class Branches extends JFrame {
 			JOptionPane.showMessageDialog(contentPane, "You have to choose branch first!");
 			return null;
 		}
-<<<<<<< HEAD
 		String id = table.getModel().getValueAt(row, 0).toString();
-=======
 		boolean active = false;
-		int id = Integer.parseInt(table.getModel().getValueAt(row, 0).toString());
->>>>>>> 386982dc1570703ebb657696f0e7a237e84f8c25
+//		int id = Integer.parseInt(table.getModel().getValueAt(row, 0).toString());
 		String address = table.getModel().getValueAt(row, 1).toString();
 		String city = table.getModel().getValueAt(row, 2).toString();
 		String email = table.getModel().getValueAt(row, 4).toString();
 		String name = table.getModel().getValueAt(row, 3).toString();
 		String password = table.getModel().getValueAt(row, 5).toString();
-<<<<<<< HEAD
 	
 		
-		Branch b = new Branch(Integer.parseInt(id) ,address, city, email, last_name, password);		
-=======
+//		Branch b = new Branch(Integer.parseInt(id) ,address, city, email, name, password);		
 		if(table.getModel().getValueAt(row, 6).toString().equalsIgnoreCase("true")) {
 			active = false;
 		}
 
-		Branch b = new Branch(id,address, city, email, name, password,active);
->>>>>>> 386982dc1570703ebb657696f0e7a237e84f8c25
+		Branch b = new Branch(Integer.parseInt(id),address, city, email, name, password,active);
 		return b;
 	}
 

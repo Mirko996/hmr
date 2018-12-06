@@ -20,13 +20,13 @@ public class Workers extends JFrame {
 	private JPanel contentPane;
 	static JTable table;
 	Object[][] objects = null;
-
-	private String[] columnName = { "ID", "Name", "Last name", "Email", "Password", "Active" };
+	private static String[] columnNameAdmin = { "ID", "Branch", "Name", "Last name", "Email", "Password", "Active" };
+	private static String[] columnName = { "ID", "Name", "Last name", "Email", "Password", "Active" };
 	private JScrollPane scrollPane;
 	private JButton btnAddEmployee;
 	private JButton btnRemoveEmployee;
 	private JButton btnUpdateEmployee;
-	private String username;
+	private static String username;
 	private JButton btnReturnEmployee;
 
 	public Workers(String username) {
@@ -43,19 +43,50 @@ public class Workers extends JFrame {
 		contentPane.add(getBtnRemoveEmployee());
 		contentPane.add(getBtnUpdateEmployee());
 		contentPane.add(getBtnReturnEmployee());
-		updateTable();
+		if (isAdmin(username)) {
+			updateTableAadmin();
+		} else {
+			updateTable();
+		}
 	}
 
-	public void updateTable() {
-		Object[][] objcts = new Object[Data.workersByBranch(Data.getIdBranchData(username))
-				.size()][6];
+	public static boolean isAdmin(String username) {
+		if (username.equalsIgnoreCase("admin")) {
+			return true;
+		}
+		return false;
+	}
+
+	public static void updateTableAadmin() {
+		Object[][] objcts = new Object[Data.workers().size()][7];
+		int c = 0;
+		List<Worker> wrk = Data.workers();
+		if (wrk != null) {
+			for (Worker w : wrk) {
+				Object[] oo = { w.getId(), w.getBranchName(), w.getName(), w.getLast_name(), w.getEmail(),
+						w.getPassword(), w.isActive() };
+				objcts[c] = oo;
+				c++;
+			}
+		}
+		DefaultTableModel dtm;
+		if (isAdmin(username)) {
+			dtm = new DefaultTableModel(objcts, columnNameAdmin);
+		} else {
+			dtm = new DefaultTableModel(objcts, columnName);
+		}
+		table.setModel(dtm);
+
+	}
+
+	public static void updateTable() {
+		Object[][] objcts = new Object[Data.workersByBranch(Data.getIdBranchData(username)).size()][6];
 		int c = 0;
 		int id = Data.getIdBranchData(username);
 		List<Worker> wrk = Data.workersByBranch(id);
 		if (wrk != null) {
 			for (Worker w : wrk) {
-				Object[] oo = { w.getId(), w.getName(), w.getLast_name(), w.getEmail(), w.getPassword(),
-						w.isActive() };
+				Object[] oo = { w.getId(), w.getName(), w.getLast_name(), w.getEmail(), w.getPassword(), w.isActive() };
 				objcts[c] = oo;
 				c++;
 			}
@@ -104,12 +135,26 @@ public class Workers extends JFrame {
 			return null;
 		}
 		boolean active = false;
-		int id = (int) table.getModel().getValueAt(row, 0);
-		String name = table.getModel().getValueAt(row, 1).toString();
-		String last_name = table.getModel().getValueAt(row, 2).toString();
-		String email = table.getModel().getValueAt(row, 3).toString();
-		String password = table.getModel().getValueAt(row, 4).toString();
-		if(table.getModel().getValueAt(row, 5).toString().equalsIgnoreCase("true")) {
+		int id;
+		String name;
+		String last_name;
+		String email;
+		String password;
+		if (isAdmin(username)) {
+			id = (int) table.getModel().getValueAt(row, 0);
+			name = table.getModel().getValueAt(row, 2).toString();
+			last_name = table.getModel().getValueAt(row, 3).toString();
+			email = table.getModel().getValueAt(row, 4).toString();
+			password = table.getModel().getValueAt(row, 5).toString();
+		} else {
+			id = (int) table.getModel().getValueAt(row, 0);
+			name = table.getModel().getValueAt(row, 1).toString();
+			last_name = table.getModel().getValueAt(row, 2).toString();
+			email = table.getModel().getValueAt(row, 3).toString();
+			password = table.getModel().getValueAt(row, 4).toString();
+
+		}
+		if (table.getModel().getValueAt(row, 5).toString().equalsIgnoreCase("true")) {
 			active = false;
 		}
 
@@ -123,11 +168,15 @@ public class Workers extends JFrame {
 			btnRemoveEmployee.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					int row = table.getSelectedRow();
-					if(row != -1) {
-					Data.removeWorker((int) table.getModel().getValueAt(row, 0));
-					updateTable();
-					JOptionPane.showMessageDialog(contentPane, "Success!");
-					}else {
+					if (row != -1) {
+						Data.removeWorker((int) table.getModel().getValueAt(row, 0));
+						if (isAdmin(username)) {
+							updateTableAadmin();
+						} else {
+							updateTable();
+						}
+						JOptionPane.showMessageDialog(contentPane, "Success!");
+					} else {
 						JOptionPane.showMessageDialog(contentPane, "Success!");
 
 					}
@@ -154,6 +203,7 @@ public class Workers extends JFrame {
 		}
 		return btnUpdateEmployee;
 	}
+
 	private JButton getBtnReturnEmployee() {
 		if (btnReturnEmployee == null) {
 			btnReturnEmployee = new JButton("RESTORE EMPLOYEE");
@@ -165,8 +215,12 @@ public class Workers extends JFrame {
 						return;
 					}
 					Data.restoreWorker((int) table.getModel().getValueAt(row, 0));
-					updateTable();
-					JOptionPane.showMessageDialog(contentPane, "Success!");	
+					if (isAdmin(username)) {
+						updateTableAadmin();
+					} else {
+						updateTable();
+					}
+					JOptionPane.showMessageDialog(contentPane, "Success!");
 				}
 			});
 			btnReturnEmployee.setBounds(219, 108, 155, 42);

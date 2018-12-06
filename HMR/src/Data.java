@@ -58,9 +58,6 @@ public static List<Worker> workersByBranch(int id) {
 		return c.restoreWorker(id);	
 	}
 
-	public static boolean editBranch(Branch b) {
-		return c.editBranch(b);
-	}
 
 	public static boolean removeBranch(int id) {
 		return c.removeBranch(id);
