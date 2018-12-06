@@ -26,6 +26,7 @@ public class ManagerFrame extends JFrame {
 
 	private JLabel lblSearch;
 	public String username;
+	private JButton btnLogout;
 
 	public ManagerFrame(String username) {
 		this.username = username;
@@ -42,6 +43,7 @@ public class ManagerFrame extends JFrame {
 		contentPane.add(getBtnChangeShft());
 		contentPane.add(getBtnWorkers());
 		contentPane.add(getBtnBranches());
+		contentPane.add(getBtnLogout());
 		if (!username.equals("admin")) {
 			btnBranches.setVisible(false);
 		}
@@ -122,5 +124,19 @@ public class ManagerFrame extends JFrame {
 			btnBranches.setBounds(779, 13, 111, 38);
 		}
 		return btnBranches;
+	}
+	private JButton getBtnLogout() {
+		if (btnLogout == null) {
+			btnLogout = new JButton("Logout");
+			btnLogout.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					dispose();
+					LogInFrame lf = new LogInFrame();
+					lf.setVisible(true);
+				}
+			});
+			btnLogout.setBounds(779, 86, 111, 38);
+		}
+		return btnLogout;
 	}
 }
