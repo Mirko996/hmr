@@ -45,6 +45,7 @@ public class Workers extends JFrame {
 		contentPane.add(getBtnReturnEmployee());
 		if (isAdmin(username)) {
 			updateTableAadmin();
+			btnAddEmployee.setVisible(false);
 		} else {
 			updateTable();
 		}
@@ -123,7 +124,7 @@ public class Workers extends JFrame {
 					ae.setVisible(true);
 				}
 			});
-			btnAddEmployee.setBounds(386, 108, 132, 42);
+			btnAddEmployee.setBounds(219, 108, 132, 42);
 		}
 		return btnAddEmployee;
 	}
@@ -223,7 +224,7 @@ public class Workers extends JFrame {
 					JOptionPane.showMessageDialog(contentPane, "Success!");
 				}
 			});
-			btnReturnEmployee.setBounds(219, 108, 155, 42);
+			btnReturnEmployee.setBounds(363, 108, 155, 42);
 		}
 		return btnReturnEmployee;
 	}
