@@ -1,3 +1,6 @@
+import javax.persistence.Entity;
+
+@Entity
 public class Branch {
 
 	private int id;
