@@ -1,30 +1,11 @@
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
+import com.toedter.calendar.JDateChooser;
+
+import javax.swing.*;
+import javax.swing.border.EmptyBorder;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-
-import org.jdatepicker.impl.JDatePanelImpl;
-import org.jdatepicker.impl.JDatePickerImpl;
-import org.jdatepicker.impl.UtilDateModel;
-
-import com.toedter.calendar.JDateChooser;
-import com.toedter.calendar.JDayChooser;
-import com.toedter.calendar.JCalendar;
-import javax.swing.JLabel;
-import java.awt.Font;
-import java.awt.Label;
-import java.util.Calendar;
-import java.util.List;
-
-import javax.swing.JComboBox;
-import javax.swing.JButton;
-import java.awt.SystemColor;
-import javax.swing.JCheckBox;
 
 public class AddShiftFrame extends JFrame {
 

@@ -1,8 +1,5 @@
-import java.util.ArrayList;
 import java.util.List;
 
-import com.mysql.jdbc.Statement;
-import java.sql.*;
 
 public class Data {
 
