@@ -74,10 +74,10 @@ public class Connection {
 				ResultSet rs = s.executeQuery(sql);
 				while (rs.next()) {
 					boolean active = false;
-					if(rs.getString("w.active").equalsIgnoreCase("1")) {
+					if (rs.getString("w.active").equalsIgnoreCase("1")) {
 						active = true;
 					}
-					Worker w = new Worker(rs.getInt("w.id") ,rs.getString("b.name"), rs.getString("w.name"),
+					Worker w = new Worker(rs.getInt("w.id"), rs.getString("b.name"), rs.getString("w.name"),
 							rs.getString("w.last_name"), rs.getString("w.email"), rs.getString("w.password"), active);
 
 					workers.add(w);
@@ -209,12 +209,11 @@ public class Connection {
 				ResultSet rs = s.executeQuery(sql);
 				while (rs.next()) {
 					boolean active = false;
-					if(rs.getString("active").equalsIgnoreCase("1")) {
+					if (rs.getString("active").equalsIgnoreCase("1")) {
 						active = true;
 					}
 					Worker w = new Worker(rs.getInt("id"), rs.getInt("fk_branc_id"), rs.getString("name"),
-							rs.getString("last_name"), rs.getString("email"), rs.getString("password"),
-							active);
+							rs.getString("last_name"), rs.getString("email"), rs.getString("password"), active);
 					workers.add(w);
 				}
 				close();
@@ -232,9 +231,9 @@ public class Connection {
 		// String sql = "UPDATE workers SET fk_branc_id = 1,name = 2,last_name = 3,email
 		// = 4,password = 5,active = 1 WHERE id = '0'";
 		if (open()) {
-			String sql = "UPDATE workers SET name = '" + w.getName()
-					+ "',last_name = '" + w.getLast_name() + "',email = '" + w.getEmail() + "',password = '"
-					+ w.getPassword() + "',active = 1 WHERE id = '" + w.getId() + "'";
+			String sql = "UPDATE workers SET name = '" + w.getName() + "',last_name = '" + w.getLast_name()
+					+ "',email = '" + w.getEmail() + "',password = '" + w.getPassword() + "',active = 1 WHERE id = '"
+					+ w.getId() + "'";
 			try {
 				Statement s = conn.createStatement();
 				s.executeUpdate(sql);
@@ -268,9 +267,9 @@ public class Connection {
 	public boolean editBranch(Branch b) {
 
 		if (open()) {
-			String sql = "UPDATE branches SET address = '" + b.getAddres() + "',name = '" + b.getName()
-					+ "',city = '" + b.getCity() + "',email = '" + b.getEmail() + "',password = '"
-					+ b.getPassword() + "',active = 1 WHERE id = '" + b.getId() + "'";
+			String sql = "UPDATE branches SET address = '" + b.getAddres() + "',name = '" + b.getName() + "',city = '"
+					+ b.getCity() + "',email = '" + b.getEmail() + "',password = '" + b.getPassword()
+					+ "',active = 1 WHERE id = '" + b.getId() + "'";
 			try {
 				Statement s = conn.createStatement();
 				s.executeUpdate(sql);
@@ -299,7 +298,7 @@ public class Connection {
 			}
 		}
 		return false;
-		
+
 	}
 
 	public boolean restoreBranch(int id) {
@@ -319,5 +318,25 @@ public class Connection {
 		return false;
 	}
 
-	
+	public boolean updatWorkersBranch(String branch, String id) {
+		if (open()) {
+			String sql = "SELECT id FROM branches WHERE name = '" + branch + "'";
+			try {
+				Statement s = conn.createStatement();
+				ResultSet rs = s.executeQuery(sql);
+				while (rs.next()) {
+					String sql2 = "UPDATE workers SET fk_branc_id = " +  rs.getInt("id") + " where id = " + "'" + id + "'";
+					Statement s2 = conn.createStatement();
+					s2.executeUpdate(sql2);
+				}
+				close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+				return false;
+			}
+			return true;
+		}
+		return false;
+	}
+
 }

@@ -1,8 +1,5 @@
-import java.util.ArrayList;
 import java.util.List;
 
-import com.mysql.jdbc.Statement;
-import java.sql.*;
 
 public class Data {
 
@@ -72,6 +69,10 @@ public static List<Worker> workersByBranch(int id) {
 	///not working
 	public static boolean editBranch(Branch b) {
 		return c.editBranch(b);
+	}
+	
+	public static boolean updateWorkersBranch(String s, String c1) {
+		return c.updatWorkersBranch(s,c1);
 	}
 
 }
