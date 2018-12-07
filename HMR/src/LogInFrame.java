@@ -1,36 +1,40 @@
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
+import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 
-import java.awt.Font;
-import java.awt.SystemColor;
+import org.hibernate.HibernateException;
+import org.hibernate.SessionFactory;
+import org.hibernate.cfg.Configuration;
 
-import javax.swing.JTextField;
-import javax.swing.JButton;
-import java.awt.event.ActionListener;
+import java.awt.*;
 import java.awt.event.ActionEvent;
-import javax.swing.JPasswordField;
+import java.awt.event.ActionListener;
 
 public class LogInFrame extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField textField;
 	private JPasswordField passwordField;
+	static SessionFactory factory;
 	
 	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
+				
 				try {
 					LogInFrame frame = new LogInFrame();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
+				}
+				
+				try{
+					
+					factory = new Configuration().configure().addAnnotatedClass(Branch.class).addAnnotatedClass(Worker.class).buildSessionFactory();
+					
+					
+				}catch(HibernateException ex) {
+					ex.printStackTrace();
 				}
 			}
 		});

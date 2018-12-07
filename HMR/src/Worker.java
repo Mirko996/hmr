@@ -1,15 +1,41 @@
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.Transient;
+
+
+@Entity
+@Table(name = "workers")
 public class Worker {
-	private String name;
-	private String last_name;
-	private String branchName;
-	private String email;
-	private String password;
-	private boolean active;
-	private int id;
-	private int frBranch;
 	
-	public Worker( int id, String branchName, String name, String last_name, String email, String password, boolean active) {
+	@Column(name = "name")
+	private String name;
+	
+	@Column(name = "last_name")
+	private String last_name;
+	
+	@Column(name = "branch_name")
+	private String branchName;
+	
+	@Column(name = "email")
+	private String email;
+	
+	@Column(name = "password")
+	private String password;
+	
+	@Column(name = "active")
+	private int active;
+	
+	@Id
+	@Column(name = "id")
+	private int id;
+	
+	@Column(name = "fk_branc_id")
+	private int frBranch;
+	public Worker() {}
+	public Worker( int id, String branchName, String name, String last_name, String email, String password, int active) {
 		super();
 		this.name = name;
 		this.last_name = last_name;
@@ -20,7 +46,7 @@ public class Worker {
 		this.id = id;
 		this.frBranch = frBranch;
 	}
-	public Worker( int id,int frBranch,  String name, String last_name, String email, String password, boolean active) {
+	public Worker( int id,int frBranch,  String name, String last_name, String email, String password, int active) {
 		super();
 		this.name = name;
 		this.last_name = last_name;
@@ -39,7 +65,7 @@ public class Worker {
 		this.password = password;
 	}
 	
-	public Worker(int id, String name, String last_name, String email, String password, boolean active) {
+	public Worker(int id, String name, String last_name, String email, String password, int active) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -104,11 +130,11 @@ public class Worker {
 		this.password = password;
 	}
 
-	public boolean isActive() {
+	public int getActive() {
 		return active;
 	}
 
-	public void setActive(boolean active) {
+	public void setActive(int active) {
 		this.active = active;
 	}
 

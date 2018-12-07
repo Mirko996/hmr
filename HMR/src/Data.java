@@ -4,17 +4,18 @@ import java.util.List;
 public class Data {
 
 	public static Connection c = new Connection("jdbc:mysql://localhost:3306/hrm_base", "root", "");
+	public static Connections connH = new Connections();
 
 	public static boolean logIn(String pass, String username) {
-		return c.validateLogIn(pass, username);
+		return connH.validateLogIn(pass, username);
 	}
 
 	public static List<Shift> shifts() {
-		return c.getShifts();
+		return connH.getShifts();
 	}
 
 	public static List<Worker> workers() {
-		return c.getWorkers();
+		return connH.getWorkers();
 	}
 
 public static List<Worker> workersByBranch(int id) {

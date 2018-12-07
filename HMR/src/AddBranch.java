@@ -236,12 +236,12 @@ public class AddBranch extends JFrame {
 		if (branches != null) {
 			for (Branch b : branches) {
 				Object[] branch = { b.getId(), b.getAddres(), b.getCity(), b.getEmail(), b.getName(), b.getPassword(),
-						b.isActive() };
+						b.getActive() };
 				objects[num] = branch;
 				num++;
 			}
 		}
 		DefaultTableModel dtm = new DefaultTableModel(objects, columnName);
-		Branches.table.setModel(dtm);
+		BranchesFrame.table.setModel(dtm);
 	}
 }
