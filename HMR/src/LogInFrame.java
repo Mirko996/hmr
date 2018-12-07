@@ -1,5 +1,10 @@
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+
+import org.hibernate.HibernateException;
+import org.hibernate.SessionFactory;
+import org.hibernate.cfg.Configuration;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -9,16 +14,27 @@ public class LogInFrame extends JFrame {
 	private JPanel contentPane;
 	private JTextField textField;
 	private JPasswordField passwordField;
+	static SessionFactory factory;
 	
 	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
+				
 				try {
 					LogInFrame frame = new LogInFrame();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
+				}
+				
+				try{
+					
+					factory = new Configuration().configure().addAnnotatedClass(Branch.class).addAnnotatedClass(Worker.class).buildSessionFactory();
+					
+					
+				}catch(HibernateException ex) {
+					ex.printStackTrace();
 				}
 			}
 		});

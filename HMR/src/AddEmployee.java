@@ -206,10 +206,10 @@ public class AddEmployee extends JFrame {
 						int branchId = Data.getIdBranchData(username);
 						if (Data.insertEmloyeeData(w, branchId)) {
 							JOptionPane.showMessageDialog(frame, "Success!", "DONE", JOptionPane.INFORMATION_MESSAGE);
-							if (Workers.isAdmin(username)) {
-								Workers.updateTableAadmin();
+							if (WorkersFrame.isAdmin(username)) {
+								WorkersFrame.updateTableAadmin();
 							} else {
-								Workers.updateTable();
+								WorkersFrame.updateTable();
 							}
 							clearForm();
 							dispose();

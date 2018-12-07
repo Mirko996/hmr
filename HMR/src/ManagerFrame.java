@@ -103,7 +103,7 @@ public class ManagerFrame extends JFrame {
 			btnWorkers = new JButton("Workers");
 			btnWorkers.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
-					Workers wr = new Workers(username);
+					WorkersFrame wr = new WorkersFrame(username);
 					wr.setVisible(true);
 				}
 			});
@@ -117,7 +117,7 @@ public class ManagerFrame extends JFrame {
 			btnBranches = new JButton("Branches");
 			btnBranches.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					Branches b = new Branches(username);
+					BranchesFrame b = new BranchesFrame(username);
 					b.setVisible(true);
 				}
 			});

@@ -1,14 +1,40 @@
+import javax.persistence.Column;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.Entity;
+
+@Entity
+@Table(name = "branches")
 public class Branch {
 
+	@Id
+	@Column(name = "id")
 	private int id;
-	private String addres;
-	private String email;
-	private String name;
-	private String password;
-	private String city;
-	private boolean active;
 	
-	public Branch(int id, String addres, String city, String email, String name, String password, boolean active) {
+	@Column(name = "address")
+	private String addres;
+	
+	@Column(name = "email")
+	private String email;
+	
+	@Column(name = "name")
+	private String name;
+	
+	@Column(name = "password")
+	private String password;
+	
+	@Column(name = "city")
+	private String city;
+	
+	@Column(name = "active")
+	private int active;
+	
+	
+	
+	public Branch() {
+		super();
+	}
+	public Branch(int id, String addres, String city, String email, String name, String password, int active) {
 		super();
 		this.id = id;
 		this.addres = addres;
@@ -76,11 +102,11 @@ public class Branch {
 		this.password = password;
 	}
 
-	public boolean isActive() {
+	public int getActive() {
 		return active;
 	}
 
-	public void setActive(boolean active) {
+	public void setActive(int active) {
 		this.active = active;
 	}
 	

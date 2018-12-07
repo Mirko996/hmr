@@ -20,7 +20,7 @@ import javax.swing.JLabel;
 import java.awt.Font;
 import javax.swing.SwingConstants;
 
-public class Workers extends JFrame {
+public class WorkersFrame extends JFrame {
 
 	private JPanel contentPane;
 	static JTable table;
@@ -42,7 +42,7 @@ public class Workers extends JFrame {
 	private String idChange;
 	private String branchC;
 
-	public Workers(String username) {
+	public WorkersFrame(String username) {
 		this.username = username;
 		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		setBounds(100, 100, 900, 706);
@@ -79,11 +79,11 @@ public class Workers extends JFrame {
 	public static void updateTableAadmin() {
 		Object[][] objcts = new Object[Data.workers().size()][7];
 		int c = 0;
-		List<Worker> wrk = Data.workers();
+		List<Worker> wrk = (List<Worker>)Data.workers();
 		if (wrk != null) {
 			for (Worker w : wrk) {
 				Object[] oo = { w.getId(), w.getBranchName(), w.getName(), w.getLast_name(), w.getEmail(),
-						w.getPassword(), w.isActive() };
+						w.getPassword(), w.getActive() };
 				objcts[c] = oo;
 				c++;
 			}
@@ -105,7 +105,7 @@ public class Workers extends JFrame {
 		List<Worker> wrk = Data.workersByBranch(id);
 		if (wrk != null) {
 			for (Worker w : wrk) {
-				Object[] oo = { w.getId(), w.getName(), w.getLast_name(), w.getEmail(), w.getPassword(), w.isActive() };
+				Object[] oo = { w.getId(), w.getName(), w.getLast_name(), w.getEmail(), w.getPassword(), w.getActive() };
 				objcts[c] = oo;
 				c++;
 			}
@@ -153,30 +153,29 @@ public class Workers extends JFrame {
 			JOptionPane.showMessageDialog(contentPane, "You have to choose worker first!");
 			return null;
 		}
-		boolean active = false;
 		int id;
 		String name;
 		String last_name;
 		String email;
 		String password;
+		int active;
 		if (isAdmin(username)) {
 			id = (int) table.getModel().getValueAt(row, 0);
 			name = table.getModel().getValueAt(row, 2).toString();
 			last_name = table.getModel().getValueAt(row, 3).toString();
 			email = table.getModel().getValueAt(row, 4).toString();
 			password = table.getModel().getValueAt(row, 5).toString();
+			active = (int) table.getModel().getValueAt(row, 5);
 		} else {
 			id = (int) table.getModel().getValueAt(row, 0);
 			name = table.getModel().getValueAt(row, 1).toString();
 			last_name = table.getModel().getValueAt(row, 2).toString();
 			email = table.getModel().getValueAt(row, 3).toString();
 			password = table.getModel().getValueAt(row, 4).toString();
+			 active = (int) table.getModel().getValueAt(row, 5);
+
 
 		}
-		if (table.getModel().getValueAt(row, 5).toString().equalsIgnoreCase("true")) {
-			active = false;
-		}
-
 		Worker w = new Worker(id, name, last_name, email, password, active);
 		return w;
 	}

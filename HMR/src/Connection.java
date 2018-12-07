@@ -73,12 +73,9 @@ public class Connection {
 				Statement s = conn.createStatement();
 				ResultSet rs = s.executeQuery(sql);
 				while (rs.next()) {
-					boolean active = false;
-					if (rs.getString("w.active").equalsIgnoreCase("1")) {
-						active = true;
-					}
+
 					Worker w = new Worker(rs.getInt("w.id"), rs.getString("b.name"), rs.getString("w.name"),
-							rs.getString("w.last_name"), rs.getString("w.email"), rs.getString("w.password"), active);
+							rs.getString("w.last_name"), rs.getString("w.email"), rs.getString("w.password"), (rs.getInt("w.active")));
 
 					workers.add(w);
 				}
@@ -106,13 +103,8 @@ public class Connection {
 				ResultSet rs = s.executeQuery(sql);
 				boolean boo;
 				while (rs.next()) {
-					if (rs.getInt("active") == 1) {
-						boo = true;
-					} else {
-						boo = false;
-					}
 					Branch b = new Branch(rs.getInt("id"), rs.getString("address"), rs.getString("city"),
-							rs.getString("email"), rs.getString("name"), rs.getString("password"), boo);
+							rs.getString("email"), rs.getString("name"), rs.getString("password"), rs.getInt("active"));
 					branches.add(b);
 				}
 				close();
@@ -208,12 +200,8 @@ public class Connection {
 				Statement s = conn.createStatement();
 				ResultSet rs = s.executeQuery(sql);
 				while (rs.next()) {
-					boolean active = false;
-					if (rs.getString("active").equalsIgnoreCase("1")) {
-						active = true;
-					}
 					Worker w = new Worker(rs.getInt("id"), rs.getInt("fk_branc_id"), rs.getString("name"),
-							rs.getString("last_name"), rs.getString("email"), rs.getString("password"), active);
+							rs.getString("last_name"), rs.getString("email"), rs.getString("password"), rs.getInt("active"));
 					workers.add(w);
 				}
 				close();

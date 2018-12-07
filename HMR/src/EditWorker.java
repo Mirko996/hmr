@@ -203,12 +203,12 @@ public class EditWorker extends JFrame {
 					if (validateAdding()) {
 						Worker w1 = new Worker(w.getId(), getTextField().getText().trim(),
 								getTextField_1().getText().trim(), getTextField_2().getText().trim(),
-								getPasswordField().getText().trim(), w.isActive());
+								getPasswordField().getText().trim(), w.getActive());
 						if (Data.editWorker(w1)) {
-							if (Workers.isAdmin(username)) {
-								Workers.updateTableAadmin();
+							if (WorkersFrame.isAdmin(username)) {
+								WorkersFrame.updateTableAadmin();
 							} else {
-								Workers.updateTable();
+								WorkersFrame.updateTable();
 							}
 							dispose();
 							JOptionPane.showMessageDialog(contentPane, "Success!", "WARNIRG",

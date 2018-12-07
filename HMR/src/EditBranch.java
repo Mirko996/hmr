@@ -116,13 +116,13 @@ public class EditBranch extends JFrame {
 		if (branches != null) {
 			for (Branch b : branches) {
 				Object[] branch = { b.getId(), b.getAddres(), b.getCity(), b.getEmail(), b.getName(), b.getPassword(),
-						b.isActive() };
+						b.getActive() };
 				objects[num] = branch;
 				num++;
 			}
 		}
 		DefaultTableModel dtm = new DefaultTableModel(objects, columnName);
-		Branches.table.setModel(dtm);
+		BranchesFrame.table.setModel(dtm);
 	}
 
 	private JLabel getLblName() {
@@ -231,7 +231,7 @@ public class EditBranch extends JFrame {
 			btEdit.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					if (validateAdding()) {				
-							Branch b1 = new Branch(b.getId(), getTxtAddress().getText(), getTxtCity().getText(), getTxtName().getText(),getTxtEmail().getText(), getTxtPassword().getText(),true);
+							Branch b1 = new Branch(b.getId(), getTxtAddress().getText(), getTxtCity().getText(), getTxtName().getText(),getTxtEmail().getText(), getTxtPassword().getText(),1);
 							if(Data.editBranch(b1)) {
 								JOptionPane.showMessageDialog(frame, "Success!", "DONE",
 										JOptionPane.INFORMATION_MESSAGE);
