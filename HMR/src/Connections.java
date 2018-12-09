@@ -38,9 +38,8 @@ public class Connections {
 		Transaction tx = null;
 		
 		try {
-			List<Worker> workers = (List<Worker>) session.createSQLQuery("SELECT w.id, w.fk_branc_id, b.name as branch_name, w.name, w.last_name, w.email, w.password, w.active FROM workers w, branches b where w.fk_branc_id = b.id").addEntity(Worker.class).list();
 			tx = session.beginTransaction();
-			//(List<Worker>)session.createCriteria(Worker.class).list();
+			List<Worker> workers = (List<Worker>) session.createSQLQuery("SELECT w.id, w.fk_branc_id, b.name as branch_name, w.name, w.last_name, w.email, w.password, w.active FROM workers w, branches b where w.fk_branc_id = b.id").addEntity(Worker.class).list();
 			tx.commit();
 			return workers;
 		}catch(HibernateException ex){

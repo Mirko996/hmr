@@ -131,6 +131,7 @@ public class ManagerFrame extends JFrame {
 			btnLogout.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
 					dispose();
+					username = null;
 					LogInFrame lf = new LogInFrame();
 					lf.setVisible(true);
 				}
