@@ -201,10 +201,11 @@ public class AddEmployee extends JFrame {
 				public void actionPerformed(ActionEvent arg0) {
 
 					if (validateAdding()) {
-						Worker w = new Worker(txtEmployeeName.getText().trim(), txtEmployeeSurname.getText().trim(),
-								txtEmployeeEmail.getText().trim(), txtEmployeePassword.getText().trim());
 						int branchId = Data.getIdBranchData(username);
-						if (Data.insertEmloyeeData(w, branchId)) {
+
+						Worker w = new Worker(txtEmployeeName.getText().trim(), branchId ,txtEmployeeSurname.getText().trim(),
+								txtEmployeeEmail.getText().trim(), txtEmployeePassword.getText().trim());
+						if (Data.insertEmployeeDataNew(w)) {
 							JOptionPane.showMessageDialog(frame, "Success!", "DONE", JOptionPane.INFORMATION_MESSAGE);
 							if (WorkersFrame.isAdmin(username)) {
 								WorkersFrame.updateTableAadmin();

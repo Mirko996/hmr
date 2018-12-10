@@ -165,7 +165,7 @@ public class WorkersFrame extends JFrame {
 			last_name = table.getModel().getValueAt(row, 3).toString();
 			email = table.getModel().getValueAt(row, 4).toString();
 			password = table.getModel().getValueAt(row, 5).toString();
-			active = (int) table.getModel().getValueAt(row, 5);
+			active = (int) table.getModel().getValueAt(row, 6);
 		} else {
 			id = (int) table.getModel().getValueAt(row, 0);
 			name = table.getModel().getValueAt(row, 1).toString();
@@ -186,8 +186,8 @@ public class WorkersFrame extends JFrame {
 			btnRemoveEmployee.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					int row = table.getSelectedRow();
-					if (row != -1) {
-						Data.removeWorker((int) table.getModel().getValueAt(row, 0));
+					if (row != -1) { 
+						Data.removeWorkerNew((int) table.getModel().getValueAt(row, 0));
 						if (isAdmin(username)) {
 							updateTableAadmin();
 						} else {
@@ -232,7 +232,7 @@ public class WorkersFrame extends JFrame {
 						JOptionPane.showMessageDialog(contentPane, "You have to choose worker first!");
 						return;
 					}
-					Data.restoreWorker((int) table.getModel().getValueAt(row, 0));
+					Data.restoreWorkerNew((int) table.getModel().getValueAt(row, 0));
 					if (isAdmin(username)) {
 						updateTableAadmin();
 					} else {
@@ -268,7 +268,7 @@ public class WorkersFrame extends JFrame {
 					int i = 0;
 					for (Branch branch : branchChange) {
 						if (!branch.getName().equals(nameB)) {
-							comboBox.insertItemAt(branch.getName(), i);
+							comboBox.insertItemAt(branch.getId() + "-" + branch.getName(), i);
 							i++;
 						}
 					}
@@ -306,8 +306,9 @@ public class WorkersFrame extends JFrame {
 						return;
 					}
 					String branch = comboBox.getSelectedItem() + "";
+					int branchId = Integer.parseInt(comboBox.getSelectedItem().toString().split("-")[0]);
 					
-					if(Data.updateWorkersBranch(branch, idChange)) {
+					if(Data.updateWorkersBranchNew(Integer.parseInt(idChange), branchId)) {
 						JOptionPane.showMessageDialog(contentPane, "Success!");
 						updateTableAadmin();
 						return;

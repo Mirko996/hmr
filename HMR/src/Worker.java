@@ -65,6 +65,14 @@ public class Worker {
 		this.password = password;
 	}
 	
+	public Worker(String name, int frBranch, String last_name, String email, String password) {
+		super();
+		this.name = name;
+		this.frBranch = frBranch;
+		this.last_name = last_name;
+		this.email = email;
+		this.password = password;
+	}
 	public Worker(int id, String name, String last_name, String email, String password, int active) {
 		super();
 		this.id = id;
@@ -140,6 +148,6 @@ public class Worker {
 
 	@Override
 	public String toString() {
-		return name + " " + last_name + ", email: " + email + ", " + ", password: " + password + ", active: " + active;
+		return name + " " + last_name + ", email: " + email +", password: " + password + ", active: " + active;
 	}
 }

@@ -201,10 +201,12 @@ public class EditWorker extends JFrame {
 			btnUpdate.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					if (validateAdding()) {
-						Worker w1 = new Worker(w.getId(), getTextField().getText().trim(),
+						int idBranch = Data.getIdBranchData(username);
+						Worker w1 = new Worker(w.getId(), idBranch, getTextField().getText().trim(),
 								getTextField_1().getText().trim(), getTextField_2().getText().trim(),
 								getPasswordField().getText().trim(), w.getActive());
-						if (Data.editWorker(w1)) {
+							
+						if (Data.editWorkerNew(w1)) {
 							if (WorkersFrame.isAdmin(username)) {
 								WorkersFrame.updateTableAadmin();
 							} else {

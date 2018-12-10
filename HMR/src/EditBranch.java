@@ -232,7 +232,7 @@ public class EditBranch extends JFrame {
 				public void actionPerformed(ActionEvent e) {
 					if (validateAdding()) {				
 							Branch b1 = new Branch(b.getId(), getTxtAddress().getText(), getTxtCity().getText(), getTxtName().getText(),getTxtEmail().getText(), getTxtPassword().getText(),1);
-							if(Data.editBranch(b1)) {
+							if(Data.editBranchNew(b1)) {
 								JOptionPane.showMessageDialog(frame, "Success!", "DONE",
 										JOptionPane.INFORMATION_MESSAGE);
 								updateTable();

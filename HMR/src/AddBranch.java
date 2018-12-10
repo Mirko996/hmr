@@ -195,7 +195,7 @@ public class AddBranch extends JFrame {
 					if (validation()) {
 						Branch b = new Branch(getTextAdress().getText(), getTextCity().getText(),getTextName().getText(),getTextEmail().getText(),
 								  getPasswordField().getText());
-						if (Data.InsertBranch(b)) {
+						if (Data.insertBranchNew(b)) {
 
 							JOptionPane.showMessageDialog(frame, "Success!", "DONE", JOptionPane.INFORMATION_MESSAGE);
 							updateTable();

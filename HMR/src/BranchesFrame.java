@@ -129,7 +129,8 @@ public class BranchesFrame extends JFrame {
 					
 					int row = table.getSelectedRow();
 					if(row != -1) {
-					Data.removeBranch((int) table.getModel().getValueAt(row, 0));
+						
+					Data.removeBranchNew((int) table.getModel().getValueAt(row, 0));
 					updateTable();
 					JOptionPane.showMessageDialog(contentPane, "Success!");
 					}else {
@@ -169,7 +170,7 @@ public class BranchesFrame extends JFrame {
 						JOptionPane.showMessageDialog(contentPane, "You have to choose worker first!");
 						return;
 					}
-					Data.restoreBranch((int) table.getModel().getValueAt(row, 0));
+					Data.restoreBranchNew((int) table.getModel().getValueAt(row, 0));
 					updateTable();
 					JOptionPane.showMessageDialog(contentPane, "Success!");	
 				

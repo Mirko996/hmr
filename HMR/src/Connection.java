@@ -5,6 +5,11 @@ import java.util.List;
 
 import javax.swing.JOptionPane;
 
+
+
+
+
+// NOT USING ANYMORE, IT'S HERE JUST IN CASE.
 public class Connection {
 
 	private String path;
