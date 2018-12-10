@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 10, 2018 at 09:55 PM
+-- Generation Time: Dec 10, 2018 at 10:29 PM
 -- Server version: 10.1.36-MariaDB
 -- PHP Version: 7.2.10
 
@@ -69,20 +69,17 @@ INSERT INTO `branches` (`id`, `address`, `city`, `email`, `name`, `password`, `a
 CREATE TABLE `shifts` (
   `id` int(11) NOT NULL,
   `start_shift` time NOT NULL,
-  `end_shift` time NOT NULL,
-  `branch_id` int(11) DEFAULT NULL,
-  `date` date DEFAULT NULL,
-  `shift_type` int(11) DEFAULT NULL
+  `end_shift` time NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `shifts`
 --
 
-INSERT INTO `shifts` (`id`, `start_shift`, `end_shift`, `branch_id`, `date`, `shift_type`) VALUES
-(1, '08:00:00', '16:00:00', NULL, NULL, NULL),
-(2, '16:00:00', '00:00:00', NULL, NULL, NULL),
-(3, '00:00:00', '08:00:00', NULL, NULL, NULL);
+INSERT INTO `shifts` (`id`, `start_shift`, `end_shift`) VALUES
+(1, '08:00:00', '16:00:00'),
+(2, '16:00:00', '00:00:00'),
+(3, '00:00:00', '08:00:00');
 
 -- --------------------------------------------------------
 
