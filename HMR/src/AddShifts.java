@@ -93,7 +93,7 @@ public class AddShifts extends JFrame {
 		shift3 = new ArrayList<String>();
 		this.username = username;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 1021, 885);
+		setBounds(100, 100, 1021, 844);
 		contentPane = new JPanel();
 		contentPane.setBackground(SystemColor.activeCaption);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -267,7 +267,7 @@ public class AddShifts extends JFrame {
 	private JButton getButton() {
 		if (button == null) {
 			button = new JButton("Add shifts");
-			button.setBounds(749, 760, 138, 53);
+			button.setBounds(641, 316, 138, 53);
 			button.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					String date = null;
@@ -279,6 +279,7 @@ public class AddShifts extends JFrame {
 					}
 					for (int i = 0; i < table1.getRowCount(); i++) {
 						shift1.add((String)table1.getValueAt(i, 0));
+						
 					}
 					if(comboBox.getSelectedIndex() == 2) {
 						for (int i = 0; i < table2.getRowCount(); i++) {
