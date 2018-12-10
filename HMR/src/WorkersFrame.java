@@ -7,6 +7,9 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
+
+import javafx.scene.control.ComboBox;
+
 import javax.swing.JTable;
 import javax.swing.JScrollPane;
 
@@ -31,7 +34,7 @@ public class WorkersFrame extends JFrame {
 	private JButton btnAddEmployee;
 	private JButton btnRemoveEmployee;
 	private JButton btnUpdateEmployee;
-	private static String username;
+	private static String EMAIL;
 	private JButton btnReturnEmployee;
 	private JButton btnChangeEmployeesBranch;
 	private JPanel panel;
@@ -41,12 +44,14 @@ public class WorkersFrame extends JFrame {
 	private JLabel label;
 	private String idChange;
 	private String branchC;
-
-	public WorkersFrame(String username) {
-		this.username = username;
+	
+	
+	public WorkersFrame(String email) {
+		this.EMAIL = email;
 		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		setBounds(100, 100, 900, 706);
 		contentPane = new JPanel();
+		
 		contentPane.setBackground(SystemColor.activeCaption);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -58,7 +63,8 @@ public class WorkersFrame extends JFrame {
 		contentPane.add(getBtnReturnEmployee());
 		contentPane.add(getBtnChangeEmployeesBranch());
 		contentPane.add(getPanel());
-		if (isAdmin(username)) {
+		panel.setVisible(false);
+		if (isAdmin(email)) {
 			contentPane.add(getPanel());
 			panel.setVisible(false);
 			updateTableAadmin();
@@ -67,10 +73,12 @@ public class WorkersFrame extends JFrame {
 			btnChangeEmployeesBranch.setVisible(false);
 			updateTable();
 		}
+		
 	}
-
-	public static boolean isAdmin(String username) {
-		if (username.equalsIgnoreCase("admin")) {
+	
+	
+	public static boolean isAdmin(String email) {
+		if (email.equalsIgnoreCase("admin@synergysuite.com")) {
 			return true;
 		}
 		return false;
@@ -89,7 +97,7 @@ public class WorkersFrame extends JFrame {
 			}
 		}
 		DefaultTableModel dtm;
-		if (isAdmin(username)) {
+		if (isAdmin(EMAIL)) {
 			dtm = new DefaultTableModel(objcts, columnNameAdmin);
 		} else {
 			dtm = new DefaultTableModel(objcts, columnName);
@@ -99,9 +107,9 @@ public class WorkersFrame extends JFrame {
 	}
 
 	public static void updateTable() {
-		Object[][] objcts = new Object[Data.workersByBranch(Data.getIdBranchData(username)).size()][6];
+		Object[][] objcts = new Object[Data.workersByBranch(Data.getIdBranchData(EMAIL)).size()][6];
 		int c = 0;
-		int id = Data.getIdBranchData(username);
+		int id = Data.getIdBranchData(EMAIL);
 		List<Worker> wrk = Data.workersByBranch(id);
 		if (wrk != null) {
 			for (Worker w : wrk) {
@@ -138,7 +146,7 @@ public class WorkersFrame extends JFrame {
 			btnAddEmployee.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
 
-					AddEmployee ae = new AddEmployee(username);
+					AddEmployee ae = new AddEmployee(EMAIL);
 					ae.setVisible(true);
 				}
 			});
@@ -159,7 +167,7 @@ public class WorkersFrame extends JFrame {
 		String email;
 		String password;
 		int active;
-		if (isAdmin(username)) {
+		if (isAdmin(EMAIL)) {
 			id = (int) table.getModel().getValueAt(row, 0);
 			name = table.getModel().getValueAt(row, 2).toString();
 			last_name = table.getModel().getValueAt(row, 3).toString();
@@ -188,7 +196,7 @@ public class WorkersFrame extends JFrame {
 					int row = table.getSelectedRow();
 					if (row != -1) { 
 						Data.removeWorkerNew((int) table.getModel().getValueAt(row, 0));
-						if (isAdmin(username)) {
+						if (isAdmin(EMAIL)) {
 							updateTableAadmin();
 						} else {
 							updateTable();
@@ -212,7 +220,7 @@ public class WorkersFrame extends JFrame {
 				public void actionPerformed(ActionEvent e) {
 					Worker w = tableWorker();
 					if (w != null) {
-						EditWorker ew = new EditWorker(w, username);
+						EditWorker ew = new EditWorker(w, EMAIL);
 						ew.setVisible(true);
 					}
 				}
@@ -233,7 +241,7 @@ public class WorkersFrame extends JFrame {
 						return;
 					}
 					Data.restoreWorkerNew((int) table.getModel().getValueAt(row, 0));
-					if (isAdmin(username)) {
+					if (isAdmin(EMAIL)) {
 						updateTableAadmin();
 					} else {
 						updateTable();
@@ -251,13 +259,11 @@ public class WorkersFrame extends JFrame {
 			btnChangeEmployeesBranch = new JButton("CHANGE EMPLOYEES BRANCH");
 			btnChangeEmployeesBranch.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-
 					int row = table.getSelectedRow();
 					if (row == -1) {
 						JOptionPane.showMessageDialog(contentPane, "You have to choose worker first!");
 						return;
 					}
-
 					String nameB = table.getModel().getValueAt(row, 1) + "";
 					idChange = table.getModel().getValueAt(row, 0) + "";
 					label.setText(nameB);

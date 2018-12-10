@@ -23,7 +23,7 @@ public class BranchesFrame extends JFrame {
 
 	private JPanel contentPane;
 	static JTable table;
-	private String username;
+	private static String EMAIL;
 
 	Object[][] objects = null;
 	private String[] columnName = { "ID", "Address", "City", "Email", "Name", "Password", "Active" };
@@ -33,8 +33,8 @@ public class BranchesFrame extends JFrame {
 	private JButton btnUpdateBranch;
 	private JButton btnRestoreBranch;
 
-	public BranchesFrame(String username) {
-		this.username = username;
+	public BranchesFrame(String email) {
+		this.EMAIL = email;
 		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		setBounds(100, 100, 900, 550);
 		contentPane = new JPanel();
@@ -79,8 +79,8 @@ public class BranchesFrame extends JFrame {
 //		int id = Integer.parseInt(table.getModel().getValueAt(row, 0).toString());
 		String address = table.getModel().getValueAt(row, 1).toString();
 		String city = table.getModel().getValueAt(row, 2).toString();
-		String email = table.getModel().getValueAt(row, 4).toString();
-		String name = table.getModel().getValueAt(row, 3).toString();
+		String email = table.getModel().getValueAt(row, 3).toString();
+		String name = table.getModel().getValueAt(row, 4).toString();
 		String password = table.getModel().getValueAt(row, 5).toString();
 		int active = (int)table.getModel().getValueAt(row, 6);
 

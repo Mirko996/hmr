@@ -6,6 +6,8 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
+import org.hibernate.exception.ConstraintViolationException;
+
 import java.awt.SystemColor;
 import javax.swing.JTextField;
 import javax.swing.JLabel;
@@ -13,6 +15,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
 import java.awt.event.ActionEvent;
 
@@ -34,7 +38,7 @@ public class AddBranch extends JFrame {
 	private JTextField textAdress;
 	private JLabel lblAddress;
 	private JFrame frame;
-	private String[] columnName = { "ID", "Address", "City", "Name", "Email", "Password", "Active" };
+	private String[] columnName = { "ID", "Address", "City", "Email", "Name", "Password", "Active" };
 
 	/**
 	 * Create the frame.
@@ -193,18 +197,25 @@ public class AddBranch extends JFrame {
 			button.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					if (validation()) {
-						Branch b = new Branch(getTextAdress().getText(), getTextCity().getText(),getTextName().getText(),getTextEmail().getText(),
-								  getPasswordField().getText());
-						if (Data.insertBranchNew(b)) {
-
-							JOptionPane.showMessageDialog(frame, "Success!", "DONE", JOptionPane.INFORMATION_MESSAGE);
-							updateTable();
-							dispose();
+						Branch b = new Branch(getTextAdress().getText(), getTextCity().getText(),
+								getTextEmail().getText(), getTextName().getText(), getPasswordField().getText());
+						if (Data.duplicateEntryBranch(b.getEmail())) {
+							JOptionPane.showMessageDialog(frame, "Branch with that email already exists!", "WARNING", JOptionPane.WARNING_MESSAGE);
 						} else {
-							JOptionPane.showMessageDialog(frame, "Something went wrong!", "WARNIRG",
-									JOptionPane.WARNING_MESSAGE);
+							if (Data.insertBranchNew(b)) {
+
+								JOptionPane.showMessageDialog(frame, "Success!", "DONE",
+										JOptionPane.INFORMATION_MESSAGE);
+								updateTable();
+								dispose();
+							} else {
+								JOptionPane.showMessageDialog(frame, "Something went wrong!", "WARNIRG",
+										JOptionPane.WARNING_MESSAGE);
+							}
 						}
+
 					}
+
 				}
 			});
 		}

@@ -4,6 +4,11 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import org.hibernate.HibernateException;
+import org.hibernate.SessionFactory;
+import org.hibernate.cfg.Configuration;
+
 import javax.swing.JTextField;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -15,42 +20,55 @@ import javax.swing.JButton;
 import java.awt.SystemColor;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.Color;
 
+//not implemented yet
 public class MainFrame extends JFrame {
 
 	private JPanel contentPane;
-	private JTextField textField;
-	private Connection connection = new Connection("jdbc:mysql://localhost:3306/hrm_base", "root", "");
+	private JButton btnClockIn;
+	private JButton btnClockOut;
+	static SessionFactory factory;
+	private JTextField txtIdWorker;
+	private JLabel lblNewLabel;
+
+//	private Connection connection = new Connection("jdbc:mysql://localhost:3306/hrm_base", "root", "");
 
 	/**
 	 * Launch the application.
 	 */
-	
+//	public static void main(String[] args) {
+//		EventQueue.invokeLater(new Runnable() {
+//			public void run() {
+//				
+//				try {
+//					MainFrame frame = new MainFrame();
+//					frame.setVisible(true);
+//				} catch (Exception e) {
+//					e.printStackTrace();
+//				}
+//				
+//				try{
+//					factory = new Configuration().configure().addAnnotatedClass(Branch.class).addAnnotatedClass(Worker.class).addAnnotatedClass(Shift.class).buildSessionFactory();
+//					
+//					
+//				}catch(HibernateException ex) {
+//					ex.printStackTrace();
+//				}
+//			}
+//		});
+//	}
 	/**
 	 * Create the frame.
 	 */
 	public MainFrame() {
 		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-		setBounds(100, 100, 972, 711);
+		setBounds(100, 100, 337, 243);
 		contentPane = new JPanel();
 		contentPane.setBackground(SystemColor.activeCaption);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-		
-		textField = new JTextField();
-		textField.setBounds(104, 36, 116, 22);
-		contentPane.add(textField);
-		textField.setColumns(10);
-		
-		JLabel lblSearch = new JLabel("Search:");
-		lblSearch.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		lblSearch.setBounds(36, 38, 56, 16);
-		contentPane.add(lblSearch);
-		
-		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(0, 88, 954, 576);
-		contentPane.add(scrollPane);
 		
 		JButton btnLogIn = new JButton("Log in");
 		btnLogIn.addActionListener(new ActionListener() {
@@ -59,9 +77,48 @@ public class MainFrame extends JFrame {
 				lf.setVisible(true);
 			}
 		});
-		btnLogIn.setBounds(834, 13, 108, 35);
+		btnLogIn.setBounds(207, 158, 108, 35);
 		contentPane.add(btnLogIn);
+		contentPane.add(getBtnClockIn());
+		contentPane.add(getBtnClockOut());
+		contentPane.add(getTxtIdWorker());
+		contentPane.add(getLblNewLabel());
 	}
-	
-	
+	private JButton getBtnClockIn() {
+		if (btnClockIn == null) {
+			btnClockIn = new JButton("Clock in");
+			btnClockIn.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					
+				}
+			});
+			btnClockIn.setBackground(new Color(0, 255, 0));
+			btnClockIn.setBounds(63, 79, 88, 35);
+		}
+		return btnClockIn;
+	}
+	private JButton getBtnClockOut() {
+		if (btnClockOut == null) {
+			btnClockOut = new JButton("Clock out");
+			btnClockOut.setBackground(new Color(255, 0, 0));
+			btnClockOut.setBounds(161, 79, 88, 35);
+		}
+		return btnClockOut;
+	}
+	private JTextField getTxtIdWorker() {
+		if (txtIdWorker == null) {
+			txtIdWorker = new JTextField();
+			txtIdWorker.setBounds(115, 38, 86, 20);
+			txtIdWorker.setColumns(10);
+			txtIdWorker.setToolTipText("Enter ID");
+		}
+		return txtIdWorker;
+	}
+	private JLabel getLblNewLabel() {
+		if (lblNewLabel == null) {
+			lblNewLabel = new JLabel("ID for Clock in/Clock out");
+			lblNewLabel.setBounds(105, 11, 129, 14);
+		}
+		return lblNewLabel;
+	}
 }

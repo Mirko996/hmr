@@ -35,8 +35,8 @@ public class Data {
 		return connH.insertBranch(b);
 	}
 
-	public static int getIdBranchData(String username) {
-			return connH.getBranchId(username);
+	public static int getIdBranchData(String email) {
+			return connH.getBranchId(email);
 	}
 
 
@@ -69,4 +69,16 @@ public class Data {
 	public static boolean updateWorkersBranchNew(int id, int branchIdNew) {
 		return connH.updateWorkersBranch(id, branchIdNew);
 	}
+	
+	public static boolean duplicateEntryBranch(String email) {
+		return connH.duplicateEntryBranch(email);
+	}
+	
+	
+	
+	//test
+	public static boolean insertWorker_shift(Worker_shift ws) {
+		return connH.insertWokrerShift(ws);
+	}
+	
 }

@@ -23,13 +23,13 @@ public class ManagerFrame extends JFrame {
 	private JButton btnChangeShft;
 	private JButton btnWorkers;
 	private JButton btnBranches;
-
 	private JLabel lblSearch;
-	public String username;
+	public static String EMAIL;
+	public static String ADMIN_EMAIL = "admin@synergysuite.com";
 	private JButton btnLogout;
 
-	public ManagerFrame(String username) {
-		this.username = username;
+	public ManagerFrame(String email) {
+		this.EMAIL = email;
 		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		setBounds(100, 100, 972, 711);
 		contentPane = new JPanel();
@@ -44,7 +44,7 @@ public class ManagerFrame extends JFrame {
 		contentPane.add(getBtnWorkers());
 		contentPane.add(getBtnBranches());
 		contentPane.add(getBtnLogout());
-		if (!username.equals("admin")) {
+		if (!email.equals(ADMIN_EMAIL)) {
 			btnBranches.setVisible(false);
 		}
 	}
@@ -103,7 +103,7 @@ public class ManagerFrame extends JFrame {
 			btnWorkers = new JButton("Workers");
 			btnWorkers.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
-					WorkersFrame wr = new WorkersFrame(username);
+					WorkersFrame wr = new WorkersFrame(EMAIL);
 					wr.setVisible(true);
 				}
 			});
@@ -117,7 +117,7 @@ public class ManagerFrame extends JFrame {
 			btnBranches = new JButton("Branches");
 			btnBranches.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					BranchesFrame b = new BranchesFrame(username);
+					BranchesFrame b = new BranchesFrame(EMAIL);
 					b.setVisible(true);
 				}
 			});
@@ -131,7 +131,7 @@ public class ManagerFrame extends JFrame {
 			btnLogout.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
 					dispose();
-					username = null;
+					EMAIL = null;
 					LogInFrame lf = new LogInFrame();
 					lf.setVisible(true);
 				}
