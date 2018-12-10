@@ -38,7 +38,7 @@ public class EditBranch extends JFrame {
 	private JButton btEdit;
 	private Branch b;
 	private JTextField txtIdNotVisible;
-	private String[] columnName = { "ID", "Address", "City", "Name", "Email", "Password", "Active" };
+	private String[] columnName = { "ID", "Address", "City", "Email", "Name", "Password", "Active" };
 	private JFrame frame;
 	/**
 	 * Create the frame.
@@ -231,7 +231,7 @@ public class EditBranch extends JFrame {
 			btEdit.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					if (validateAdding()) {				
-							Branch b1 = new Branch(b.getId(), getTxtAddress().getText(), getTxtCity().getText(), getTxtName().getText(),getTxtEmail().getText(), getTxtPassword().getText(),1);
+							Branch b1 = new Branch(b.getId(), getTxtAddress().getText(), getTxtCity().getText(), getTxtEmail().getText(), getTxtName().getText(), getTxtPassword().getText(),1);
 							if(Data.editBranchNew(b1)) {
 								JOptionPane.showMessageDialog(frame, "Success!", "DONE",
 										JOptionPane.INFORMATION_MESSAGE);

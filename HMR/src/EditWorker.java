@@ -35,14 +35,14 @@ public class EditWorker extends JFrame {
 	private JPasswordField passwordField_1;
 	private JButton btnUpdate;
 	private Worker w;
-	private String username;
+	private static String EMAIL;
 	private String[] columnName = { "ID", "Name", "Last name", "Email", "Password", "Active" };
 
 	/**
 	 * Launch the application.
 	 */
-	public EditWorker(Worker w, String username) {
-		this.username = username;
+	public EditWorker(Worker w, String email) {
+		this.EMAIL = email;
 		this.w = w;
 		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		setBounds(100, 100, 495, 351);
@@ -201,13 +201,13 @@ public class EditWorker extends JFrame {
 			btnUpdate.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					if (validateAdding()) {
-						int idBranch = Data.getIdBranchData(username);
+						int idBranch = Data.getIdBranchData(EMAIL);
 						Worker w1 = new Worker(w.getId(), idBranch, getTextField().getText().trim(),
 								getTextField_1().getText().trim(), getTextField_2().getText().trim(),
 								getPasswordField().getText().trim(), w.getActive());
 							
 						if (Data.editWorkerNew(w1)) {
-							if (WorkersFrame.isAdmin(username)) {
+							if (WorkersFrame.isAdmin(EMAIL)) {
 								WorkersFrame.updateTableAadmin();
 							} else {
 								WorkersFrame.updateTable();

@@ -1,3 +1,5 @@
+import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.Iterator;
 import java.util.List;
 
@@ -9,7 +11,7 @@ import com.mysql.cj.log.Log;
 
 public class Connections {
 
-	public static boolean validateLogIn(String pass, String username) {
+	public static boolean validateLogIn(String pass, String email) {
 		Session session = LogInFrame.factory.openSession();
 		Transaction tx = null;
 
@@ -18,7 +20,7 @@ public class Connections {
 			List<Branch> branches = (List<Branch>) session.createCriteria(Branch.class).list();
 			for (Iterator iterator = branches.iterator(); iterator.hasNext();) {
 				Branch b = (Branch) iterator.next();
-				if (b.getName().equals(username) && b.getPassword().equals(pass)) {
+				if (b.getEmail().equals(email) && b.getPassword().equals(pass)) {
 					tx.commit();
 					return true;
 				}
@@ -99,18 +101,18 @@ public class Connections {
 		return null;
 	}
 
-	public int getBranchId(String username) {
+	public int getBranchId(String email) {
 		Session session = LogInFrame.factory.openSession();
 		Transaction tx = null;
 		try {
 			tx = session.beginTransaction();
-			String sql = "select * from `branches` WHERE name = '" + username + "'";
+			String sql = "select * from `branches` WHERE email = '" + email + "'";
 			List<Branch> branch = (List<Branch>) session.createSQLQuery(sql).addEntity(Branch.class).list();
-			
+
 			if (branch != null) {
 				tx.commit();
 				return branch.get(0).getId();
-			}else {
+			} else {
 				tx.commit();
 				return -1;
 			}
@@ -120,6 +122,30 @@ public class Connections {
 				tx.rollback();
 			}
 			return -1;
+		} finally {
+			session.close();
+		}
+	}
+
+	public boolean duplicateEntryBranch(String email) {
+		Session session = LogInFrame.factory.openSession();
+		Transaction tx = null;
+		try {
+			String sql = "SELECT email FROM branches";
+			List<String> branch = (List<String>) session.createSQLQuery(sql).list();
+			tx = session.beginTransaction();
+			for (String aa : branch) {
+				if (aa.equals(email)) {
+					return true;
+				}
+			}
+			tx.commit();
+			return false;
+		} catch (HibernateException e) {
+			if (tx != null) {
+				tx.rollback();
+			}
+			return false;
 		} finally {
 			session.close();
 		}
@@ -316,4 +342,24 @@ public class Connections {
 		}
 	}
 
+	public boolean insertWokrerShift(Worker_shift ws) {
+		Session session = LogInFrame.factory.openSession();
+		Transaction tx = null;
+		try {
+			
+			tx = session.beginTransaction();
+			session.persist(ws);
+			tx.commit();
+			return true;
+		} catch (HibernateException ex) {
+			System.out.println("Problem insert worker_shift: " + ex.getMessage());
+			if(tx != null) {
+				tx.rollback();
+			}
+			ex.printStackTrace();
+			return false;
+		} finally {
+			session.close();
+		}
+	}
 }

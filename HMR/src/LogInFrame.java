@@ -52,10 +52,10 @@ public class LogInFrame extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
-		JLabel lblUsername = new JLabel("Username:");
-		lblUsername.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		lblUsername.setBounds(82, 92, 86, 29);
-		contentPane.add(lblUsername);
+		JLabel lblEmail = new JLabel("Email:");
+		lblEmail.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		lblEmail.setBounds(82, 92, 86, 29);
+		contentPane.add(lblEmail);
 
 		JLabel lblPassword = new JLabel("Password:");
 		lblPassword.setFont(new Font("Tahoma", Font.PLAIN, 18));
