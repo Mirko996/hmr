@@ -30,7 +30,10 @@ public class LogInFrame extends JFrame {
 				
 				try{
 					
-					factory = new Configuration().configure().addAnnotatedClass(Branch.class).addAnnotatedClass(Worker.class).buildSessionFactory();
+					factory = new Configuration().configure().
+							addAnnotatedClass(Branch.class).
+							addAnnotatedClass(Worker.class).
+							buildSessionFactory();
 					
 					
 				}catch(HibernateException ex) {

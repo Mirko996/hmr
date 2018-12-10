@@ -2,10 +2,12 @@ import com.toedter.calendar.JDateChooser;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
+import java.util.List;
 
 public class AddShiftFrame extends JFrame {
 
@@ -17,10 +19,6 @@ public class AddShiftFrame extends JFrame {
 	private Label label_1;
 	private JComboBox comboBox_1;
 	private JButton btnInsert;
-	private JComboBox comboBox_2;
-	private JComboBox comboBox_3;
-	private JLabel lblChoosePattern;
-	private JLabel lblChooseNumberOf;
 	private JLabel lblNon;
 	private JCheckBox chckbxMon;
 	private JCheckBox chckbxTues;
@@ -31,12 +29,14 @@ public class AddShiftFrame extends JFrame {
 	private JCheckBox chckbxSun;
 	private JLabel lblChooseNumberOf_1;
 	private JComboBox comboBox_4;
+	private String username;
 
 	
 	/**
 	 * Create the frame.
 	 */
-	public AddShiftFrame() {
+	public AddShiftFrame(String username) {
+		this.username = username;
 		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		setBounds(100, 100, 444, 499);
 		contentPane = new JPanel();
@@ -48,10 +48,6 @@ public class AddShiftFrame extends JFrame {
 		contentPane.add(getBtnInsert());
 		contentPane.add(getDateChooser());
 		dateChooser.setEnabled(true);
-		contentPane.add(getComboBox_2());
-		contentPane.add(getComboBox_3());
-		contentPane.add(getLblChoosePattern());
-		contentPane.add(getLblChooseNumberOf());
 		contentPane.add(getLblNon());
 		contentPane.add(getChckbxMon());
 		contentPane.add(getChckbxTues());
@@ -87,37 +83,23 @@ public class AddShiftFrame extends JFrame {
 		return lblChooseADate;
 	}
 
-//	private JComboBox getComboBox() {
-//		if (comboBox == null) {
-//			comboBox = new JComboBox();
-//			comboBox.setBounds(191, 453, 181, 22);
-//			comboBox.addItem("Choose");
-//			List<Worker> workers = Data.workers();
-//			if (workers != null) {
-//				for (Worker w : workers) {
-//					comboBox.addItem(w.getName() + " " + w.getLast_name());
-//				}
-//			}
-//
-//		}
-//		return comboBox;
-//	}
+	private JComboBox getComboBox() {
+		if (comboBox == null) {
+			comboBox = new JComboBox();
+			comboBox.setBounds(191, 453, 181, 22);
+			comboBox.addItem("Choose");
+			List<Worker> workers = Data.workers();
+			if (workers != null) {
+				for (Worker w : workers) {
+					comboBox.addItem(w.getName() + " " + w.getLast_name());
+				}
+			}
+
+		}
+		return comboBox;
+	}
 
 
-//	private JComboBox getComboBox_1() {
-//		if (comboBox_1 == null) {
-//			comboBox_1 = new JComboBox();
-//			comboBox_1.setBounds(191, 414, 181, 22);
-//			comboBox_1.addItem("Choose");
-//			List<Branch> branches = Data.branches();
-//			if (branches != null) {
-//				for (Branch branch : branches) {
-//					comboBox_1.addItem(branch.getName() + "");
-//				}
-//			}
-//		}
-//		return comboBox_1;
-//	}
 
 	private JButton getBtnInsert() {
 		if (btnInsert == null) {
@@ -135,55 +117,11 @@ public class AddShiftFrame extends JFrame {
 		}
 		return btnInsert;
 	}
-	private JComboBox getComboBox_2() {
-		if (comboBox_2 == null) {
-			comboBox_2 = new JComboBox();
-			comboBox_2.setBounds(259, 149, 113, 22);
-			comboBox_2.addItem("Choose");
-			comboBox_2.addItem("Day pattern");
-			comboBox_2.addItem("Week pattern");
-		}
-		return comboBox_2;
-	}
-	private JComboBox getComboBox_3() {
-		if (comboBox_3 == null) {
-			comboBox_3 = new JComboBox();
-			comboBox_3.setBounds(259, 184, 113, 22);
-			comboBox_3.addItem("Choose");
-			comboBox_3.addItem("1");
-			comboBox_3.addItem("2");
-			comboBox_3.addItem("3");
-			comboBox_3.addItem("4");
-			comboBox_3.addItem("5");
-			comboBox_3.addItem("6");
-			comboBox_3.addItem("7");
-			comboBox_3.addItem("8");
-			comboBox_3.addItem("9");
-			comboBox_3.addItem("10");
-		}
-		return comboBox_3;
-	}
-	private JLabel getLblChoosePattern() {
-		if (lblChoosePattern == null) {
-			lblChoosePattern = new JLabel("Choose pattern:");
-			lblChoosePattern.setFont(new Font("Tahoma", Font.PLAIN, 18));
-			lblChoosePattern.setBounds(12, 144, 169, 28);
-		}
-		return lblChoosePattern;
-	}
-	private JLabel getLblChooseNumberOf() {
-		if (lblChooseNumberOf == null) {
-			lblChooseNumberOf = new JLabel("Choose number of workers:");
-			lblChooseNumberOf.setFont(new Font("Tahoma", Font.PLAIN, 18));
-			lblChooseNumberOf.setBounds(12, 179, 237, 28);
-		}
-		return lblChooseNumberOf;
-	}
 	private JLabel getLblNon() {
 		if (lblNon == null) {
 			lblNon = new JLabel("Non-working days:");
 			lblNon.setFont(new Font("Tahoma", Font.PLAIN, 18));
-			lblNon.setBounds(146, 245, 150, 28);
+			lblNon.setBounds(147, 154, 150, 28);
 		}
 		return lblNon;
 	}
@@ -240,14 +178,14 @@ public class AddShiftFrame extends JFrame {
 		if (lblChooseNumberOf_1 == null) {
 			lblChooseNumberOf_1 = new JLabel("Choose number of shifts:");
 			lblChooseNumberOf_1.setFont(new Font("Tahoma", Font.PLAIN, 18));
-			lblChooseNumberOf_1.setBounds(12, 112, 237, 28);
+			lblChooseNumberOf_1.setBounds(0, 70, 237, 28);
 		}
 		return lblChooseNumberOf_1;
 	}
 	private JComboBox getComboBox_4() {
 		if (comboBox_4 == null) {
 			comboBox_4 = new JComboBox();
-			comboBox_4.setBounds(259, 114, 113, 22);
+			comboBox_4.setBounds(259, 75, 113, 22);
 			comboBox_4.addItem("Choose");
 			comboBox_4.addItem("1");
 			comboBox_4.addItem("2");

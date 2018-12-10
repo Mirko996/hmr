@@ -77,7 +77,7 @@ public class ManagerFrame extends JFrame {
 			btnAddShifts = new JButton("Add shifts");
 			btnAddShifts.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					AddShiftFrame a = new AddShiftFrame();
+					AddShifts a = new AddShifts(username);
 					a.setVisible(true);
 				}
 			});
