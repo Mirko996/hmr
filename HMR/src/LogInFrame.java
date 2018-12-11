@@ -33,6 +33,7 @@ public class LogInFrame extends JFrame {
 					factory = new Configuration().configure().
 							addAnnotatedClass(Branch.class).
 							addAnnotatedClass(Worker.class).
+							addAnnotatedClass(Worker_shift.class).
 							buildSessionFactory();
 					
 					

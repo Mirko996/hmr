@@ -1,6 +1,10 @@
 import java.sql.Date;
+
+import java.time.LocalDate;
+
 import java.util.ArrayList;
 import java.util.List;
+
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -24,6 +28,10 @@ public class Worker_shift {
 	private int worker_id;
 	@Column(name = "shift_id")
 	private int shift_id;
+	@Column(name = "date")
+	private LocalDate date;
+	@Column(name = "branch_id")
+	private int branchId;
 
 	@Column(name = "date")
 	private Date date;
@@ -77,6 +85,30 @@ public class Worker_shift {
 
 		this.worker_id = worker_id;
 		this.shift_id = shift_id;
+		this.date = date;
+	}
+	
+	public int getBranchId() {
+		return branchId;
+	}
+
+	public void setBranchId(int branchId) {
+		this.branchId = branchId;
+	}
+
+	public Worker_shift(LocalDate date,  int worker_id, int shift_id) {
+		super();
+		this.worker_id = worker_id;
+		this.shift_id = shift_id;
+		this.date = date;
+	}
+
+	public LocalDate getDate() {
+		return date;
+	}
+
+	public void setDate(LocalDate date) {
+		this.date = date;
 	}
 
 //	private boolean addWorker(Worker w) {
@@ -139,4 +171,27 @@ public class Worker_shift {
 	public void setClock_out(Date clock_out) {
 		this.clock_out = clock_out;
 	}
+
+	public int getWorker_id() {
+		return worker_id;
+	}
+
+	public void setWorker_id(int worker_id) {
+		this.worker_id = worker_id;
+	}
+
+	public int getShift_id() {
+		return shift_id;
+	}
+
+	public void setShift_id(int shift_id) {
+		this.shift_id = shift_id;
+	}
+
+	@Override
+	public String toString() {
+		return "Worker_shift [id=" + id + ", clock_in=" + clock_in + ", clock_out=" + clock_out + ", worker_id="
+				+ worker_id + ", shift_id=" + shift_id + ", date=" + date + "]";
+	}
+
 }

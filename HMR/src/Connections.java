@@ -1,15 +1,24 @@
 import java.sql.SQLException;
 import java.sql.SQLIntegrityConstraintViolationException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.jdbc.Work;
+import org.hibernate.query.NativeQuery;
 
 import com.mysql.cj.log.Log;
 
 public class Connections {
+	
+//	private LocalDateFormat fmt = new SimpleDateFormat("dd/MM/yyyy");
 
 	public static boolean validateLogIn(String pass, String email) {
 		Session session = LogInFrame.factory.openSession();
@@ -387,5 +396,39 @@ public class Connections {
 		} finally {
 			session.close();
 		}
+	}
+
+	public boolean insertWorker_shift(List<Worker_shift> ws, List<Integer> nonWorkingDays, String numDays, int branchId) {
+
+		Session session = LogInFrame.factory.openSession();
+		Transaction tx = null;
+		String sql = null;
+			try{
+				tx = session.beginTransaction();
+				for (Worker_shift worker_shift : ws){
+					LocalDate date = worker_shift.getDate();
+					LocalDate endDate = date.plusDays(Integer.parseInt(numDays));
+						for(LocalDate date1 = date; date.isBefore(endDate); date = date.plusDays(1)) {
+							worker_shift.setDate(date);
+							session.createNativeQuery(
+								    "INSERT INTO worker_shift (worker_id, shift_id, branch_id, "
+								    + "date) VALUES (?, ?, ?, ?)")
+								    .setParameter(1, worker_shift.getWorker_id())
+								    .setParameter(2, worker_shift.getShift_id()) 
+								    .setParameter(3, branchId)
+								    .setParameter(4, date)
+								    .executeUpdate();
+						}
+					}
+				tx.commit();
+				
+			}catch(Exception ex) {
+				if(tx != null) tx.rollback();
+				ex.printStackTrace();
+			}finally {
+				session.close();
+			}
+		
+		return true;
 	}
 }

@@ -17,6 +17,7 @@ import javax.swing.SwingConstants;
 import javax.swing.Box;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.awt.event.ActionEvent;
 import javax.swing.JSeparator;
@@ -28,6 +29,8 @@ import javax.swing.JTable;
 import java.awt.event.ItemListener;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.awt.event.ItemEvent;
 import javax.swing.event.AncestorListener;
 import javax.swing.table.DefaultTableModel;
@@ -93,7 +96,7 @@ public class AddShifts extends JFrame {
 		shift3 = new ArrayList<String>();
 		this.username = username;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 1021, 844);
+		setBounds(100, 100, 1021, 903);
 		contentPane = new JPanel();
 		contentPane.setBackground(SystemColor.activeCaption);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -211,7 +214,7 @@ public class AddShifts extends JFrame {
 	private JCheckBox getMon() {
 		if (mon == null) {
 			mon = new JCheckBox("Mon");
-			mon.setBounds(73, 742, 53, 25);
+			mon.setBounds(73, 742, 57, 25);
 		}
 		return mon;
 	}
@@ -219,7 +222,7 @@ public class AddShifts extends JFrame {
 	private JCheckBox getTues() {
 		if (tues == null) {
 			tues = new JCheckBox("Tues");
-			tues.setBounds(130, 742, 57, 25);
+			tues.setBounds(130, 742, 62, 25);
 		}
 		return tues;
 	}
@@ -227,7 +230,7 @@ public class AddShifts extends JFrame {
 	private JCheckBox getWed() {
 		if (wed == null) {
 			wed = new JCheckBox("Wed");
-			wed.setBounds(191, 742, 55, 25);
+			wed.setBounds(191, 742, 59, 25);
 		}
 		return wed;
 	}
@@ -235,7 +238,7 @@ public class AddShifts extends JFrame {
 	private JCheckBox getThurs() {
 		if (thurs == null) {
 			thurs = new JCheckBox("Thurs");
-			thurs.setBounds(250, 742, 66, 25);
+			thurs.setBounds(250, 742, 70, 25);
 		}
 		return thurs;
 	}
@@ -243,7 +246,7 @@ public class AddShifts extends JFrame {
 	private JCheckBox getFri() {
 		if (fri == null) {
 			fri = new JCheckBox("Fri");
-			fri.setBounds(320, 742, 53, 25);
+			fri.setBounds(317, 742, 57, 25);
 		}
 		return fri;
 	}
@@ -251,7 +254,7 @@ public class AddShifts extends JFrame {
 	private JCheckBox getSat() {
 		if (sat == null) {
 			sat = new JCheckBox("Sat");
-			sat.setBounds(377, 742, 47, 25);
+			sat.setBounds(371, 742, 47, 25);
 		}
 		return sat;
 	}
@@ -259,7 +262,7 @@ public class AddShifts extends JFrame {
 	private JCheckBox getSun() {
 		if (sun == null) {
 			sun = new JCheckBox("Sun");
-			sun.setBounds(428, 742, 53, 25);
+			sun.setBounds(418, 742, 53, 25);
 		}
 		return sun;
 	}
@@ -267,32 +270,98 @@ public class AddShifts extends JFrame {
 	private JButton getButton() {
 		if (button == null) {
 			button = new JButton("Add shifts");
-			button.setBounds(641, 316, 138, 53);
+			button.setBounds(780, 760, 138, 53);
 			button.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					String date = null;
+					int branchId = Data.getIdBranchData(username);
+					String numDays = "1";
+					Date d = null;
+					LocalDate date = null;
+					List<Integer> nonWorkingDays = new ArrayList<>();
+					List<Worker_shift> worker_shift = new ArrayList<>();
 					if (dateChooser.getDate() != null) {
-						date = fmt.format(dateChooser.getDate());
+						d = dateChooser.getDate();
+						date = d.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 					} else {
 						JOptionPane.showMessageDialog(contentPane, "You have to choose date first!");
 						return;
 					}
 					for (int i = 0; i < table1.getRowCount(); i++) {
+
+						Worker_shift ws = new Worker_shift(date, Integer.parseInt(table1.getValueAt(i, 0).toString().trim()),1);
+						worker_shift.add(ws);
+
 						shift1.add((String)table1.getValueAt(i, 0));
 						
 					}
-					if(comboBox.getSelectedIndex() == 2) {
+					if (comboBox.getSelectedIndex() == 1) {
 						for (int i = 0; i < table2.getRowCount(); i++) {
-							shift2.add(table2.getValueAt(i, 0).toString());
-						}	
-					}else if(comboBox.getSelectedIndex() == 3) {
+							Worker_shift ws = new Worker_shift(date, Integer.parseInt(table2.getValueAt(i, 0).toString().trim()),2);
+							worker_shift.add(ws);
+							}
+					} else if (comboBox.getSelectedIndex() == 2) {
 						for (int i = 0; i < table2.getRowCount(); i++) {
-							shift2.add(table2.getValueAt(i, 0).toString());
-						}	
+							Worker_shift ws = new Worker_shift(date, Integer.parseInt(table2.getValueAt(i, 0).toString().trim()),2);
+							worker_shift.add(ws);
+							}
 						for (int i = 0; i < table3.getRowCount(); i++) {
-							shift3.add(table3.getValueAt(i, 0).toString());
+							Worker_shift ws = new Worker_shift(date, Integer.parseInt(table3.getValueAt(i, 0).toString().trim()),3);
+							worker_shift.add(ws);
+							}
+					}
+					
+					if (!numOfDays.toString().equals("")) {
+						try {
+							int i = Integer.parseInt(numOfDays.getText().toString());
+							numDays = numOfDays.getText().toString().trim();
+						} catch (Exception ex) {
+							ex.printStackTrace();
+							JOptionPane.showMessageDialog(contentPane, "Number of days must be number!");
+						}
+					}else{
+						numDays = "1";
+					}
+
+					if (nonWorkingDays != null) {
+						if (mon.isSelected()) {
+							nonWorkingDays.add(1);
+						} else if (tues.isSelected()) {
+							nonWorkingDays.add(2);
+						} else if (wed.isSelected()) {
+							nonWorkingDays.add(3);
+						} else if (thurs.isSelected()) {
+							nonWorkingDays.add(4);
+						} else if (fri.isSelected()) {
+							nonWorkingDays.add(5);
+						} else if (sat.isSelected()) {
+							nonWorkingDays.add(6);
+						} else if (sun.isSelected()) {
+							nonWorkingDays.add(7);
 						}
 					}
+
+//					for (int i = 0; i < table1.getRowCount(); i++) {
+//						Worker_shift ws = new Worker_shift(date, Integer.parseInt(table1.getValueAt(i, 0).toString().trim()),1, branchId);
+//						Data.insetrtToWorker_shift(ws, nonWorkingDays, numDays);
+//					}
+//					if (comboBox.getSelectedIndex() == 1) {
+//						for (int i = 0; i < table2.getRowCount(); i++) {
+//							Worker_shift ws = new Worker_shift(date, Integer.parseInt(table2.getValueAt(i, 0).toString().trim()),2, branchId);
+//							Data.insetrtToWorker_shift(ws, nonWorkingDays, numDays);
+//							}
+//					} else if (comboBox.getSelectedIndex() == 2) {
+//						for (int i = 0; i < table2.getRowCount(); i++) {
+//							Worker_shift ws = new Worker_shift(date, Integer.parseInt(table2.getValueAt(i, 0).toString().trim()),2, branchId);
+//							Data.insetrtToWorker_shift(ws, nonWorkingDays, numDays);
+//							}
+//						for (int i = 0; i < table3.getRowCount(); i++) {
+//							Worker_shift ws = new Worker_shift(date, Integer.parseInt(table3.getValueAt(i, 0).toString().trim()),3, branchId);
+//							Data.insetrtToWorker_shift(ws, nonWorkingDays, numDays);
+//							}
+//					}
+					Data.insetrtToWorker_shift(worker_shift, nonWorkingDays, numDays, branchId);
+					
+
 				}
 			});
 		}
@@ -455,6 +524,7 @@ public class AddShifts extends JFrame {
 	private JTextField getNumOfDays() {
 		if (numOfDays == null) {
 			numOfDays = new JTextField();
+			numOfDays.setText("1");
 			numOfDays.setBounds(522, 791, 116, 22);
 			numOfDays.setColumns(10);
 		}
