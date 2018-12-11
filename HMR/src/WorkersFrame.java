@@ -44,14 +44,14 @@ public class WorkersFrame extends JFrame {
 	private JLabel label;
 	private String idChange;
 	private String branchC;
-	
-	
+	private String branchName;
+
 	public WorkersFrame(String email) {
 		this.EMAIL = email;
 		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		setBounds(100, 100, 900, 706);
 		contentPane = new JPanel();
-		
+
 		contentPane.setBackground(SystemColor.activeCaption);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -73,10 +73,9 @@ public class WorkersFrame extends JFrame {
 			btnChangeEmployeesBranch.setVisible(false);
 			updateTable();
 		}
-		
+
 	}
-	
-	
+
 	public static boolean isAdmin(String email) {
 		if (email.equalsIgnoreCase("admin@synergysuite.com")) {
 			return true;
@@ -87,7 +86,7 @@ public class WorkersFrame extends JFrame {
 	public static void updateTableAadmin() {
 		Object[][] objcts = new Object[Data.workers().size()][7];
 		int c = 0;
-		List<Worker> wrk = (List<Worker>)Data.workers();
+		List<Worker> wrk = (List<Worker>) Data.workers();
 		if (wrk != null) {
 			for (Worker w : wrk) {
 				Object[] oo = { w.getId(), w.getBranchName(), w.getName(), w.getLast_name(), w.getEmail(),
@@ -113,7 +112,8 @@ public class WorkersFrame extends JFrame {
 		List<Worker> wrk = Data.workersByBranch(id);
 		if (wrk != null) {
 			for (Worker w : wrk) {
-				Object[] oo = { w.getId(), w.getName(), w.getLast_name(), w.getEmail(), w.getPassword(), w.getActive() };
+				Object[] oo = { w.getId(), w.getName(), w.getLast_name(), w.getEmail(), w.getPassword(),
+						w.getActive() };
 				objcts[c] = oo;
 				c++;
 			}
@@ -180,8 +180,7 @@ public class WorkersFrame extends JFrame {
 			last_name = table.getModel().getValueAt(row, 2).toString();
 			email = table.getModel().getValueAt(row, 3).toString();
 			password = table.getModel().getValueAt(row, 4).toString();
-			 active = (int) table.getModel().getValueAt(row, 5);
-
+			active = (int) table.getModel().getValueAt(row, 5);
 
 		}
 		Worker w = new Worker(id, name, last_name, email, password, active);
@@ -194,7 +193,7 @@ public class WorkersFrame extends JFrame {
 			btnRemoveEmployee.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					int row = table.getSelectedRow();
-					if (row != -1) { 
+					if (row != -1) {
 						Data.removeWorkerNew((int) table.getModel().getValueAt(row, 0));
 						if (isAdmin(EMAIL)) {
 							updateTableAadmin();
@@ -218,14 +217,22 @@ public class WorkersFrame extends JFrame {
 			btnUpdateEmployee = new JButton("UPDATE EMPLOYEE");
 			btnUpdateEmployee.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
+					int row = table.getSelectedRow();
+					if (row == -1) {
+						JOptionPane.showMessageDialog(contentPane, "You have to choose worker first!");
+						return;
+					}
+					branchName = table.getModel().getValueAt(row, 1).toString();
 					Worker w = tableWorker();
 					if (w != null) {
-						EditWorker ew = new EditWorker(w, EMAIL);
-						ew.setVisible(true);
+						
+							EditWorker ew = new EditWorker(w, EMAIL, branchName);
+							ew.setVisible(true);
+					
 					}
 				}
 			});
-			btnUpdateEmployee.setBounds(156, 283, 155, 42);
+			btnUpdateEmployee.setBounds(156, 285, 155, 42);
 		}
 		return btnUpdateEmployee;
 	}
@@ -307,14 +314,14 @@ public class WorkersFrame extends JFrame {
 			btnChange.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 
-					if(comboBox.getSelectedIndex() == -1) {
+					if (comboBox.getSelectedIndex() == -1) {
 						JOptionPane.showMessageDialog(contentPane, "You have to choose branch first!");
 						return;
 					}
 					String branch = comboBox.getSelectedItem() + "";
 					int branchId = Integer.parseInt(comboBox.getSelectedItem().toString().split("-")[0]);
-					
-					if(Data.updateWorkersBranchNew(Integer.parseInt(idChange), branchId)) {
+
+					if (Data.updateWorkersBranchNew(Integer.parseInt(idChange), branchId)) {
 						JOptionPane.showMessageDialog(contentPane, "Success!");
 						updateTableAadmin();
 						return;

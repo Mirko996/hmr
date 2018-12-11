@@ -17,7 +17,7 @@ import org.hibernate.query.NativeQuery;
 import com.mysql.cj.log.Log;
 
 public class Connections {
-	
+
 //	private LocalDateFormat fmt = new SimpleDateFormat("dd/MM/yyyy");
 
 	public static boolean validateLogIn(String pass, String email) {
@@ -357,10 +357,10 @@ public class Connections {
 		try {
 			tx = session.beginTransaction();
 			String sql = "SELECT s.id FROM shifts s WHERE s.id = '" + worker_id + "'";
-			List<Shift> shifts= (List<Shift>) session.createSQLQuery(sql).addEntity(Shift.class).list();
+			List<Shift> shifts = (List<Shift>) session.createSQLQuery(sql).addEntity(Shift.class).list();
 			tx = session.beginTransaction();
-			int shiftId =0;
-			for(Shift s : shifts) {
+			int shiftId = 0;
+			for (Shift s : shifts) {
 				shiftId = s.getId();
 			}
 			tx.commit();
@@ -398,37 +398,89 @@ public class Connections {
 		}
 	}
 
-	public boolean insertWorker_shift(List<Worker_shift> ws, List<Integer> nonWorkingDays, String numDays, int branchId) {
+	public boolean insertWorker_shift(List<Worker_shift> ws, List<String> nonWorkingDays, int numDays, int branchId) {
 
 		Session session = LogInFrame.factory.openSession();
 		Transaction tx = null;
 		String sql = null;
-			try{
-				tx = session.beginTransaction();
-				for (Worker_shift worker_shift : ws){
-					LocalDate date = worker_shift.getDate();
-					LocalDate endDate = date.plusDays(Integer.parseInt(numDays));
-						for(LocalDate date1 = date; date.isBefore(endDate); date = date.plusDays(1)) {
-							worker_shift.setDate(date);
-							session.createNativeQuery(
-								    "INSERT INTO worker_shift (worker_id, shift_id, branch_id, "
-								    + "date) VALUES (?, ?, ?, ?)")
-								    .setParameter(1, worker_shift.getWorker_id())
-								    .setParameter(2, worker_shift.getShift_id()) 
-								    .setParameter(3, branchId)
-								    .setParameter(4, date)
-								    .executeUpdate();
-						}
+		int num = 0;
+		try {
+			tx = session.beginTransaction();
+			for (Worker_shift worker_shift : ws) {
+				LocalDate date = worker_shift.getDate();
+				LocalDate endDate = date.plusDays(numDays);
+				for (LocalDate date1 = date; date.isBefore(endDate); date = date.plusDays(1)) {
+					worker_shift.setDate(date);
+
+					if (!nonWorkingDays.contains(date.getDayOfWeek().toString())) {
+						session.createNativeQuery("INSERT INTO worker_shift (worker_id, shift_id, branch_id, "
+								+ "date) VALUES (?, ?, ?, ?)").setParameter(1, worker_shift.getWorker_id())
+								.setParameter(2, worker_shift.getShift_id()).setParameter(3, branchId)
+								.setParameter(4, date).executeUpdate();
+
+					} else {
+						System.out.println(date1.toString() + " " + endDate.toString());
+						endDate = endDate.plusDays(1);
+						date1 = date.plusDays(1);
+						System.out.println(date1.toString() + " " + endDate.toString());
 					}
-				tx.commit();
-				
-			}catch(Exception ex) {
-				if(tx != null) tx.rollback();
-				ex.printStackTrace();
-			}finally {
-				session.close();
+				}
 			}
-		
+			tx.commit();
+
+		} catch (Exception ex) {
+			if (tx != null)
+				tx.rollback();
+			ex.printStackTrace();
+		} finally {
+			session.close();
+		}
+
 		return true;
+	}
+
+	public int getIdBranchDataByName(String branchName) {
+		Session session = LogInFrame.factory.openSession();
+		Transaction tx = null;
+		try {
+			tx = session.beginTransaction();
+			String sql = "select * from `branches` WHERE name = '" + branchName + "'";
+			List<Branch> branch = (List<Branch>) session.createSQLQuery(sql).addEntity(Branch.class).list();
+
+			if (branch != null) {
+				tx.commit();
+				return branch.get(0).getId();
+			} else {
+				tx.commit();
+				return -1;
+			}
+		} catch (HibernateException ex) {
+			System.out.println("Problem get branch id :" + ex.getMessage());
+			if (tx != null) {
+				tx.rollback();
+			}
+			return -1;
+		} finally {
+			session.close();
+		}
+		
+	}
+
+	public List<Worker> ActiveworkersByBranch(int idBranchData) {
+		Session session = LogInFrame.factory.openSession();
+		Transaction tx = null;
+
+		try {
+			tx = session.beginTransaction();
+			String sql = "SELECT * FROM workers WHERE fk_branc_id = '" + idBranchData + "' AND active = '1'";
+			List<Worker> workers = (List<Worker>) session.createSQLQuery(sql).addEntity(Worker.class).list();
+			tx.commit();
+			return workers;
+		} catch (HibernateException ex) {
+			ex.printStackTrace();
+		} finally {
+			session.close();
+		}
+		return null;
 	}
 }

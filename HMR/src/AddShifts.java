@@ -72,9 +72,6 @@ public class AddShifts extends JFrame {
 	private JLabel label_6;
 	private JComboBox comboBox;
 	private int NumberOfShifts = 1;
-	private List<String> shift1;
-	private List<String> shift2;
-	private List<String> shift3;
 	private String username;
 	private JTextField numOfDays;
 	private JLabel lblForHowMany;
@@ -91,11 +88,8 @@ public class AddShifts extends JFrame {
 	 * Create the frame.
 	 */
 	public AddShifts(String username) {
-		shift1 = new ArrayList<String>();
-		shift2 = new ArrayList<String>();
-		shift3 = new ArrayList<String>();
 		this.username = username;
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		setBounds(100, 100, 1021, 903);
 		contentPane = new JPanel();
 		contentPane.setBackground(SystemColor.activeCaption);
@@ -274,10 +268,10 @@ public class AddShifts extends JFrame {
 			button.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					int branchId = Data.getIdBranchData(username);
-					String numDays = "1";
+					int numDays = 1;
 					Date d = null;
 					LocalDate date = null;
-					List<Integer> nonWorkingDays = new ArrayList<>();
+					List<String> nonWorkingDays = new ArrayList<>();
 					List<Worker_shift> worker_shift = new ArrayList<>();
 					if (dateChooser.getDate() != null) {
 						d = dateChooser.getDate();
@@ -288,79 +282,71 @@ public class AddShifts extends JFrame {
 					}
 					for (int i = 0; i < table1.getRowCount(); i++) {
 
-						Worker_shift ws = new Worker_shift(date, Integer.parseInt(table1.getValueAt(i, 0).toString().trim()),1);
+						Worker_shift ws = new Worker_shift(date,
+								Integer.parseInt(table1.getValueAt(i, 0).toString().trim()), 1);
 						worker_shift.add(ws);
 
-						shift1.add((String)table1.getValueAt(i, 0));
-						
 					}
 					if (comboBox.getSelectedIndex() == 1) {
 						for (int i = 0; i < table2.getRowCount(); i++) {
-							Worker_shift ws = new Worker_shift(date, Integer.parseInt(table2.getValueAt(i, 0).toString().trim()),2);
+							Worker_shift ws = new Worker_shift(date,
+									Integer.parseInt(table2.getValueAt(i, 0).toString().trim()), 2);
 							worker_shift.add(ws);
-							}
+						}
 					} else if (comboBox.getSelectedIndex() == 2) {
 						for (int i = 0; i < table2.getRowCount(); i++) {
-							Worker_shift ws = new Worker_shift(date, Integer.parseInt(table2.getValueAt(i, 0).toString().trim()),2);
+							Worker_shift ws = new Worker_shift(date,
+									Integer.parseInt(table2.getValueAt(i, 0).toString().trim()), 2);
 							worker_shift.add(ws);
-							}
+						}
 						for (int i = 0; i < table3.getRowCount(); i++) {
-							Worker_shift ws = new Worker_shift(date, Integer.parseInt(table3.getValueAt(i, 0).toString().trim()),3);
+							Worker_shift ws = new Worker_shift(date,
+									Integer.parseInt(table3.getValueAt(i, 0).toString().trim()), 3);
 							worker_shift.add(ws);
-							}
+						}
 					}
-					
+
 					if (!numOfDays.toString().equals("")) {
 						try {
-							int i = Integer.parseInt(numOfDays.getText().toString());
-							numDays = numOfDays.getText().toString().trim();
+							numDays = Integer.parseInt(numOfDays.getText().toString().trim());
 						} catch (Exception ex) {
 							ex.printStackTrace();
 							JOptionPane.showMessageDialog(contentPane, "Number of days must be number!");
 						}
-					}else{
-						numDays = "1";
+					} else {
+						numDays = 1;
 					}
 
 					if (nonWorkingDays != null) {
 						if (mon.isSelected()) {
-							nonWorkingDays.add(1);
-						} else if (tues.isSelected()) {
-							nonWorkingDays.add(2);
-						} else if (wed.isSelected()) {
-							nonWorkingDays.add(3);
-						} else if (thurs.isSelected()) {
-							nonWorkingDays.add(4);
-						} else if (fri.isSelected()) {
-							nonWorkingDays.add(5);
-						} else if (sat.isSelected()) {
-							nonWorkingDays.add(6);
-						} else if (sun.isSelected()) {
-							nonWorkingDays.add(7);
+							nonWorkingDays.add("MONDAY");
+						}
+						if (tues.isSelected()) {
+							nonWorkingDays.add("TUESDAY");
+						}
+						if (wed.isSelected()) {
+							nonWorkingDays.add("WEDNESDAY");
+						}
+						if (thurs.isSelected()) {
+							nonWorkingDays.add("THURSDAY");
+						}
+						if (fri.isSelected()) {
+							nonWorkingDays.add("FRIDAY");
+						}
+						if (sat.isSelected()) {
+							nonWorkingDays.add("SATURDAY");
+						}
+						if (sun.isSelected()) {
+							nonWorkingDays.add("SUNDAY");
 						}
 					}
 
-//					for (int i = 0; i < table1.getRowCount(); i++) {
-//						Worker_shift ws = new Worker_shift(date, Integer.parseInt(table1.getValueAt(i, 0).toString().trim()),1, branchId);
-//						Data.insetrtToWorker_shift(ws, nonWorkingDays, numDays);
-//					}
-//					if (comboBox.getSelectedIndex() == 1) {
-//						for (int i = 0; i < table2.getRowCount(); i++) {
-//							Worker_shift ws = new Worker_shift(date, Integer.parseInt(table2.getValueAt(i, 0).toString().trim()),2, branchId);
-//							Data.insetrtToWorker_shift(ws, nonWorkingDays, numDays);
-//							}
-//					} else if (comboBox.getSelectedIndex() == 2) {
-//						for (int i = 0; i < table2.getRowCount(); i++) {
-//							Worker_shift ws = new Worker_shift(date, Integer.parseInt(table2.getValueAt(i, 0).toString().trim()),2, branchId);
-//							Data.insetrtToWorker_shift(ws, nonWorkingDays, numDays);
-//							}
-//						for (int i = 0; i < table3.getRowCount(); i++) {
-//							Worker_shift ws = new Worker_shift(date, Integer.parseInt(table3.getValueAt(i, 0).toString().trim()),3, branchId);
-//							Data.insetrtToWorker_shift(ws, nonWorkingDays, numDays);
-//							}
-//					}
+					if (nonWorkingDays.size() == 7) {
+						JOptionPane.showMessageDialog(contentPane, "You need to have at least one working day!");
+						return;
+					}
+
 					Data.insetrtToWorker_shift(worker_shift, nonWorkingDays, numDays, branchId);
-					
 
 				}
 			});
@@ -381,7 +367,7 @@ public class AddShifts extends JFrame {
 		if (comboBox1 == null) {
 			comboBox1 = new JComboBox();
 			comboBox1.setBounds(63, 208, 187, 28);
-			List<Worker> workers = Data.workersByBranch(Data.getIdBranchData(username));
+			List<Worker> workers = Data.ActiveworkersByBranch(Data.getIdBranchData(username));
 			if (workers != null) {
 				for (Worker w : workers) {
 					String s = w.getId() + " - " + w.getName() + " " + w.getLast_name();
@@ -394,7 +380,6 @@ public class AddShifts extends JFrame {
 					String[] row = comboBox1.getSelectedItem().toString().split("-");
 					dtm.addRow(row);
 					comboBox1.removeItem(comboBox1.getSelectedItem());
-
 				}
 			});
 
@@ -415,7 +400,7 @@ public class AddShifts extends JFrame {
 		if (comboBox2 == null) {
 			comboBox2 = new JComboBox();
 			comboBox2.setBounds(426, 208, 187, 28);
-			List<Worker> workers = Data.workersByBranch(Data.getIdBranchData(username));
+			List<Worker> workers = Data.ActiveworkersByBranch(Data.getIdBranchData(username));
 			if (workers != null) {
 				for (Worker w : workers) {
 					String s = w.getId() + " - " + w.getName() + " " + w.getLast_name();
@@ -448,13 +433,12 @@ public class AddShifts extends JFrame {
 		if (comboBox3 == null) {
 			comboBox3 = new JComboBox();
 			comboBox3.setBounds(789, 208, 187, 28);
-			List<Worker> workers = Data.workersByBranch(Data.getIdBranchData(username));
+			List<Worker> workers = Data.ActiveworkersByBranch(Data.getIdBranchData(username));
 			if (workers != null) {
 				for (Worker w : workers) {
 					String s = w.getId() + " - " + w.getName() + " " + w.getLast_name();
 					comboBox3.addItem(s);
 				}
-
 			}
 			comboBox3.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
@@ -551,8 +535,11 @@ public class AddShifts extends JFrame {
 						return;
 					}
 
-					table1.remove(row);
-					contentPane.removeAll();
+					String rowS = table1.getValueAt(row, 0).toString() + " - " + table1.getValueAt(row, 1);
+					comboBox1.addItem(rowS);
+					comboBox1.repaint();
+					dtm.removeRow(row);
+					table1.repaint();
 				}
 			});
 			r1.setBounds(12, 249, 47, 34);
@@ -591,7 +578,6 @@ public class AddShifts extends JFrame {
 						JOptionPane.showMessageDialog(contentPane, "You have to choose worker first!");
 						return;
 					}
-
 					table1.remove(row);
 					contentPane.removeAll();
 				}

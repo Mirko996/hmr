@@ -74,7 +74,7 @@ public class Data {
 		return connH.duplicateEntryBranch(email);
 	}
 
-	public static boolean insetrtToWorker_shift(List<Worker_shift> ws, List<Integer> nonWorkingDays, String numDays, int branchId) {
+	public static boolean insetrtToWorker_shift(List<Worker_shift> ws, List<String> nonWorkingDays, int numDays, int branchId) {
 		return connH.insertWorker_shift(ws, nonWorkingDays, numDays, branchId);
 	}
 	
@@ -86,5 +86,13 @@ public class Data {
 	
 	public static int getShiftIdByWorker(int worker_id) {
 		return connH.getShiftIdByWorkerId(worker_id);
+	}
+
+	public static int getIdBranchDataByName(String branchName) {
+		return connH.getIdBranchDataByName(branchName);
+	}
+
+	public static List<Worker> ActiveworkersByBranch(int idBranchData) {
+		return connH.ActiveworkersByBranch(idBranchData);
 	}
 }

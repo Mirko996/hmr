@@ -37,11 +37,13 @@ public class EditWorker extends JFrame {
 	private Worker w;
 	private static String EMAIL;
 	private String[] columnName = { "ID", "Name", "Last name", "Email", "Password", "Active" };
+	private String branchName;
 
 	/**
 	 * Launch the application.
 	 */
-	public EditWorker(Worker w, String email) {
+	public EditWorker(Worker w, String email,String branchName) {
+		this.branchName = branchName;
 		this.EMAIL = email;
 		this.w = w;
 		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
@@ -201,8 +203,8 @@ public class EditWorker extends JFrame {
 			btnUpdate.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					if (validateAdding()) {
-						int idBranch = Data.getIdBranchData(EMAIL);
-						Worker w1 = new Worker(w.getId(), idBranch, getTextField().getText().trim(),
+						int branchId = Data.getIdBranchDataByName(branchName);
+						Worker w1 = new Worker(w.getId(),branchId, getTextField().getText().trim(),
 								getTextField_1().getText().trim(), getTextField_2().getText().trim(),
 								getPasswordField().getText().trim(), w.getActive());
 							
