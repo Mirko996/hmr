@@ -14,6 +14,7 @@ import javax.swing.border.EmptyBorder;
 import java.awt.event.ActionListener;
 import java.util.concurrent.BrokenBarrierException;
 import java.awt.event.ActionEvent;
+import java.awt.Color;
 
 public class ManagerFrame extends JFrame {
 
@@ -27,9 +28,11 @@ public class ManagerFrame extends JFrame {
 	public static String EMAIL;
 	public static String ADMIN_EMAIL = "admin@synergysuite.com";
 	private JButton btnLogout;
+	private String emailBranch;
 
-	public ManagerFrame(String email) {
+	public ManagerFrame(String email, String emailBranch) {
 		this.EMAIL = email;
+		this.emailBranch = emailBranch;
 		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		setBounds(100, 100, 972, 711);
 		contentPane = new JPanel();
@@ -46,9 +49,37 @@ public class ManagerFrame extends JFrame {
 		contentPane.add(getBtnLogout());
 		if (!email.equals(ADMIN_EMAIL)) {
 			btnBranches.setVisible(false);
+		}else {
+			btnAddShifts.setVisible(false);
+			btnChangeShft.setVisible(false);
 		}
 	}
-
+	
+	public ManagerFrame(String email) {
+		this.EMAIL = email;
+		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+		setBounds(100, 100, 972, 711);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		contentPane.setBackground(SystemColor.activeCaption);
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+		contentPane.add(getLblSearch());
+		contentPane.add(getTextField());
+		contentPane.add(getBtnAddShifts());
+		contentPane.add(getBtnChangeShft());
+		contentPane.add(getBtnWorkers());
+		contentPane.add(getBtnBranches());
+		contentPane.add(getBtnLogout());
+		
+		if (!Data.isAdmin(email)) {
+			btnBranches.setVisible(false);
+		}else {
+			btnAddShifts.setVisible(false);
+			btnChangeShft.setVisible(false);
+		}
+		
+	}
 	private JLabel getLblSearch() {
 		if (lblSearch == null) {
 			lblSearch = new JLabel("Search:");
@@ -77,6 +108,7 @@ public class ManagerFrame extends JFrame {
 			btnAddShifts = new JButton("Add shifts");
 			btnAddShifts.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
+
 					AddShifts a = new AddShifts(EMAIL);
 					a.setVisible(true);
 				}
@@ -103,7 +135,7 @@ public class ManagerFrame extends JFrame {
 			btnWorkers = new JButton("Workers");
 			btnWorkers.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
-					WorkersFrame wr = new WorkersFrame(EMAIL);
+					WorkersFrame wr = new WorkersFrame(EMAIL, emailBranch);
 					wr.setVisible(true);
 				}
 			});

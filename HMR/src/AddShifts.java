@@ -346,7 +346,9 @@ public class AddShifts extends JFrame {
 						return;
 					}
 
+					if(Data.duplicateEntryWorker_shift(worker_shift)) {
 					Data.insetrtToWorker_shift(worker_shift, nonWorkingDays, numDays, branchId);
+					}
 
 				}
 			});

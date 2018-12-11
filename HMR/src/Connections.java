@@ -37,6 +37,7 @@ public class Connections {
 			tx.commit();
 			return false;
 		} catch (HibernateException ex) {
+			System.out.println("Problem validate login: " + ex.getMessage());
 			if (tx != null)
 				tx.rollback();
 			ex.printStackTrace();
@@ -45,6 +46,61 @@ public class Connections {
 		}
 		return false;
 	}
+
+	public static boolean validateLoginManager(String email, String pass, String emailBranch) {
+		Session session = LogInFrame.factory.openSession();
+		Transaction tx = null;
+		try {
+			tx = session.beginTransaction();
+			String sql = "SELECT m.* FROM managers m, branches b WHERE b.email = '"+emailBranch+"' AND b.id = m.id";
+			List<Manager> managers = session.createSQLQuery(sql).addEntity(Manager.class).list();
+			for (Manager m : managers) {
+				if (m.getEmail().equals(email) && m.getPasswrod().equals(pass)) {
+					tx.commit();
+					return true;
+				}
+			}
+			tx.commit();
+			return false;
+		} catch (HibernateException ex) {
+			System.out.println("Problem validate login manager: " + ex.getMessage());
+			if (tx != null) {
+				tx.rollback();
+			}
+			ex.printStackTrace();
+			return false;
+		} finally {
+			session.close();
+		}
+	}
+	
+	public static boolean validateLoginAdmin(String email, String pass) {
+		Session session = LogInFrame.factory.openSession();
+		Transaction tx = null;
+
+		try {
+			tx = session.beginTransaction();
+			String sql = "SELECT * FROM admin";
+			List<Admin> admins = session.createSQLQuery(sql).addEntity(Admin.class).list();
+			for (Admin a : admins) {				
+				if (a.getEmail().equals(email) && a.getPassword().equals(pass)) {
+					tx.commit();
+					return true;
+				}
+			}
+			tx.commit();
+			return false;
+		} catch (HibernateException ex) {
+			System.out.println("Problem validate login: " + ex.getMessage());
+			if (tx != null)
+				tx.rollback();
+			ex.printStackTrace();
+		} finally {
+			session.close();
+		}
+		return false;
+	}
+	
 
 	public List<Worker> getWorkers() {
 		Session session = LogInFrame.factory.openSession();
@@ -115,8 +171,8 @@ public class Connections {
 		Transaction tx = null;
 		try {
 			tx = session.beginTransaction();
-			String sql = "select * from `branches` WHERE email = '" + email + "'";
-			List<Branch> branch = (List<Branch>) session.createSQLQuery(sql).addEntity(Branch.class).list();
+			String sql = "select * from `managers` WHERE email = '" + email + "'";
+			List<Manager> branch = (List<Manager>) session.createSQLQuery(sql).addEntity(Manager.class).list();
 
 			if (branch != null) {
 				tx.commit();
@@ -126,7 +182,6 @@ public class Connections {
 				return -1;
 			}
 		} catch (HibernateException ex) {
-			System.out.println("Problem get branch id :" + ex.getMessage());
 			if (tx != null) {
 				tx.rollback();
 			}
@@ -404,11 +459,13 @@ public class Connections {
 		Transaction tx = null;
 		String sql = null;
 		int num = 0;
+
 		try {
 			tx = session.beginTransaction();
 			for (Worker_shift worker_shift : ws) {
 				LocalDate date = worker_shift.getDate();
 				LocalDate endDate = date.plusDays(numDays);
+				
 				for (LocalDate date1 = date; date.isBefore(endDate); date = date.plusDays(1)) {
 					worker_shift.setDate(date);
 
@@ -476,11 +533,51 @@ public class Connections {
 			List<Worker> workers = (List<Worker>) session.createSQLQuery(sql).addEntity(Worker.class).list();
 			tx.commit();
 			return workers;
+
 		} catch (HibernateException ex) {
+			if (tx != null)
+				tx.rollback();
 			ex.printStackTrace();
 		} finally {
 			session.close();
 		}
 		return null;
 	}
+	
+	
+	public boolean isAdmin(String email) {
+		Session session = LogInFrame.factory.openSession();
+		Transaction tx = null;
+		
+		try {
+			tx = session.beginTransaction();
+			String sql = "SELECT * FROM admin";
+			List<Admin> admins = session.createSQLQuery(sql).addEntity(Admin.class).list();
+			for(Admin a: admins) {
+				if(a.getEmail().equals(email)) {
+					tx.commit();
+					return true;
+				}
+			}
+			tx.commit();
+			return false;
+		}catch(HibernateException ex) {
+			System.out.println("Problem is admin: " +ex.getMessage());
+			if(tx != null) {
+				tx.rollback();
+			}
+			ex.printStackTrace();
+			return false;
+		}finally {
+			session.close();
+		}
+		
+	}
+
+	public boolean duplicateEntryWorker_shift(List<Worker_shift> worker_shift) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+	
+	
 }

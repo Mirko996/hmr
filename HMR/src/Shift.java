@@ -11,23 +11,19 @@ public class Shift {
 	@Id
 	@Column(name = "id")
 	private int id;
-	@Column(name = "date")
-	private Date date;
-	@Column(name = "branch_id")
-	private int branch_id;
-	@Column(name = "shift_type")
-	private int shift_type;
-
+	@Column(name = "start_shift")
+	private Date startShift;
+	@Column(name = "end_shift")
+	private Date endShift;
 	public Shift() {
 		super();
 	}
 
-	public Shift(int id, Date date, int branch_id, int shift_type) {
+	public Shift(int id, Date startShift, Date endShift) {
 		super();
 		this.id = id;
-		this.date = date;
-		this.branch_id = branch_id;
-		this.shift_type = shift_type;
+		this.startShift = startShift;
+		this.endShift = endShift;
 	}
 
 	public int getId() {
@@ -38,32 +34,24 @@ public class Shift {
 		this.id = id;
 	}
 
-	public Date getDate() {
-		return date;
+	public Date getStartShift() {
+		return startShift;
 	}
 
-	public void setDate(Date date) {
-		this.date = date;
+	public void setStartShift(Date startShift) {
+		this.startShift = startShift;
 	}
 
-	public int getBranch_id() {
-		return branch_id;
+	public Date getEndShift() {
+		return endShift;
 	}
 
-	public void setBranch_id(int branch_id) {
-		this.branch_id = branch_id;
-	}
-
-	public int getShift_type() {
-		return shift_type;
-	}
-
-	public void setShift_type(int shift_type) {
-		this.shift_type = shift_type;
+	public void setEndShift(Date endShift) {
+		this.endShift = endShift;
 	}
 
 	@Override
 	public String toString() {
-		return id + ": " + date.toString() + ", branch_id: " + branch_id + ", " + shift_type;
+		return id + ": " + startShift.toString() + ", end shift: " + endShift.toString();
 	}
 }

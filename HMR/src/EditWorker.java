@@ -209,7 +209,7 @@ public class EditWorker extends JFrame {
 								getPasswordField().getText().trim(), w.getActive());
 							
 						if (Data.editWorkerNew(w1)) {
-							if (WorkersFrame.isAdmin(EMAIL)) {
+							if (Data.isAdmin(EMAIL)) {
 								WorkersFrame.updateTableAadmin();
 							} else {
 								WorkersFrame.updateTable();

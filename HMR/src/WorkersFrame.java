@@ -46,8 +46,13 @@ public class WorkersFrame extends JFrame {
 	private String branchC;
 	private String branchName;
 
-	public WorkersFrame(String email) {
+	public WorkersFrame(String email) {}
+	private static String emailBranch;
+	
+	
+	public WorkersFrame(String email, String emailBranch) {
 		this.EMAIL = email;
+		this.emailBranch = emailBranch;
 		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		setBounds(100, 100, 900, 706);
 		contentPane = new JPanel();
@@ -64,11 +69,12 @@ public class WorkersFrame extends JFrame {
 		contentPane.add(getBtnChangeEmployeesBranch());
 		contentPane.add(getPanel());
 		panel.setVisible(false);
-		if (isAdmin(email)) {
+		if (Data.isAdmin(email)) {
 			contentPane.add(getPanel());
 			panel.setVisible(false);
 			updateTableAadmin();
 			btnAddEmployee.setVisible(false);
+			btnUpdateEmployee.setVisible(false);
 		} else {
 			btnChangeEmployeesBranch.setVisible(false);
 			updateTable();
@@ -83,6 +89,7 @@ public class WorkersFrame extends JFrame {
 		return false;
 	}
 
+
 	public static void updateTableAadmin() {
 		Object[][] objcts = new Object[Data.workers().size()][7];
 		int c = 0;
@@ -96,7 +103,7 @@ public class WorkersFrame extends JFrame {
 			}
 		}
 		DefaultTableModel dtm;
-		if (isAdmin(EMAIL)) {
+		if (Data.isAdmin(EMAIL)) {
 			dtm = new DefaultTableModel(objcts, columnNameAdmin);
 		} else {
 			dtm = new DefaultTableModel(objcts, columnName);
@@ -106,9 +113,9 @@ public class WorkersFrame extends JFrame {
 	}
 
 	public static void updateTable() {
-		Object[][] objcts = new Object[Data.workersByBranch(Data.getIdBranchData(EMAIL)).size()][6];
+		Object[][] objcts = new Object[Data.workersByBranch(Data.getIdBranchData(emailBranch)).size()][6];
 		int c = 0;
-		int id = Data.getIdBranchData(EMAIL);
+		int id = Data.getIdBranchData(emailBranch);
 		List<Worker> wrk = Data.workersByBranch(id);
 		if (wrk != null) {
 			for (Worker w : wrk) {
@@ -146,7 +153,7 @@ public class WorkersFrame extends JFrame {
 			btnAddEmployee.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
 
-					AddEmployee ae = new AddEmployee(EMAIL);
+					AddEmployee ae = new AddEmployee(emailBranch);
 					ae.setVisible(true);
 				}
 			});
@@ -167,7 +174,7 @@ public class WorkersFrame extends JFrame {
 		String email;
 		String password;
 		int active;
-		if (isAdmin(EMAIL)) {
+		if (Data.isAdmin(EMAIL)) {
 			id = (int) table.getModel().getValueAt(row, 0);
 			name = table.getModel().getValueAt(row, 2).toString();
 			last_name = table.getModel().getValueAt(row, 3).toString();
@@ -195,7 +202,7 @@ public class WorkersFrame extends JFrame {
 					int row = table.getSelectedRow();
 					if (row != -1) {
 						Data.removeWorkerNew((int) table.getModel().getValueAt(row, 0));
-						if (isAdmin(EMAIL)) {
+						if (Data.isAdmin(EMAIL)) {
 							updateTableAadmin();
 						} else {
 							updateTable();
@@ -228,7 +235,6 @@ public class WorkersFrame extends JFrame {
 						
 							EditWorker ew = new EditWorker(w, EMAIL, branchName);
 							ew.setVisible(true);
-					
 					}
 				}
 			});
@@ -248,7 +254,7 @@ public class WorkersFrame extends JFrame {
 						return;
 					}
 					Data.restoreWorkerNew((int) table.getModel().getValueAt(row, 0));
-					if (isAdmin(EMAIL)) {
+					if (Data.isAdmin(EMAIL)) {
 						updateTableAadmin();
 					} else {
 						updateTable();
