@@ -2,6 +2,7 @@
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -34,6 +35,8 @@ public class Worker {
 	
 	@Column(name = "fk_branc_id")
 	private int frBranch;
+	
+	
 	public Worker() {}
 	public Worker( int id, String branchName, String name, String last_name, String email, String password, int active) {
 		super();

@@ -351,18 +351,44 @@ public class Connections {
 		}
 	}
 
+	public int getShiftIdByWorkerId(int worker_id) {
+		Session session = MainFrame.factory.openSession();
+		Transaction tx = null;
+		try {
+			tx = session.beginTransaction();
+			String sql = "SELECT s.id FROM shifts s WHERE s.id = '" + worker_id + "'";
+			List<Shift> shifts= (List<Shift>) session.createSQLQuery(sql).addEntity(Shift.class).list();
+			tx = session.beginTransaction();
+			int shiftId =0;
+			for(Shift s : shifts) {
+				shiftId = s.getId();
+			}
+			tx.commit();
+			return shiftId;
+		} catch (HibernateException ex) {
+			System.out.println("Problem get shifts by worker id: " + ex.getMessage());
+			if (tx != null) {
+				tx.rollback();
+			}
+			ex.printStackTrace();
+			return -1;
+		} finally {
+			session.close();
+		}
+	}
+
 	public boolean insertWokrerShift(Worker_shift ws) {
 		Session session = LogInFrame.factory.openSession();
 		Transaction tx = null;
 		try {
-			
+
 			tx = session.beginTransaction();
 			session.persist(ws);
 			tx.commit();
 			return true;
 		} catch (HibernateException ex) {
 			System.out.println("Problem insert worker_shift: " + ex.getMessage());
-			if(tx != null) {
+			if (tx != null) {
 				tx.rollback();
 			}
 			ex.printStackTrace();
