@@ -73,12 +73,10 @@ public class Data {
 	public static boolean duplicateEntryBranch(String email) {
 		return connH.duplicateEntryBranch(email);
 	}
-	
-	
-	
-	//test
-	public static boolean insertWorker_shift(Worker_shift ws) {
-		return connH.insertWokrerShift(ws);
+
+	public static boolean insetrtToWorker_shift(List<Worker_shift> ws, List<Integer> nonWorkingDays, String numDays, int branchId) {
+		return connH.insertWorker_shift(ws, nonWorkingDays, numDays, branchId);
+		
 	}
 	
 }

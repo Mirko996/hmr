@@ -1,4 +1,5 @@
 import java.sql.Date;
+import java.time.LocalDate;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -19,6 +20,10 @@ public class Worker_shift {
 	private int worker_id;
 	@Column(name = "shift_id")
 	private int shift_id;
+	@Column(name = "date")
+	private LocalDate date;
+	@Column(name = "branch_id")
+	private int branchId;
 
 	public Worker_shift() {
 		super();
@@ -31,6 +36,30 @@ public class Worker_shift {
 		this.clock_out = clock_out;
 		this.worker_id = worker_id;
 		this.shift_id = shift_id;
+		this.date = date;
+	}
+	
+	public int getBranchId() {
+		return branchId;
+	}
+
+	public void setBranchId(int branchId) {
+		this.branchId = branchId;
+	}
+
+	public Worker_shift(LocalDate date,  int worker_id, int shift_id) {
+		super();
+		this.worker_id = worker_id;
+		this.shift_id = shift_id;
+		this.date = date;
+	}
+
+	public LocalDate getDate() {
+		return date;
+	}
+
+	public void setDate(LocalDate date) {
+		this.date = date;
 	}
 
 	public int getId() {
@@ -75,8 +104,8 @@ public class Worker_shift {
 
 	@Override
 	public String toString() {
-		return id + ": Clock in: " + clock_in.toString() + " /  Clock out: " + clock_out.toString() + ", Worker id: "
-				+ worker_id + ", Shift_id: " + shift_id;
+		return "Worker_shift [id=" + id + ", clock_in=" + clock_in + ", clock_out=" + clock_out + ", worker_id="
+				+ worker_id + ", shift_id=" + shift_id + ", date=" + date + "]";
 	}
 
 }
