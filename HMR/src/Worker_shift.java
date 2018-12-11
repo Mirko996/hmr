@@ -25,6 +25,9 @@ public class Worker_shift {
 	@Column(name = "shift_id")
 	private int shift_id;
 
+	@Column(name = "date")
+	private Date date;
+
 //	private List<Worker> workers;
 //
 //	
@@ -33,13 +36,13 @@ public class Worker_shift {
 	public Worker_shift() {
 		super();
 	}
-	
+
 	public Worker_shift(int worker_id, int shift_id) {
 		super();
 		this.worker_id = worker_id;
 		this.shift_id = shift_id;
 	}
-	
+
 	public Worker_shift(Date clock_out, int worker_id, int shift_id) {
 		super();
 		this.clock_out = clock_out;
@@ -47,12 +50,21 @@ public class Worker_shift {
 		this.shift_id = shift_id;
 	}
 
-	public Worker_shift(Date clock_in, Date clock_out, int worker_id, int shift_id) {
+	public Worker_shift(Date date, Date clock_in, Date clock_out, int worker_id, int shift_id) {
 		super();
+		this.date = date;
 		this.clock_in = clock_in;
 		this.clock_out = clock_out;
 		this.worker_id = worker_id;
 		this.shift_id = shift_id;
+	}
+
+	public Date getDate() {
+		return date;
+	}
+
+	public void setDate(Date date) {
+		this.date = date;
 	}
 
 	public Worker_shift(int id, Date clock_in, Date clock_out, int worker_id, int shift_id) {

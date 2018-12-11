@@ -93,9 +93,6 @@ public class MainFrame extends JFrame {
 			btnClockIn = new JButton("Clock in");
 			btnClockIn.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					int shiftId = Data.getShiftIdByWorker(Integer.parseInt(txtIdWorker.getText()));
-					System.out.println(shiftId);
-//					Worker_shift ws = new Worker_shift(Integer.parseInt(txtIdWorker), );
 				}
 			});
 			btnClockIn.setBackground(new Color(0, 255, 0));
