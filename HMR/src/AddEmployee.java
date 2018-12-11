@@ -207,7 +207,7 @@ public class AddEmployee extends JFrame {
 								txtEmployeeEmail.getText().trim(), txtEmployeePassword.getText().trim());
 						if (Data.insertEmployeeDataNew(w)) {
 							JOptionPane.showMessageDialog(frame, "Success!", "DONE", JOptionPane.INFORMATION_MESSAGE);
-							if (WorkersFrame.isAdmin(username)) {
+							if (Data.isAdmin(username)) {
 								WorkersFrame.updateTableAadmin();
 							} else {
 								WorkersFrame.updateTable();

@@ -95,7 +95,7 @@ public class AddShifts extends JFrame {
 		shift2 = new ArrayList<String>();
 		shift3 = new ArrayList<String>();
 		this.username = username;
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		setBounds(100, 100, 1021, 903);
 		contentPane = new JPanel();
 		contentPane.setBackground(SystemColor.activeCaption);

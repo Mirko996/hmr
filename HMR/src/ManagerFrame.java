@@ -28,12 +28,30 @@ public class ManagerFrame extends JFrame {
 	public static String EMAIL;
 	public static String ADMIN_EMAIL = "admin@synergysuite.com";
 	private JButton btnLogout;
-	private JPanel panel;
-	private JTextField txtIdWorker;
-	private JButton btnClockIn;
-	private JButton btnClockOut;
-	private JLabel lblNewLabel;
+	private String emailBranch;
 
+	public ManagerFrame(String email, String emailBranch) {
+		this.EMAIL = email;
+		this.emailBranch = emailBranch;
+		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+		setBounds(100, 100, 972, 711);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		contentPane.setBackground(SystemColor.activeCaption);
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+		contentPane.add(getLblSearch());
+		contentPane.add(getTextField());
+		contentPane.add(getBtnAddShifts());
+		contentPane.add(getBtnChangeShft());
+		contentPane.add(getBtnWorkers());
+		contentPane.add(getBtnBranches());
+		contentPane.add(getBtnLogout());
+		if (!email.equals(ADMIN_EMAIL)) {
+			btnBranches.setVisible(false);
+		}
+	}
+	
 	public ManagerFrame(String email) {
 		this.EMAIL = email;
 		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
@@ -50,12 +68,11 @@ public class ManagerFrame extends JFrame {
 		contentPane.add(getBtnWorkers());
 		contentPane.add(getBtnBranches());
 		contentPane.add(getBtnLogout());
-		contentPane.add(getPanel());
-		if (!email.equals(ADMIN_EMAIL)) {
+		if (!Data.isAdmin(email)) {
 			btnBranches.setVisible(false);
 		}
+		btnAddShifts.setVisible(false);
 	}
-
 	private JLabel getLblSearch() {
 		if (lblSearch == null) {
 			lblSearch = new JLabel("Search:");
@@ -110,7 +127,7 @@ public class ManagerFrame extends JFrame {
 			btnWorkers = new JButton("Workers");
 			btnWorkers.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
-					WorkersFrame wr = new WorkersFrame(EMAIL);
+					WorkersFrame wr = new WorkersFrame(EMAIL, emailBranch);
 					wr.setVisible(true);
 				}
 			});
@@ -146,49 +163,5 @@ public class ManagerFrame extends JFrame {
 			btnLogout.setBounds(779, 86, 111, 38);
 		}
 		return btnLogout;
-	}
-	private JPanel getPanel() {
-		if (panel == null) {
-			panel = new JPanel();
-			panel.setBackground(SystemColor.activeCaption);
-			panel.setBounds(73, 125, 294, 134);
-			panel.setLayout(null);
-			panel.add(getTxtIdWorker());
-			panel.add(getBtnClockIn());
-			panel.add(getBtnClockOut());
-			panel.add(getLblNewLabel());
-		}
-		return panel;
-	}
-	private JTextField getTxtIdWorker() {
-		if (txtIdWorker == null) {
-			txtIdWorker = new JTextField();
-			txtIdWorker.setBounds(95, 48, 86, 20);
-			txtIdWorker.setColumns(10);
-		}
-		return txtIdWorker;
-	}
-	private JButton getBtnClockIn() {
-		if (btnClockIn == null) {
-			btnClockIn = new JButton("Clock in");
-			btnClockIn.setBackground(Color.GREEN);
-			btnClockIn.setBounds(34, 79, 95, 30);
-		}
-		return btnClockIn;
-	}
-	private JButton getBtnClockOut() {
-		if (btnClockOut == null) {
-			btnClockOut = new JButton("Clock out");
-			btnClockOut.setBackground(Color.RED);
-			btnClockOut.setBounds(152, 79, 95, 30);
-		}
-		return btnClockOut;
-	}
-	private JLabel getLblNewLabel() {
-		if (lblNewLabel == null) {
-			lblNewLabel = new JLabel("ID for Clock in/Clock out");
-			lblNewLabel.setBounds(77, 23, 163, 14);
-		}
-		return lblNewLabel;
 	}
 }

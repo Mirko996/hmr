@@ -17,7 +17,7 @@ import org.hibernate.query.NativeQuery;
 import com.mysql.cj.log.Log;
 
 public class Connections {
-	
+
 //	private LocalDateFormat fmt = new SimpleDateFormat("dd/MM/yyyy");
 
 	public static boolean validateLogIn(String pass, String email) {
@@ -37,6 +37,7 @@ public class Connections {
 			tx.commit();
 			return false;
 		} catch (HibernateException ex) {
+			System.out.println("Problem validate login: " + ex.getMessage());
 			if (tx != null)
 				tx.rollback();
 			ex.printStackTrace();
@@ -45,6 +46,61 @@ public class Connections {
 		}
 		return false;
 	}
+
+	public static boolean validateLoginManager(String email, String pass, String emailBranch) {
+		Session session = LogInFrame.factory.openSession();
+		Transaction tx = null;
+		try {
+			tx = session.beginTransaction();
+			String sql = "SELECT m.* FROM managers m, branches b WHERE b.email = '"+emailBranch+"' AND b.id = m.id";
+			List<Manager> managers = session.createSQLQuery(sql).addEntity(Manager.class).list();
+			for (Manager m : managers) {
+				if (m.getEmail().equals(email) && m.getPasswrod().equals(pass)) {
+					tx.commit();
+					return true;
+				}
+			}
+			tx.commit();
+			return false;
+		} catch (HibernateException ex) {
+			System.out.println("Problem validate login manager: " + ex.getMessage());
+			if (tx != null) {
+				tx.rollback();
+			}
+			ex.printStackTrace();
+			return false;
+		} finally {
+			session.close();
+		}
+	}
+	
+	public static boolean validateLoginAdmin(String email, String pass) {
+		Session session = LogInFrame.factory.openSession();
+		Transaction tx = null;
+
+		try {
+			tx = session.beginTransaction();
+			String sql = "SELECT * FROM admin";
+			List<Admin> admins = session.createSQLQuery(sql).addEntity(Admin.class).list();
+			for (Admin a : admins) {				
+				if (a.getEmail().equals(email) && a.getPassword().equals(pass)) {
+					tx.commit();
+					return true;
+				}
+			}
+			tx.commit();
+			return false;
+		} catch (HibernateException ex) {
+			System.out.println("Problem validate login: " + ex.getMessage());
+			if (tx != null)
+				tx.rollback();
+			ex.printStackTrace();
+		} finally {
+			session.close();
+		}
+		return false;
+	}
+	
 
 	public List<Worker> getWorkers() {
 		Session session = LogInFrame.factory.openSession();
@@ -357,10 +413,10 @@ public class Connections {
 		try {
 			tx = session.beginTransaction();
 			String sql = "SELECT s.id FROM shifts s WHERE s.id = '" + worker_id + "'";
-			List<Shift> shifts= (List<Shift>) session.createSQLQuery(sql).addEntity(Shift.class).list();
+			List<Shift> shifts = (List<Shift>) session.createSQLQuery(sql).addEntity(Shift.class).list();
 			tx = session.beginTransaction();
-			int shiftId =0;
-			for(Shift s : shifts) {
+			int shiftId = 0;
+			for (Shift s : shifts) {
 				shiftId = s.getId();
 			}
 			tx.commit();
@@ -398,37 +454,67 @@ public class Connections {
 		}
 	}
 
-	public boolean insertWorker_shift(List<Worker_shift> ws, List<Integer> nonWorkingDays, String numDays, int branchId) {
+	public boolean insertWorker_shift(List<Worker_shift> ws, List<Integer> nonWorkingDays, String numDays,
+			int branchId) {
 
 		Session session = LogInFrame.factory.openSession();
 		Transaction tx = null;
 		String sql = null;
-			try{
-				tx = session.beginTransaction();
-				for (Worker_shift worker_shift : ws){
-					LocalDate date = worker_shift.getDate();
-					LocalDate endDate = date.plusDays(Integer.parseInt(numDays));
-						for(LocalDate date1 = date; date.isBefore(endDate); date = date.plusDays(1)) {
-							worker_shift.setDate(date);
-							session.createNativeQuery(
-								    "INSERT INTO worker_shift (worker_id, shift_id, branch_id, "
-								    + "date) VALUES (?, ?, ?, ?)")
-								    .setParameter(1, worker_shift.getWorker_id())
-								    .setParameter(2, worker_shift.getShift_id()) 
-								    .setParameter(3, branchId)
-								    .setParameter(4, date)
-								    .executeUpdate();
-						}
-					}
-				tx.commit();
-				
-			}catch(Exception ex) {
-				if(tx != null) tx.rollback();
-				ex.printStackTrace();
-			}finally {
-				session.close();
+		try {
+			tx = session.beginTransaction();
+			for (Worker_shift worker_shift : ws) {
+				LocalDate date = worker_shift.getDate();
+				LocalDate endDate = date.plusDays(Integer.parseInt(numDays));
+				for (LocalDate date1 = date; date.isBefore(endDate); date = date.plusDays(1)) {
+					worker_shift.setDate(date);
+					session.createNativeQuery(
+							"INSERT INTO worker_shift (worker_id, shift_id, branch_id, " + "date) VALUES (?, ?, ?, ?)")
+							.setParameter(1, worker_shift.getWorker_id()).setParameter(2, worker_shift.getShift_id())
+							.setParameter(3, branchId).setParameter(4, date).executeUpdate();
+				}
 			}
-		
+			tx.commit();
+
+		} catch (Exception ex) {
+			if (tx != null)
+				tx.rollback();
+			ex.printStackTrace();
+		} finally {
+			session.close();
+		}
+
 		return true;
 	}
+	
+	
+	public boolean isAdmin(String email) {
+		Session session = LogInFrame.factory.openSession();
+		Transaction tx = null;
+		
+		try {
+			tx = session.beginTransaction();
+			String sql = "SELECT * FROM admin";
+			List<Admin> admins = session.createSQLQuery(sql).addEntity(Admin.class).list();
+			for(Admin a: admins) {
+				if(a.getEmail().equals(email)) {
+					tx.commit();
+					return true;
+				}
+			}
+			tx.commit();
+			return false;
+		}catch(HibernateException ex) {
+			System.out.println("Problem is admin: " +ex.getMessage());
+			if(tx != null) {
+				tx.rollback();
+			}
+			ex.printStackTrace();
+			return false;
+		}finally {
+			session.close();
+		}
+		
+	}
+	
+	
 }

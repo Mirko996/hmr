@@ -33,7 +33,8 @@ public class LogInFrame extends JFrame {
 					factory = new Configuration().configure().
 							addAnnotatedClass(Branch.class).
 							addAnnotatedClass(Worker.class).
-							addAnnotatedClass(Worker_shift.class).
+							addAnnotatedClass(Worker_shift.class).	
+							addAnnotatedClass(Manager.class).addAnnotatedClass(Admin.class).
 							buildSessionFactory();
 					
 					
@@ -43,7 +44,7 @@ public class LogInFrame extends JFrame {
 			}
 		});
 	}
-
+	
 	/**
 	 * Create the frame.
 	 */
@@ -74,10 +75,23 @@ public class LogInFrame extends JFrame {
 		JButton btnLogIn = new JButton("Log in");
 		btnLogIn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (Data.logIn(passwordField.getText().toString(), textField.getText().toString())) {
+				if(Data.isAdmin(textField.getText())) {
+					if(Data.logInAdmin(textField.getText(), passwordField.getText())) {
+						dispose();
+						ManagerFrame mf = new ManagerFrame(textField.getText());
+						mf.setVisible(true);
+						return;
+					}else {
+						JOptionPane.showMessageDialog(contentPane, "Email or password are invalid:");
+						passwordField.setText("");
+					}
+
+				}else if (Data.logIn(passwordField.getText().toString(), textField.getText().toString())) {
 					dispose();
-					ManagerFrame mf = new ManagerFrame(textField.getText().toString());
+					MainFrame mf = new MainFrame(textField.getText());
 					mf.setVisible(true);
+//					ManagerFrame mf = new ManagerFrame(textField.getText().toString());
+//					mf.setVisible(true);
 				}else {
 					JOptionPane.showMessageDialog(contentPane, "Username or password are invalid:");
 					passwordField.setText("");
@@ -91,4 +105,7 @@ public class LogInFrame extends JFrame {
 		passwordField.setBounds(180, 132, 116, 22);
 		contentPane.add(passwordField);
 	}
+	
+	
+	
 }

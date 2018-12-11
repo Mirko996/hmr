@@ -33,38 +33,12 @@ public class MainFrame extends JFrame {
 	private JTextField txtIdWorker;
 	private JLabel lblNewLabel;
 	private JFrame frame;
-//	private Connection connection = new Connection("jdbc:mysql://localhost:3306/hrm_base", "root", "");
+	private String email;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-
-				try {
-					MainFrame frame = new MainFrame();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-
-				try {
-					factory = new Configuration().configure().addAnnotatedClass(Branch.class)
-							.addAnnotatedClass(Worker.class).addAnnotatedClass(Shift.class).addAnnotatedClass(Worker_shift.class).buildSessionFactory();
-
-				} catch (HibernateException ex) {
-					ex.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the frame.
-	 */
-	public MainFrame() {
+	
+	public MainFrame(String email) {
 		frame = this;
+		this.email = email;
 		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		setBounds(100, 100, 337, 243);
 		contentPane = new JPanel();
@@ -73,11 +47,11 @@ public class MainFrame extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
-		JButton btnLogIn = new JButton("Log in");
+		JButton btnLogIn = new JButton("Administration");
 		btnLogIn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				LogInFrame lf = new LogInFrame();
-				lf.setVisible(true);
+				LoginManagers lm = new LoginManagers(email);
+				lm.setVisible(true);
 			}
 		});
 		btnLogIn.setBounds(207, 158, 108, 35);
