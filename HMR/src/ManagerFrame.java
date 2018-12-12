@@ -109,7 +109,7 @@ public class ManagerFrame extends JFrame {
 			btnAddShifts.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 
-					AddShifts a = new AddShifts(EMAIL);
+					AddShifts a = new AddShifts(EMAIL, emailBranch);
 					a.setVisible(true);
 				}
 			});

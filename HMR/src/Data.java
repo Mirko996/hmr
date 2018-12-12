@@ -1,3 +1,4 @@
+import java.time.LocalDate;
 import java.util.List;
 
 public class Data {
@@ -103,7 +104,7 @@ public class Data {
 		return connH.isAdmin(email);
 	}
 
-	public static boolean duplicateEntryWorker_shift(List<Worker_shift> worker_shift) {
-		return connH.duplicateEntryWorker_shift(worker_shift);
+	public static boolean duplicateEntryWorker_shift(List<Worker_shift> worker_shift, LocalDate date) {
+		return connH.duplicateEntryWorker_shift(worker_shift, date);
 	}
 }

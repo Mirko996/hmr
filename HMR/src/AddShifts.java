@@ -83,12 +83,13 @@ public class AddShifts extends JFrame {
 	private JButton r2;
 	private JButton r3;
 	private DateFormat fmt = new SimpleDateFormat("dd/MM/yyyy");
-
+	private String emailBreanch;
 	/**
 	 * Create the frame.
 	 */
-	public AddShifts(String username) {
+	public AddShifts(String username, String emailBreanch) {
 		this.username = username;
+		this.emailBreanch =emailBreanch;
 		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		setBounds(100, 100, 1021, 903);
 		contentPane = new JPanel();
@@ -267,7 +268,7 @@ public class AddShifts extends JFrame {
 			button.setBounds(780, 760, 138, 53);
 			button.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					int branchId = Data.getIdBranchData(username);
+					int branchId = Data.getIdBranchData(emailBreanch);
 					int numDays = 1;
 					Date d = null;
 					LocalDate date = null;
@@ -346,9 +347,11 @@ public class AddShifts extends JFrame {
 						return;
 					}
 
-					if(Data.duplicateEntryWorker_shift(worker_shift)) {
+					System.out.println(date);
+					
+//					if(Data.duplicateEntryWorker_shift(worker_shift, date)) {
 					Data.insetrtToWorker_shift(worker_shift, nonWorkingDays, numDays, branchId);
-					}
+//						}
 
 				}
 			});
@@ -369,7 +372,7 @@ public class AddShifts extends JFrame {
 		if (comboBox1 == null) {
 			comboBox1 = new JComboBox();
 			comboBox1.setBounds(63, 208, 187, 28);
-			List<Worker> workers = Data.ActiveworkersByBranch(Data.getIdBranchData(username));
+			List<Worker> workers = Data.ActiveworkersByBranch(Data.getIdBranchData(emailBreanch));
 			if (workers != null) {
 				for (Worker w : workers) {
 					String s = w.getId() + " - " + w.getName() + " " + w.getLast_name();
@@ -402,7 +405,7 @@ public class AddShifts extends JFrame {
 		if (comboBox2 == null) {
 			comboBox2 = new JComboBox();
 			comboBox2.setBounds(426, 208, 187, 28);
-			List<Worker> workers = Data.ActiveworkersByBranch(Data.getIdBranchData(username));
+			List<Worker> workers = Data.ActiveworkersByBranch(Data.getIdBranchData(emailBreanch));
 			if (workers != null) {
 				for (Worker w : workers) {
 					String s = w.getId() + " - " + w.getName() + " " + w.getLast_name();
@@ -435,7 +438,7 @@ public class AddShifts extends JFrame {
 		if (comboBox3 == null) {
 			comboBox3 = new JComboBox();
 			comboBox3.setBounds(789, 208, 187, 28);
-			List<Worker> workers = Data.ActiveworkersByBranch(Data.getIdBranchData(username));
+			List<Worker> workers = Data.ActiveworkersByBranch(Data.getIdBranchData(emailBreanch));
 			if (workers != null) {
 				for (Worker w : workers) {
 					String s = w.getId() + " - " + w.getName() + " " + w.getLast_name();
@@ -538,9 +541,9 @@ public class AddShifts extends JFrame {
 					}
 
 					String rowS = table1.getValueAt(row, 0).toString() + " - " + table1.getValueAt(row, 1);
+					dtm.removeRow(row);
 					comboBox1.addItem(rowS);
 					comboBox1.repaint();
-					dtm.removeRow(row);
 					table1.repaint();
 				}
 			});

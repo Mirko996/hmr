@@ -171,9 +171,8 @@ public class Connections {
 		Transaction tx = null;
 		try {
 			tx = session.beginTransaction();
-			String sql = "select * from `managers` WHERE email = '" + email + "'";
-			List<Manager> branch = (List<Manager>) session.createSQLQuery(sql).addEntity(Manager.class).list();
-
+			String sql = "select * from `branches` WHERE email = '" + email + "'";
+			List<Branch> branch = (List<Branch>) session.createSQLQuery(sql).addEntity(Branch.class).list();
 			if (branch != null) {
 				tx.commit();
 				return branch.get(0).getId();
@@ -574,10 +573,29 @@ public class Connections {
 		
 	}
 
-	public boolean duplicateEntryWorker_shift(List<Worker_shift> worker_shift) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean duplicateEntryWorker_shift(List<Worker_shift> worker_shift, LocalDate date) {
+		boolean boolR = true;
+		Session session = LogInFrame.factory.openSession();
+		Transaction tx = null;
+		try {
+			String sql = "SELECT * FROM work_shift WHERE date = '"+ date +"'";
+			List<Worker_shift> ws = (List<Worker_shift>) session.createSQLQuery(sql).list();
+			tx = session.beginTransaction();
+			for (Worker_shift workerS : worker_shift) {
+				for(Worker_shift workS : ws) {
+					if(workerS.getDate().equals(workS.getDate()) && workerS.getShift_id() == workS.getShift_id() && workerS.getBranchId() == workS.getBranchId()) {
+						boolR = false;
+					}
+				}
+			}
+			tx.commit();
+		} catch (HibernateException e) {
+			if (tx != null) {
+				tx.rollback();
+				}
+		} finally {
+			session.close();
+		}
+		return boolR;
 	}
-	
-	
 }

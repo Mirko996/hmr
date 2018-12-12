@@ -113,6 +113,7 @@ public class WorkersFrame extends JFrame {
 	}
 
 	public static void updateTable() {
+		System.out.println(emailBranch);
 		Object[][] objcts = new Object[Data.workersByBranch(Data.getIdBranchData(emailBranch)).size()][6];
 		int c = 0;
 		int id = Data.getIdBranchData(emailBranch);
